@@ -4,10 +4,7 @@
    ═══════════════════════════════════════════════════════════════ */
 
 const API =
-  window.location.hostname === 'localhost' ||
-  window.location.hostname === '127.0.0.1'
-    ? 'http://localhost:5184'
-    : 'https://must.runasp.net';
+"https://mystudentactivity.runasp.net";
 const TOKEN_KEY = 'must_token';
 const ACTIVE_SECTION_KEY = 'must_admin_active_section';
 

@@ -5,12 +5,7 @@
     if (!container || !window.MustAPI) return;
 
     const BASE_URL =
-        window.location.hostname === 'localhost' ||
-        window.location.protocol === 'file:' ||
-        !window.location.hostname ||
-        window.location.hostname === '127.0.0.1'
-            ? 'http://localhost:5184'
-            : 'https://must.runasp.net';
+      "https://mystudentactivity.runasp.net";
     const EVENT_PLACEHOLDER =
         'data:image/svg+xml;utf8,' +
         encodeURIComponent(

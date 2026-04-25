@@ -2,10 +2,7 @@
     'use strict';
 
     const BASE_URL =
-        window.location.hostname === 'localhost' ||
-        window.location.hostname === '127.0.0.1'
-            ? 'http://localhost:5184'
-            : 'https://must.runasp.net';
+       "http://mystudentactivity.runasp.net";
 
     function escapeHtml(str) {
         if (!str) return '';

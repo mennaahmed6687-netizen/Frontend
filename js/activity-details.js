@@ -1,9 +1,6 @@
 document.addEventListener('DOMContentLoaded', async function () {
     const DETAILS_API_BASE_URL =
-        window.location.hostname === 'localhost' ||
-        window.location.hostname === '127.0.0.1'
-            ? 'http://localhost:5184'
-            : 'https://must.runasp.net';
+       "https://mystudentactivity.runasp.net";
 
     const params = new URLSearchParams(window.location.search);
     const id = params.get('id');

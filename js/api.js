@@ -3,11 +3,8 @@
  * This file contains the shared API helpers used across the frontend.
  */
 
-const BASE_URL =
-    window.location.hostname === 'localhost' ||
-    window.location.hostname === '127.0.0.1'
-        ? 'http://localhost:5184'
-        : 'https://must.runasp.net';
+const BASE_URL ="https://mystudentactivity.runasp.net"
+  
 
 function getToken() {
     return localStorage.getItem('must_token');

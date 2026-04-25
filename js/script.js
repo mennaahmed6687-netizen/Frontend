@@ -116,10 +116,7 @@ document.addEventListener("DOMContentLoaded", function () {
    ───────────────────────────────────────────────────────────────── */
 
 const BASE_URL =
-    window.location.hostname === 'localhost' ||
-    window.location.hostname === '127.0.0.1'
-        ? 'http://localhost:5184'
-        : 'https://must.runasp.net';
+ "https://mystudentactivity.runasp.net";
 
 // ── Token helpers ──────────────────────────────────────────────
 function getToken()        { return localStorage.getItem('must_token'); }

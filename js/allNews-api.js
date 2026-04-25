@@ -5,10 +5,7 @@
     if (!container || !window.MustAPI) return;
 
     const BASE_URL =
-        window.location.hostname === 'localhost' ||
-        window.location.hostname === '127.0.0.1'
-            ? 'http://localhost:5184'
-            : 'https://must.runasp.net';
+       "http://mystudentactivity.runasp.net";
 
     function fixImage(img) {
         if (!img) return 'img/news5.jpg';

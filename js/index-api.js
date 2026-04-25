@@ -18,12 +18,7 @@
     'use strict';
 
     const API_BASE_URL =
-        window.location.hostname === 'localhost' ||
-        window.location.protocol === 'file:' ||
-        !window.location.hostname ||
-        window.location.hostname === '127.0.0.1'
-            ? 'http://localhost:5184'
-            : 'https://must.runasp.net';
+       "http://mystudentactivity.runasp.net";
     const EVENT_PLACEHOLDER =
         'data:image/svg+xml;utf8,' +
         encodeURIComponent(

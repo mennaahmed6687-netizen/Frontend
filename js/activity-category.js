@@ -30,10 +30,7 @@ document.addEventListener('DOMContentLoaded', async function () {
 });
 
 const CATEGORY_API_BASE_URL =
-    window.location.hostname === 'localhost' ||
-    window.location.hostname === '127.0.0.1'
-        ? 'http://localhost:5184'
-        : 'https://must.runasp.net';
+  "https://mystudentactivity.runasp.net";
 
 function renderActivityCard(activity) {
     let imgUrl = activity.imageUrl || activity.image || 'img/OIP.webp';
