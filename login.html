@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Login</title>
+
+  <style>
+    body{
+      margin:0;
+      font-family: Arial, sans-serif;
+      background: linear-gradient(135deg,#1c306e,#00ac5c);
+      height:100vh;
+      display:flex;
+      justify-content:center;
+      align-items:center;
+    }
+
+    .container{
+      width: 400px;
+      background:#fff;
+      padding:30px;
+      border-radius:15px;
+      box-shadow:0 10px 30px rgba(0,0,0,0.2);
+    }
+
+    h2{
+      text-align:center;
+      margin-bottom:20px;
+      color:#1c306e;
+    }
+
+    .input-box{
+      margin-bottom:15px;
+    }
+
+    input{
+      width:100%;
+      padding:12px;
+      border:1px solid #ddd;
+      border-radius:10px;
+      box-sizing:border-box;
+      outline:none;
+      transition:0.3s;
+    }
+
+    input:focus{
+      border-color:#00ac5c;
+      box-shadow:0 0 5px rgba(0,172,92,0.3);
+    }
+
+    button{
+      width:100%;
+      padding:12px;
+      border:none;
+      border-radius:10px;
+      background:#1c306e;
+      color:#fff;
+      font-size:16px;
+      cursor:pointer;
+      transition:0.3s;
+    }
+
+    button:hover{
+      background:#14224f;
+    }
+
+    .footer{
+      text-align:center;
+      margin-top:15px;
+      font-size:14px;
+    }
+
+    .footer a{
+      color:#00ac5c;
+      text-decoration:none;
+      font-weight:bold;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <h2>Login</h2>
+
+    <form id="loginForm">
+      <div class="input-box">
+        <input type="text" id="username" placeholder="Username" required />
+      </div>
+
+      <div class="input-box">
+        <input type="password" id="password" placeholder="Password" required />
+      </div>
+
+      <button type="submit">Login</button>
+    </form>
+
+    <div class="footer">
+      Don't have an account? <a href="signup.html">Sign Up</a>
+    </div>
+  </div>
+
+  <script>
+    const BASE_URL =
+      window.location.hostname === 'localhost' ||
+      window.location.hostname === '127.0.0.1'
+        ? 'http://localhost:5184'
+        : 'https://must.runasp.net';
+
+    function getRoleFromToken(token) {
+      if (!token) return '';
+
+      try {
+        const payload = token.split('.')[1];
+        if (!payload) return '';
+
+        const normalized = payload.replace(/-/g, '+').replace(/_/g, '/');
+        const json = decodeURIComponent(
+          atob(normalized)
+            .split('')
+            .map(c => '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2))
+            .join('')
+        );
+
+        const data = JSON.parse(json);
+        return data.role ||
+          data.Role ||
+          data['http://schemas.microsoft.com/ws/2008/06/identity/claims/role'] ||
+          '';
+      } catch (_) {
+        return '';
+      }
+    }
+
+    document.getElementById("loginForm").addEventListener("submit", async function(e){
+      e.preventDefault();
+
+      const usernameInput = document.getElementById("username").value.trim();
+      const password = document.getElementById("password").value.trim();
+      const username = usernameInput.includes('@') ? usernameInput.split('@')[0] : usernameInput;
+
+      if(!username || !password){
+        alert("Please fill all fields");
+        return;
+      }
+
+      try {
+        const res = await fetch(BASE_URL + '/api/Auth/login', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ username, password })
+        });
+
+        const text = await res.text();
+        let data = null;
+        try { data = text ? JSON.parse(text) : null; } catch(_) { data = text; }
+
+        if (!res.ok) {
+          const msg = (data && (data.message || data.title || JSON.stringify(data))) || res.statusText;
+          throw new Error(msg);
+        }
+
+        if (data && (data.isSuccess === false || data.IsSuccess === false)) {
+          throw new Error("Check your ID/password and verify your account with OTP first.");
+        }
+
+        const token = data && (data.token || data.Token || data.accessToken || data.AccessToken);
+        const role = data && (data.role || data.Role || getRoleFromToken(token) || '');
+        if (!token) {
+          throw new Error("Login succeeded but no token was returned.");
+        }
+
+        localStorage.setItem('must_token', token);
+        localStorage.setItem('must_email', username + '@must.edu.eg');
+        localStorage.setItem('must_role', role);
+
+        alert("Login successful.");
+        window.location.href = "index.html";
+      } catch(err) {
+        console.error('Login error:', err);
+        alert("Login failed: " + err.message);
+      }
+    });
+  </script>
+
+</body>
+</html>

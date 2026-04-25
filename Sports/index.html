@@ -1,0 +1,357 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MUST Fullscreen Menu & Contact</title>
+
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
+
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap');
+
+        :root {
+            --overlay-bg: #1c2841; /* Dark blue matching the screenshot */
+            --must-green: #00ac5c;
+            --text-white: #ffffff;
+            --text-muted: rgba(255, 255, 255, 0.7);
+            --border-color: rgba(255, 255, 255, 0.4);
+            --font-main: 'Inter', sans-serif;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: var(--font-main);
+        }
+
+        body {
+            background-color: var(--overlay-bg);
+            color: var(--text-white);
+            /* Adding a subtle gradient overlay to match the image's lighting */
+            background-image: linear-gradient(135deg, #1c2841 0%, #253554 100%);
+            min-height: 100vh;
+        }
+
+        .overlay-container {
+            max-width: 1800px;
+            margin: 0 auto;
+            padding: 3rem 1rem;
+            position: relative;
+        }
+
+        /* ------------------ HEADER ------------------ */
+        .overlay-header {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+            margin-bottom: 2rem;
+            margin-top: 1rem;
+        }
+
+        .overlay-logo {
+            height: 100px;
+            width: auto;
+            object-fit: contain;
+        }
+
+        .close-btn {
+            position: absolute;
+            right: 0;
+            top: 50%;
+            transform: translateY(-50%);
+            background: transparent;
+            border: none;
+            color: var(--text-white);
+            font-size: 2rem;
+            cursor: pointer;
+            transition: color 0.3s ease;
+        }
+
+        .close-btn:hover {
+            color: var(--must-green);
+        }
+
+        /* ------------------ LINKS GRID ------------------ */
+        .links-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 2rem;
+            margin-bottom: 3rem;
+        }
+
+        .link-column {
+            display: flex;
+            flex-direction: column;
+            gap: 1.2rem;
+        }
+
+        .link-column a {
+            color: var(--text-white);
+            text-decoration: none;
+            font-size: 0.95rem;
+            font-weight: 700;
+            transition: color 0.3s ease;
+        }
+
+        .link-column a:hover {
+            color: var(--must-green);
+        }
+
+        /* ------------------ CONTACT INFO & FORM SECTION ------------------ */
+        .content-section {
+            max-width: 800px; /* Constrains the form width to match the screenshot */
+        }
+
+        .section-title {
+            color: var(--must-green);
+            font-size: 1.2rem;
+            font-weight: 500;
+            margin-bottom: 0.55rem;
+            margin-top: 2rem;
+        }
+
+        .contact-info p {
+            font-size: 0.75rem;
+            font-weight: 200;
+            margin-bottom: 0.8rem;
+        }
+
+        .contact-info p:last-child {
+            margin-bottom: 2.5rem;
+        }
+
+        /* Form Layout */
+        .contact-form {
+            display: flex;
+            flex-direction: column;
+            gap: 1.2rem;
+        }
+
+        .form-row {
+            display: flex;
+            gap: 1.2rem;
+        }
+
+        .form-input {
+            width: 100%;
+            background: transparent;
+            border: 1px solid var(--border-color);
+            border-radius: 25px; /* Pill shape for inputs */
+            padding: 0.6rem 0.75rem;
+            color: var(--text-white);
+            font-size: 0.95rem;
+            outline: none;
+            transition: border-color 0.3s ease;
+        }
+
+        .form-input::placeholder {
+            color: var(--text-muted);
+        }
+
+        .form-input:focus {
+            border-color: var(--must-green);
+        }
+
+        textarea.form-input {
+            border-radius: 15px; /* Less rounded for textarea */
+            resize: none;
+            min-height: 120px;
+        }
+
+        /* Custom reCAPTCHA Mockup */
+        .captcha-container {
+            background-color: #f9f9f9;
+            width: 300px;
+            padding: 12px 15px;
+            border-radius: 4px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            border: 1px solid #e1e1e1;
+            box-shadow: 0px 2px 4px rgba(0,0,0,0.1);
+            margin-top: 0.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .captcha-left {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .captcha-checkbox {
+            width: 26px;
+            height: 26px;
+            border: 2px solid #efefef;
+            border-radius: 2px;
+            background: white;
+            cursor: pointer;
+            appearance: none; /* removes default browser styling */
+        }
+
+        .captcha-checkbox:checked {
+            background-color: #fff;
+            position: relative;
+        }
+        
+        .captcha-checkbox:checked::after {
+            content: '✔';
+            color: green;
+            font-size: 20px;
+            position: absolute;
+            top: -2px;
+            left: 3px;
+        }
+
+        .captcha-label {
+            color: #222;
+            font-size: 0.9rem;
+            font-weight: 400;
+        }
+
+        .captcha-right {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            color: #555;
+        }
+
+        .captcha-right i {
+            font-size: 1.5rem;
+            color: #4285f4; /* Google Blue */
+            margin-bottom: 2px;
+        }
+
+        .captcha-right span {
+            font-size: 0.55rem;
+            color: #777;
+        }
+
+        /* Submit Button */
+        .btn-submit {
+            background-color: var(--must-green);
+            color: var(--text-white);
+            border: none;
+            padding: 0.9rem 2.5rem;
+            border-radius: 30px;
+            font-size: 1.05rem;
+            font-weight: 700;
+            cursor: pointer;
+            width: fit-content;
+            transition: all 0.3s ease;
+        }
+
+        .btn-submit:hover {
+            background-color: #008f4c;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 10px rgba(0, 172, 92, 0.3);
+        }
+
+        /* ------------------ RESPONSIVE ------------------ */
+        @media (max-width: 900px) {
+            .links-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 600px) {
+            .links-grid {
+                grid-template-columns: 1fr;
+            }
+            .form-row {
+                flex-direction: column;
+            }
+            .overlay-container {
+                padding: 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="overlay-container">
+        
+        <div class="overlay-header">
+            <img src="img/LoGo.png" alt="MUST Logo" class="overlay-logo">
+           <a href="index.html" class="close-btn" title="Close" style="text-decoration: none;">
+    <i class="fa-solid fa-xmark"></i>
+</a>
+               
+            </button>
+        </div>
+
+        <div class="links-grid">
+            <div class="link-column">
+                <a href="#">Admission</a>
+                <a href="#">Students</a>
+                <a href="#">International Student</a>
+                <a href="#">Alumni</a>
+                <a href="#">Families</a>
+            </div>
+            <div class="link-column">
+                <a href="#">About MUST</a>
+                <a href="#">MUST History</a>
+                <a href="#">Why MUST</a>
+                <a href="#">Values & Principles</a>
+                <a href="#">Contact Us</a>
+            </div>
+            <div class="link-column">
+                <a href="#">MUST History</a> <a href="#">MUST Events</a>
+                <a href="#">MUST NEWS</a>
+                <a href="#">MUST Life</a>
+                <a href="#">Explore MUST</a>
+            </div>
+        </div>
+
+        <div class="content-section">
+            
+            <div class="contact-info">
+                <h3 class="section-title">Contact Info</h3>
+                <p>16878</p>
+                <p>Info@Must.Edu.Eg</p>
+                <p>Al Motamayez District – 6th Of October, Egypt</p>
+            </div>
+
+            <h3 class="section-title">Ready Get Started?</h3>
+            <form class="contact-form" action="#" method="POST">
+                
+                <div class="form-row">
+                    <input type="text" placeholder="Your Name" class="form-input" required>
+                    <input type="email" placeholder="Email" class="form-input" required>
+                </div>
+                
+                <div class="form-row">
+                    <input type="tel" placeholder="Phone Number" class="form-input" required>
+                </div>
+                
+                <div class="form-row">
+                    <textarea placeholder="Write to us" class="form-input" rows="4" required></textarea>
+                </div>
+
+                <p style="font-size: 0.9rem; font-weight: 600; margin-top: 0.5rem; margin-bottom: -0.5rem;">CAPTCHA</p>
+                
+                <div class="captcha-container">
+                    <div class="captcha-left">
+                        <input type="checkbox" id="robotCheck" class="captcha-checkbox">
+                        <label for="robotCheck" class="captcha-label">I'm not a robot</label>
+                    </div>
+                    <div class="captcha-right">
+                        <i class="fa-solid fa-arrows-rotate"></i>
+                        <span>reCAPTCHA</span>
+                        <span>Privacy - Terms</span>
+                    </div>
+                </div>
+
+                <button type="submit" class="btn-submit">Send Now</button>
+            </form>
+
+        </div>
+
+    </div>
+
+</body>
+</html>

@@ -1,0 +1,83 @@
+body {
+  font-family: Arial, sans-serif;
+  background: #f5f5f5;
+  margin: 0;
+  padding: 0;
+}
+
+.title {
+  text-align: center;
+  margin: 20px 0;
+}
+
+/* 🔥 4 Cards في الصف */
+.container {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 20px;
+  padding: 20px;
+}
+
+/* Card Style */
+.card {
+  background: white;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+  text-align: center;
+  transition: 0.3s;
+}
+
+.card:hover {
+  transform: scale(1.05);
+}
+
+/* Image */
+.card img {
+  width: 100%;
+  height: 140px;
+  object-fit: cover;
+}
+
+/* Text */
+.card h2 {
+  margin: 10px 0;
+  font-size: 18px;
+}
+
+.card p {
+  color: #666;
+  font-size: 14px;
+  margin-bottom: 10px;
+}
+
+/* Button */
+button {
+  background: green;
+  color: white;
+  border: none;
+  padding: 8px;
+  width: 90%;
+  margin-bottom: 12px;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+button:hover {
+  background: darkgreen;
+}
+a {
+ display: inline-block;
+ background: green;
+  color: white;
+  border: none;
+  padding: 8px;
+  width: 90%;
+  margin-bottom: 12px;
+  border-radius: 8px;
+  cursor: pointer;
+  text-decoration: none;
+}
+a:hover{
+     background: darkgreen;
+}

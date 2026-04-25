@@ -1,0 +1,2517 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MUST Student Activities Hub - All Events</title>
+
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+  <link rel="stylesheet" href="css/bootstrap.min.css">
+   
+
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap');
+
+        :root {
+            /* MUST Official Colors */
+            --primary: rgb(28, 48, 110);
+            /* MUST Blue */
+            --secondary: rgb(0, 172, 92);
+            /* MUST Green */
+            --primary-light: rgba(28, 48, 110, 0.1);
+            --secondary-light: rgba(0, 172, 92, 0.1);
+            --secondary-hover: rgb(0, 145, 75);
+
+            --bg-light: #F8FAFC;
+            --white: #FFFFFF;
+            --text-dark: #1E293B;
+            --text-gray: #64748B;
+            --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+            --transition: all 0.3s ease;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Inter', sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-light);
+            color: var(--text-dark);
+            line-height: 1.6;
+        }
+
+
+     
+        @keyframes marquee {
+            0% {
+                transform: translateX(0);
+            }
+
+            100% {
+                transform: translateX(-100%);
+            }
+        }
+
+        /* ------------------ NAVBAR ------------------ */
+        header {
+            background-color: var(--primary);
+            color: var(--white);
+            position: sticky;
+            top: 0;
+            z-index: 999;
+            box-shadow: var(--shadow);
+        }
+
+        nav {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0.5rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+        }
+
+        .Uni-logo {
+            height: 100px;
+            width: auto;
+            object-fit: contain;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 1.8rem;
+            list-style: none;
+            align-items: center;
+            margin: 0;
+            padding: 0;
+            height: 100%;
+        }
+
+        /* --- DROPDOWN CSS INTEGRATED HERE --- */
+          .dropdown {
+            position: relative;
+            display: flex;
+            align-items: center;
+            height: 100px;
+            /* Match navbar height to avoid hover glitches */
+        }
+
+        .dropdown>a {
+            text-decoration: none;
+            color: var(--white);
+            font-weight: 600;
+            font-size: 1rem;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            white-space: nowrap;
+        }
+
+        .dropdown>a:hover,
+        .dropdown>a.active {
+            color: var(--secondary);
+        }
+
+        .custom-dropdown-menu {
+            position: absolute;
+            top: 80px;
+            /* Drop down right below the nav text */
+            left: 0;
+            background-color: var(--primary);
+            min-width: 250px;
+            box-shadow: var(--shadow-lg);
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(10px);
+            transition: all 0.3s ease;
+            list-style: none;
+            padding: 0.5rem 0;
+            z-index: 1001;
+            border-radius: 0 0 8px 8px;
+            margin: 0;
+        }
+
+        .dropdown:hover .custom-dropdown-menu {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+
+        .custom-dropdown-menu li {
+            position: relative;
+        }
+
+        .custom-dropdown-menu a {
+            color: var(--white) !important;
+            text-decoration: none;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0.8rem 1.5rem;
+            font-size: 0.95rem;
+            font-weight: 600;
+            transition: background-color 0.2s ease;
+        }
+
+        .custom-dropdown-menu a:hover {
+            background-color: rgba(255, 255, 255, 0.1);
+            color: var(--secondary) !important;
+        }
+      
+        /* --- ICONS & LOGIN BUTTON --- */
+        .nav-icons {
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+            font-size: 1.2rem;
+            margin-left: 2rem;
+        }
+
+        .nav-icons i,
+        .nav-icons span {
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .nav-icons i:hover,
+        .nav-icons span:hover {
+            color: var(--secondary);
+        }
+
+        .separator {
+            color: rgba(255, 255, 255, 0.4);
+            font-weight: 300;
+        }
+
+        .btn-login {
+            background-color: transparent;
+            color: var(--white);
+            border: 2px solid var(--secondary);
+            padding: 0.4rem 1.2rem;
+            border-radius: 6px;
+            font-weight: 600;
+            font-size: 0.9rem;
+            text-decoration: none;
+            transition: var(--transition);
+        }
+
+        .btn-login:hover {
+            background-color: var(--secondary);
+            color: var(--white);
+        }
+
+      
+        /* ------------------ SOCIAL SIDEBAR (RIGHT ALIGNED) ------------------ */
+        .social-fixed {
+            position: fixed;
+            right: 15px;
+            /* Moves the sidebar to the right edge */
+            top:75%;
+            transform: translateY(-50%);
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            /* Perfect spacing between the circles */
+            z-index: 999;
+        }
+
+        .social-fixed a {
+            color: var(--primary);
+            /* Dark blue icons */
+            background: var(--white);
+            /* White circle background */
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            /* Makes them perfectly circular */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 1.3rem;
+            /* Slightly larger icons */
+            text-decoration: none;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+            /* Soft drop shadow */
+            transition: var(--transition);
+        }
+
+        .social-fixed a:hover {
+            transform: scale(1.1);
+            /* Slight pop effect on hover */
+            box-shadow: 0 6px 14px rgba(0, 0, 0, 0.2);
+        }
+
+        /* Green styling specifically for the search icon (active state) */
+        .social-fixed a.active {
+            background-color: var(--secondary);
+            /* Green background */
+            color: var(--white);
+            /* White icon */
+        }
+
+        /* Make sure mobile views hide the sidebar properly */
+        @media (max-width: 768px) {
+            .social-fixed {
+                display: none;
+            }
+        }
+
+        /* ------------------ BUTTONS ------------------ */
+        .btn2 {
+            background-color: var(--secondary);
+            color: var(--white);
+            padding: 0.8rem 1.8rem;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 600;
+            border: none;
+            cursor: pointer;
+            transition: var(--transition);
+            display: inline-block;
+        }
+
+        .btn:hover {
+            background-color: var(--secondary-hover);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0, 172, 92, 0.3);
+            color: white !important;
+        }
+
+        /* ------------------ CONTENT CONTAINER ------------------ */
+        .content-container {
+           width: 100%;
+          
+          height: 90vh;
+          margin: 0;
+        padding: 0;
+        overflow: hidden;
+        display: flex;
+         flex-direction: column;
+           align-items: center;
+        }
+
+        /* ------------------ SLIDER NAVBAR ----------------- */
+        .slider-navbar {
+          position: absolute;
+    bottom: 30px; /* قربه أكتر لتحت لو حابب */
+    left: 50%;
+    transform: translateX(-50%);
+    
+    width: 100%;
+    display: flex;
+    justify-content: center;
+
+    z-index: 20;
+          
+        }
+
+        .slider-menu {
+            display: flex;
+            gap: 24px;
+            list-style: none;
+         
+            padding: 0.8rem 2rem;
+            border-radius: 50px;
+           z-index: 999;
+        }
+
+        .menu-item {
+            position: relative;
+        }
+
+        .menu-item>a {
+   
+    display: inline-block;
+    padding: 10px 20px;
+    border-radius: 25px;
+    background: rgba(255, 255, 255, 0.2); /* glass effect */
+    color: #fff;
+    text-decoration: none;
+    font-weight: 500;
+    backdrop-filter: blur(8px);
+    transition: all 0.3s ease;
+}
+        
+
+        .menu-item:hover>a {
+            color: var(--secondary);
+        }
+
+        /* Mega Menu Styling */
+        .mega-menu {
+            position: absolute;
+            top: 100%;
+            bottom: auto;
+            transform: translateX(-50%) translateY(15px);
+            background: var(--white);
+            border-radius: 12px;
+            z-index: 999;
+            padding: 1.5rem;
+            display: flex;
+            gap: 2.5rem;
+            box-shadow: var(--shadow-lg);
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+         
+            min-width: max-content;
+            border: 1px solid #E2E8F0;
+        }
+
+        .menu-item:hover .mega-menu {
+            opacity: 1;
+            visibility: visible;
+            transform: translateX(-50%) translateY(5px);
+            pointer-events: auto;
+        }
+
+        .mega-column h4 {
+            color: var(--primary);
+            margin-bottom: 1rem;
+            font-size: 1.1rem;
+            border-bottom: 2px solid var(--secondary-light);
+            padding-bottom: 0.5rem;
+            white-space: nowrap;
+        }
+
+        .mega-column a {
+            display: block;
+            color: var(--text-gray);
+            text-decoration: none;
+            margin-bottom: 0.8rem;
+            font-size: 0.95rem;
+            transition: var(--transition);
+            white-space: nowrap;
+        }
+
+        .mega-column a:hover {
+            color: var(--secondary);
+            padding-left: 5px;
+        }
+
+
+        .menu-item:hover .mega-menu,
+.menu-item:focus-within .mega-menu,
+.mega-menu:hover {
+    opacity: 1;
+    visibility: visible;
+    transform: translateX(-50%) translateY(0);
+}
+
+.menu-item {
+    position: relative;
+}
+
+.menu-item::after {
+    content: "";
+    position: absolute;
+    top: 100%;
+    left: 0;
+    width: 100%;
+    height: 15px; /* يغطي الفراغ */
+}
+
+        /* ------------------ TITLE ------------------ */
+        .slider-title {
+            position: absolute;
+            bottom: 140px; /* أعلى من المنيو بشوية صغيرة */
+           left: 50%;
+          transform: translateX(-50%);
+        color: var(--white);
+        text-align: center;
+        z-index: 10;
+        }
+
+     
+
+           /* ================= CONTACT & BUTTONS ================= */
+        .phone {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            margin: 12px 0 20px;
+            font-weight: bold;
+            color: var(--text-dark);
+        }
+
+        .phone i {
+            color: var(--secondary);
+        }
+
+        .join-btn {
+            background: var(--secondary);
+            border: none;
+            padding: 0;
+            /* Remove padding to let anchor tag fill it */
+            border-radius: 8px;
+            cursor: pointer;
+            width: 100%;
+            transition: var(--transition);
+            overflow: hidden;
+        }
+
+        .join-btn a {
+            display: block;
+            width: 100%;
+            height: 100%;
+            padding: 12px;
+            color: var(--white);
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        .join-btn:hover {
+            background: var(--secondary-hover);
+        }
+        .carousel-slide {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            opacity: 0;
+            transition: opacity 0.5s ease-in-out;
+            background-size: 100%;
+            background-position: center;
+        }
+
+        .carousel-slide::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(to right, rgba(28, 48, 110, 0.9) 0%, rgba(28, 48, 110, 0.4) 100%);
+            z-index: 1;
+        }
+
+        .carousel-slide.active {
+            opacity: 1;
+            z-index: 2;
+        }
+
+        .carousel-controls {
+            position: absolute;
+            top: 50%;
+            left: 0;
+            right: 0;
+            display: flex;
+            justify-content: space-between;
+            padding: 0 2rem;
+            z-index: 20;
+            transform: translateY(-50%);
+        }
+
+        .control-btn {
+            background: rgba(255, 255, 255, 0.2);
+            border: 2px solid white;
+            color: white;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            transition: var(--transition);
+            backdrop-filter: blur(5px);
+        }
+
+        .control-btn:hover {
+            background: var(--secondary);
+            border-color: var(--secondary);
+        }
+
+        /* ------------------ SECTIONS ------------------ */
+        section {
+            max-width: 1200px;
+            margin: 2rem auto;
+            padding: 0 2rem;
+        }
+
+        .section-header {
+            margin-bottom: 2.5rem;
+            text-align: center;
+        }
+
+
+        .section-header p {
+            color: var(--text-gray);
+        }
+
+     
+
+            /* ------------------ NEWS GRID ------------------ */
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 2rem;
+        }
+
+        .card2 {
+            background: var(--white);
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: var(--shadow);
+            border: 1px solid #E2E8F0;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .card-date-box {
+            position: absolute;
+            top: 1rem;
+            left: 1rem;
+            background: var(--white);
+            padding: 0.5rem;
+            border-radius: 8px;
+            text-align: center;
+            min-width: 60px;
+            box-shadow: var(--shadow);
+        }
+
+        .card-date-box .day {
+            display: block;
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--primary);
+            line-height: 1;
+        }
+
+        .card-date-box .month {
+            display: block;
+            font-size: 0.8rem;
+            color: var(--secondary);
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+
+        .card-img {
+            height: 200px;
+            position: relative;
+            background-color: var(--primary-light);
+            background-size: cover;
+            background-position: center;
+        }
+
+        .card-content {
+            padding: 1.5rem;
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .tag {
+            background-color: var(--primary-light);
+            color: var(--primary);
+            padding: 0.3rem 0.8rem;
+            border-radius: 6px;
+            font-size: 0.8rem;
+            font-weight: 700;
+            display: inline-block;
+            margin-bottom: 1rem;
+            width: fit-content;
+        }
+
+        h2 {
+            text-align: center;
+            font-weight: bold;
+            font-size: 28px;
+            color: var(--secondary);
+        }
+
+        .card-title {
+            font-size: 1.25rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            color: var(--primary);
+        }
+
+        .card-info {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: var(--text-gray);
+            font-size: 0.9rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .card-info i {
+            color: var(--secondary);
+            width: 16px;
+            text-align: center;
+        }
+
+        .card-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-top: 1px solid #E2E8F0;
+            padding-top: 1.2rem;
+            margin-top: auto;
+        }
+        
+.quran-card {
+    direction: rtl;
+}
+
+/* الصورة */
+.comp-img {
+    width: 100%;
+    height: 180px;
+   
+    border-radius: 15px;
+    margin-bottom: 1rem;
+    background-size: 100%;
+}
+
+/* الوصف */
+.comp-desc {
+    font-size: 0.95rem;
+    color: var(--text-gray);
+    margin-bottom: 1rem;
+    line-height: 1.6;
+}
+
+/* جدول */
+.table-container {
+    overflow-x: auto;
+    margin-bottom: 1.5rem;
+}
+
+.comp-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.85rem;
+}
+
+.comp-table th {
+    background: var(--primary);
+    color: white;
+    padding: 8px;
+}
+
+.comp-table td {
+    padding: 8px;
+    border: 1px solid #E2E8F0;
+    text-align: center;
+}
+
+/* hover rows */
+.comp-table tr:hover {
+    background: #f8fafc;
+}
+
+/* animation خفيفة */
+.quran-card:hover {
+    transform: translateY(-12px) scale(1.01);
+}
+.qr-code {
+    width: 80px;
+    margin: 10px auto;
+    display: block;
+}
+        /* ------------------ IFRAME ------------------ */
+        iframe {
+            width: 100%;
+            height: 1780px;
+            border: 1px solid #ccc;
+            margin-top: 30px;
+        }
+
+          /* ================= CLUBS GRID ================= */
+        .clubs-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 25px;
+        }
+
+        .club-card {
+            background: var(--white);
+            border-radius: 15px;
+            padding: 15px;
+            box-shadow: var(--shadow);
+            transition: var(--transition);
+            overflow: hidden;
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .club-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
+        }
+
+        .club-img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            border-radius: 12px;
+            margin-bottom: 15px;
+        }
+
+        .club-card h3 {
+            margin: 0 0 10px;
+            color: var(--primary);
+            font-size: 1.4rem;
+        }
+
+        .club-card p {
+            font-size: 14px;
+            color: var(--text-gray);
+            line-height: 1.6;
+            flex-grow: 1;
+            /* Pushes the button to the bottom */
+            margin-bottom: 15px;
+        }
+
+
+        /* ------------------ FOOTER ------------------ */
+        footer {
+            background-color: var(--primary);
+            color: var(--white);
+            padding-top: 4rem;
+
+        }
+
+        .footer-logo-center {
+            text-align: center;
+            margin-bottom: 4rem;
+        }
+
+        .footer-brand-logo {
+            height: 120px;
+            width: auto;
+            margin: 0 auto;
+            display: block;
+        }
+
+        .footer-grid {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 2rem;
+            padding: 0 2rem 4rem 2rem;
+        }
+
+        .footer-col h4 {
+            color: var(--secondary);
+            font-size: 1.1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .footer-col ul {
+            list-style: none;
+        }
+
+        .footer-col ul li {
+            margin-bottom: 0.8rem;
+        }
+
+        .footer-col ul li a {
+            color: var(--white);
+            text-decoration: none;
+            font-size: 0.9rem;
+            transition: var(--transition);
+        }
+
+        .footer-col ul li a:hover {
+            color: var(--secondary);
+        }
+
+        .footer-col p {
+            color: var(--white);
+            font-size: 0.9rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+        }
+
+        #modalDesc {
+  white-space: pre-line;
+}
+
+        .footer-bottom {
+            background-color: var(--white);
+            color: var(--primary);
+            text-align: center;
+            padding: 1.2rem;
+            font-size: 0.85rem;
+            font-weight: 600;
+        }
+
+        /* ------------------ COMPETITIONS ------------------ */
+.competitions-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 2rem;
+}
+
+/* SEE ALL */
+.see-all-btn {
+    display: block;
+    margin: 35px auto 0;
+    background: #00ac5c;
+    color: white;
+    padding: 12px 30px;
+    border-radius: 25px;
+    text-align: center;
+    width: fit-content;
+    font-weight: bold;
+    text-decoration: none;
+    transition: 0.3s;
+}
+
+.see-all-btn:hover {
+    background: #00914b;
+    transform: scale(1.05);
+}
+.competition-card {
+    background: var(--white);
+    border-radius: 20px;
+    padding: 2rem;
+    box-shadow: var(--shadow);
+    transition: var(--transition);
+    position: relative;
+    border: 1px solid #E2E8F0;
+     width: 600px;
+    margin: auto;
+}
+
+.competition-card:hover {
+    transform: translateY(-10px);
+    box-shadow: var(--shadow-lg);
+}
+
+.competition-card h3 {
+    color: var(--primary);
+    margin-bottom: 1rem;
+    font-size: 1.4rem;
+}
+
+.competition-card p {
+    color: var(--text-gray);
+    font-size: 0.95rem;
+    margin-bottom: 1.5rem;
+    line-height: 1.6;
+}
+
+.comp-date {
+    font-size: 0.9rem;
+    color: var(--secondary);
+    font-weight: 600;
+    margin-bottom: 1rem;
+}
+
+.comp-badge {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    background: var(--secondary);
+    color: white;
+    padding: 5px 12px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: bold;
+}
+
+.comp-badge.special {
+    background: var(--primary);
+}
+
+        /* ------------------ RESPONSIVE ------------------ */
+        @media (max-width: 1024px) {
+            .nav-links {
+                display: none;
+            }
+
+            .awards-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .footer-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 768px) {
+            .slider-navbar {
+                display: none;
+            }
+
+            /* Hide complex mega menu on mobile */
+            .awards-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .footer-grid {
+                grid-template-columns: 1fr;
+                text-align: center;
+            }
+
+            .must-events-container {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* الصورة */
+.comp-img {
+    width: 100%;
+    height: 180px;
+ background-size: 100%;
+    border-radius: 15px;
+    margin-bottom: 1rem;
+}
+
+/* الوصف */
+.comp-desc {
+    font-size: 0.95rem;
+    color: var(--text-gray);
+    margin-bottom: 1rem;
+    line-height: 1.6;
+}
+
+/* التفاصيل */
+.comp-details {
+    padding-left: 1rem;
+    margin-bottom: 1rem;
+    font-size: 0.9rem;
+    color: var(--text-gray);
+}
+
+.comp-details li {
+    margin-bottom: 6px;
+}
+
+/* بوكس مميز */
+.highlight-box {
+    background: linear-gradient(135deg, #EEF2FF, #E0E7FF);
+    color: var(--primary);
+    padding: 10px;
+    border-radius: 10px;
+    font-size: 0.9rem;
+    margin-bottom: 1rem;
+    text-align: center;
+    font-weight: 600;
+}
+
+/* hover */
+.competition-card:hover .highlight-box {
+    background: linear-gradient(135deg, var(--primary), var(--secondary));
+    color: white;
+    transition: 0.3s;
+}
+
+.contact-section {
+    height: 100vh;
+    background: url("./img/slider2.jpeg") center/cover no-repeat;
+    position: relative;
+}
+
+.layertwo{
+    position: absolute;
+    width: 100%;
+    height: 100%;
+       top: 0;
+    left: 0;
+    background: rgba(0,0,0,0.6);
+
+}
+
+.contact-container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 100%;
+    padding: 0 5%;
+    position: relative;
+}
+
+/* Left */
+.contact-left {
+    color: white;
+    max-width: 400px;
+}
+
+.contact-left h1 {
+    font-size: 3rem;
+    font-weight: bold;
+}
+
+.contact-left p {
+    margin-top: 10px;
+    font-size: 1.2rem;
+}
+
+/* Form Box */
+.contact-form-box {
+    background: #f9fafb;
+    padding: 2rem;
+    border-radius: 15px;
+    width: 400px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+    border-top: 5px solid #16a34a;
+}
+
+.contact-form-box h2 {
+    margin-bottom: 1.5rem;
+    color: #1e3a8a;
+}
+.logo {
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+     margin-right: 30px;
+}
+/* Inputs */
+.form-row {
+    display: flex;
+    gap: 10px;
+}
+
+.contact-form-box input,
+.contact-form-box textarea {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 10px;
+    border: none;
+    background: #e5e7eb;
+    border-radius: 5px;
+}
+
+.contact-form-box textarea {
+    height: 100px;
+    resize: none;
+}
+
+/* Checkbox */
+.checkbox {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    margin-bottom: 15px;
+}
+
+/* Button */
+.btn {
+    width: 100%;
+    background: #16a34a;
+    color: white;
+    padding: 12px;
+    border: none;
+    border-radius: 25px;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+.btn:hover {
+    background: #15803d;
+}
+
+/* Social Icons */
+.social-icons {
+    position: absolute;
+    right: 20px;
+    top: 40%;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.social-icons a {
+    width: 45px;
+    height: 45px;
+    background: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    color: #1e3a8a;
+    box-shadow: 0 5px 10px rgba(0,0,0,0.1);
+    text-decoration: none;
+}
+
+  h1 {
+            text-align: center;
+          
+        }
+
+        #activity {
+            max-width: 1140px;
+            margin: 50px auto 0;
+            padding: 0 24px;
+        }
+
+        #activity h2 {
+            text-align: center;
+            color: var(--secondary);
+            font-size: 3rem;
+            font-weight: 700;
+            margin-bottom: 36px;
+        }
+
+        #activity .cards-container {
+            display: grid;
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+            gap: 30px;
+            margin: 0;
+        }
+
+        #activity .card {
+            background: #fff;
+            border: 1px solid #d8e1ef;
+            border-radius: 18px;
+            box-shadow: 0 10px 24px rgba(15, 23, 42, 0.08);
+            text-align: center;
+            padding: 18px 18px 20px;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        #activity .card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 16px 34px rgba(15, 23, 42, 0.14);
+        }
+
+        #activity .card img {
+            width: 100%;
+            height: 250px;
+            object-fit: cover;
+            border-radius: 14px;
+            margin-bottom: 18px;
+        }
+
+        #activity .card h3 {
+            margin: 0 0 12px;
+            font-size: 1.1rem;
+            font-weight: 500;
+            color: #223965;
+        }
+
+        #activity .card p {
+            min-height: 72px;
+            margin: 0 0 18px;
+            font-size: 0.95rem;
+            line-height: 1.6;
+            color: #7a8599;
+        }
+
+        #activity .card button {
+            width: 100%;
+            margin-top: auto;
+            padding: 14px 18px;
+            border: none;
+            background: #19a949;
+            color: white;
+            border-radius: 10px;
+            cursor: pointer;
+            font-size: 1rem;
+            font-weight: 700;
+            transition: background 0.3s ease;
+        }
+
+        #activity .card button:hover {
+            background: #15803d;
+        }
+
+/* Responsive */
+@media (max-width: 768px) {
+    #activity h2 {
+        font-size: 2.25rem;
+    }
+
+    #activity .cards-container {
+        grid-template-columns: 1fr;
+    }
+
+    .contact-container {
+        flex-direction: column;
+        justify-content: center;
+        text-align: center;
+    }
+
+    .contact-form-box {
+        width: 100%;
+        margin-top: 20px;
+    }
+
+    .social-icons {
+        display: none;
+    }
+}
+
+
+
+/* GRID */
+.events-container {
+    width: 85%;
+    margin:0 auto 60px;
+
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 40px; /* زودنا المسافات */
+}
+
+
+.event-card {
+    opacity: 0;
+    transform: translateY(30px);
+    animation: fadeUp 0.6s ease forwards;
+}
+.meta span {
+    direction: ltr;
+    unicode-bidi: isolate;
+}
+.event-card:nth-child(2){ animation-delay: 0.1s; }
+.event-card:nth-child(3){ animation-delay: 0.2s; }
+.event-card:nth-child(4){ animation-delay: 0.3s; }
+.event-card:nth-child(5){ animation-delay: 0.4s; }
+.event-card:nth-child(6){ animation-delay: 0.5s; }
+
+@keyframes fadeUp {
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.event-card:hover {
+    transform: translateY(-10px);
+}
+
+/* IMAGE */
+.image-box {
+    position: relative;
+    border-radius: 12px;
+   
+}
+
+.image-box img {
+   height: 300px;
+    object-fit: cover;
+    width: 100%;
+    transition: transform 0.4s ease;
+}
+
+.event-card:hover img {
+    transform: scale(1.08);
+}
+
+/* DATE */
+.date-box {
+    position: absolute;
+    bottom: -20px;
+    left: 18px;
+    background: #1c306e;
+    color: #fff;
+    padding: 10px;
+    border-radius: 6px;
+    text-align: center;
+    width: 55px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+    transition: 0.3s;
+}
+
+.event-card:hover .date-box {
+    background: #00ac5c;
+}
+
+.day {
+    font-size: 18px;
+    font-weight: bold;
+}
+
+.month {
+    font-size: 12px;
+}
+
+/* INFO */
+.event-info {
+    padding-top: 28px;
+}
+
+.meta {
+    display: flex;
+    justify-content: space-between;
+    font-size: 13px;
+    color: #94a3b8; /* أفتح شوية زي الموقع */
+    margin-bottom: 8px;
+}
+/* خلفية المودال */
+.modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0,0,0,0.6);
+  backdrop-filter: blur(5px);
+  display: none;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+/* محتوى المودال */
+.modal-content {
+  background: #fff;
+  width: 90%;
+  max-width: 700px;
+
+  max-height: 80vh;      /* 👈 يمنع الطول الزيادة */
+  overflow-y: auto;      /* 👈 يعمل scroll */
+
+  padding: 25px;
+  border-radius: 15px;
+
+  position: relative;
+}
+
+@keyframes fadeScale {
+  from {
+    opacity: 0;
+    transform: scale(0.8);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.modal-img {
+  width: 100%;
+  border-radius: 10px;
+  margin-bottom: 15px;
+}
+
+.modal-meta {
+  display: flex;
+  justify-content: space-between;
+  margin: 10px 0;
+  color: #666;
+}
+
+.close {
+  float: right;
+  font-size: 25px;
+  cursor: pointer;
+}
+
+/* زرار */
+.btn-register {
+  margin-top: 15px;
+  padding: 10px 20px;
+  background: #00a86b;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.btn-register:hover {
+  background: #007e50;
+}
+
+/* تحسين الكارد */
+.event-card {
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.event-card:hover {
+  transform: translateY(-10px) scale(1.03);
+}
+.event-info h3 {
+    font-size: 16px;
+    color: #1c306e;
+    margin-bottom: 6px;
+    transition: 0.3s;
+}
+
+.event-card:hover h3 {
+    color: #00ac5c;
+}
+
+.event-info p {
+    font-size: 13.5px;
+    color: #64748b;
+    line-height: 1.5;
+}
+/* RESPONSIVE */
+@media (max-width: 992px) {
+    .events-container {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 600px) {
+    .events-container {
+        grid-template-columns: 1fr;
+    }
+}
+
+.event-card {
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.event-card:hover {
+  transform: translateY(-8px) scale(1.02);
+}
+
+/* الخلفية */
+.modal {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.6);
+  backdrop-filter: blur(6px);
+  display: none;
+  justify-content: center;
+  align-items: center;
+  z-index: 999;
+}
+
+/* صندوق المودال (عرض كامل بدون تقسيم) */
+.modal-content {
+  background: #fff;
+  width: 90%;
+  max-width: 800px;
+  max-height: 85vh;
+  overflow-y: auto;
+  padding: 30px;
+  border-radius: 15px;
+  animation: fadeUp 0.3s ease;
+  position: relative;
+}
+
+/* Animation */
+@keyframes fadeUp {
+  from {
+    transform: translateY(20px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+/* الصورة فوق */
+.modal-img {
+  width: 100%;
+  height: 280px;
+  object-fit: cover;
+  border-radius: 12px;
+  margin-bottom: 20px;
+}
+
+/* العنوان */
+#modalTitle {
+  font-size: 24px;
+  margin-bottom: 10px;
+}
+
+/* meta */
+.modal-meta {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 15px;
+  color: #666;
+  font-size: 14px;
+}
+
+/* الوصف */
+#modalDesc {
+  line-height: 1.8;
+  color: #444;
+  text-align: justify;
+}
+
+/* زر الإغلاق */
+.close {
+  position: absolute;
+  right: 20px;
+  top: 15px;
+  font-size: 28px;
+  cursor: pointer;
+}
+
+
+.news-section {
+  padding: 0 8%;
+}
+
+.news-section h2 {
+  text-align: center;
+  color: #1a8f4c;
+  margin-bottom: 30px;
+  font-size: 28px;
+}
+
+/* Filters */
+.filters {
+  text-align: center;
+  margin-bottom: 30px;
+}
+
+.filters button {
+  background: #1a8f4c;
+  color: white;
+  border: none;
+  padding: 10px 18px;
+  margin: 5px;
+  border-radius: 20px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.filters button:hover {
+  background: #146c3a;
+}
+
+/* Grid */
+.news-container {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 25px;
+}
+
+/* Card */
+.card {
+  background: #fff;
+  border-radius: 12px;
+  overflow: hidden;
+  transition: 0.35s ease;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+}
+
+/* Hover animation */
+.card:hover {
+  transform: translateY(-8px) scale(1.02);
+  box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+}
+
+/* Image zoom */
+.card img {
+  width: 100%;
+  height: 200px;
+  object-fit: cover;
+  transition: 0.4s;
+}
+
+.card:hover img {
+  transform: scale(1.08);
+}
+
+/* Content */
+.card-content {
+  padding: 15px;
+}
+
+/* Meta */
+.meta {
+  display: flex;
+  justify-content: space-between;
+  font-size: 13px;
+  color: #777;
+  margin-bottom: 10px;
+}
+
+.meta i {
+  color: #1a8f4c;
+  margin-right: 5px;
+}
+
+/* Title */
+.card h3 {
+  font-size: 15px;
+  color: #1b2a4e;
+  line-height: 1.5;
+}
+
+/* Responsive */
+@media (max-width: 992px) {
+  .news-container {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 600px) {
+  .news-container {
+    grid-template-columns: 1fr;
+  }
+}
+    
+.card h3 {
+    transition: color 0.3s ease, transform 0.3s ease;
+}
+
+.card h3:hover {
+    color: var(--secondary);
+    transform: translateY(-2px);
+}
+    section{
+        margin-bottom: 40px;
+    }
+
+    .news-section h2 {
+  position: relative;
+  display: inline-block;
+}
+
+.news-section h2::after {
+  content: "";
+  display: block;
+  width: 60%;
+  height: 3px;
+  background: var(--secondary);
+  margin: 8px auto 0;
+  border-radius: 2px;
+}
+
+#newsDesc {
+    line-height: 1.9;
+  color: #444;
+  margin-top: 10px;
+  text-align: justify;
+ }
+
+.modal-content {
+    background: #fff;
+    width: 500px;
+    border-radius: 15px;
+    padding: 20px;
+    text-align: left;
+    animation: scaleUp 0.3s ease;
+}
+
+.modal-img {
+    width: 100%;
+    border-radius: 10px;
+    margin-bottom: 15px;
+}
+
+.modal-meta {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.9rem;
+    color: #777;
+    margin: 10px 0;
+}
+
+#newsDesc {
+ 
+  max-height: 140px; /* حوالي 5 سطور */
+  overflow: hidden;
+
+  line-height: 1.8;
+  color: #444;
+}
+.close {
+  position: absolute;
+  top: 15px;
+  right: 20px;
+
+  font-size: 28px;
+  font-weight: bold;
+  color: #fff;
+
+  background: #1c306e;
+  width: 40px;
+  height: 40px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border-radius: 50%;
+  cursor: pointer;
+
+  box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+  transition: 0.3s;
+}
+
+.close:hover {
+  background: #00ac5c;
+  transform: rotate(90deg) scale(1.1);
+}
+
+#modalDesc {
+  white-space: pre-line;
+  line-height: 1.8;
+  height: calc(1.8em * 5);
+  overflow: hidden;
+}
+
+#newsDesc {
+  white-space: pre-line;
+  line-height: 1.8;
+  height: calc(1.8em * 5);
+  overflow: hidden;
+}
+
+.promo-card {
+  position: relative;
+  width: 100%;
+  max-width: 350px;
+  height: 220px;
+  border-radius: 20px;
+  overflow: hidden;
+  cursor: pointer;
+  transition: 0.4s ease;
+}
+
+.promo-card img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: 0.5s;
+}
+
+.overlay {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  padding: 20px;
+  color: white;
+
+  background: linear-gradient(
+    to top,
+    rgba(0,0,0,0.8),
+    rgba(0,0,0,0.3),
+    transparent
+  );
+
+  transition: 0.4s;
+}
+
+.promo-card:hover img {
+  transform: scale(1.1) rotate(1deg);
+}
+
+.promo-card:hover {
+  transform: translateY(-10px) scale(1.02);
+}
+
+.overlay h2 {
+  margin: 0;
+  font-size: 22px;
+  transform: translateY(20px);
+  opacity: 0;
+  transition: 0.4s;
+}
+
+.overlay p {
+  font-size: 14px;
+  margin: 5px 0;
+  transform: translateY(20px);
+  opacity: 0;
+  transition: 0.5s;
+}
+
+
+
+.promo-card:hover h2,
+.promo-card:hover p,
+.promo-card:hover .btn {
+  transform: translateY(0);
+  opacity: 1;
+}
+
+/* Responsive */
+@media (max-width: 600px) {
+  .promo-card {
+    height: 180px;
+  }
+
+  .overlay h2 {
+    font-size: 18px;
+  }
+
+  .overlay p {
+    font-size: 12px;
+  }
+}
+
+ .promo-card {
+  position: relative;
+  width: 100%;
+  max-width: 600px; /* أكبر */
+  height: 300px;    /* أطول */
+  border-radius: 25px;
+  overflow: hidden;
+  cursor: pointer;
+  transition: 0.4s ease;
+}
+
+/* الصورة */
+.promo-card img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: 0.6s;
+}
+
+/* overlay */
+.overlay {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: flex-end;
+  padding: 25px;
+  color: white;
+
+  background: linear-gradient(
+    to top,
+    rgba(0,0,0,0.85),
+    rgba(0,0,0,0.5),
+    rgba(0,0,0,0.2)
+  );
+}
+
+/* المحتوى */
+.content {
+  max-width: 90%;
+}
+
+.content h2 {
+  margin: 0;
+  font-size: 28px;
+}
+
+.content p {
+  margin: 10px 0;
+  font-size: 16px;
+  line-height: 1.5;
+  color: #ddd;
+}
+
+
+
+/* Hover Effects */
+.promo-card:hover img {
+  transform: scale(1.08);
+}
+
+.promo-card:hover {
+  transform: translateY(-10px);
+}
+
+.promo-card:hover .btn {
+  transform: scale(1.05);
+}
+
+/* Responsive */
+@media (max-width: 600px) {
+  .promo-card {
+    height: 220px;
+  }
+
+  .content h2 {
+    font-size: 20px;
+  }
+
+  .content p {
+    font-size: 13px;
+  }
+}
+
+.slider {
+  width: 100%;
+  max-width: 800px;
+  height: 350px;
+  overflow: hidden;
+  border-radius: 25px;
+  margin: auto;
+  position: relative;
+}
+
+.slides {
+  display: flex;
+  width: 300%;
+  animation: slideMove 12s infinite;
+}
+
+.slide {
+  width: 100%;
+  position: relative;
+  cursor: pointer;
+}
+
+.slide img {
+  width: 100%;
+  height: 350px;
+  object-fit: cover;
+}
+
+/* overlay */
+.content {
+  position: absolute;
+  bottom: 0;
+  padding: 25px;
+  color: white;
+  width: 100%;
+
+  background: linear-gradient(
+    to top,
+    rgba(0,0,0,0.85),
+    rgba(0,0,0,0.4),
+    transparent
+  );
+}
+
+.content h2 {
+  margin: 0;
+  font-size: 26px;
+}
+
+.content p {
+  margin: 10px 0;
+  font-size: 15px;
+  color: #ddd;
+}
+
+
+.slider-container {
+    position: relative;
+    overflow: hidden;
+    width: 100%;
+    margin: 40px auto;
+}
+
+.slider-track {
+    display: flex;
+    transition: transform 0.5s ease-in-out;
+}
+
+.slide {
+    min-width: 100%;
+    padding: 20px;
+}
+
+.slider-btn {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background: var(--secondary);
+    border: none;
+    color: white;
+    font-size: 24px;
+    padding: 10px 15px;
+    cursor: pointer;
+    z-index: 10;
+}
+
+.prev { left: 10px; }
+.next { right: 10px; }
+
+/* تحسين الكروت */
+.competition-card {
+   
+    color: white;
+    border-radius: 15px;
+    padding: 20px;
+    text-align: center;
+}
+
+.comp-img {
+    width: 100%;
+    border-radius: 10px;
+}
+
+
+
+.comp-details {
+    text-align: left;
+    margin-top: 10px;
+}
+
+.events-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 15px;
+}
+
+.event-card {
+    width: 100%;
+    max-width: 240px;   /* 🔥 صغّر العرض */
+    background: #fff;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    transition: 0.3s;
+}
+
+.event-card img {
+    width: 100%;
+    height: 140px;     /* 🔥 صغّر الصورة */
+    object-fit: cover;
+}
+
+.event-card h3 {
+    font-size: 14px;    /* تصغير العنوان */
+    margin: 8px;
+}
+
+.event-card p {
+    font-size: 12px;    /* تصغير الوصف */
+    margin: 8px;
+    color: #555;
+}
+
+/* allEvents styled like allNews */
+#events {
+    width: 100%;
+}
+
+#events h2 {
+    text-align: center;
+    color: #1a8f4c;
+    margin-bottom: 30px;
+    font-size: 28px;
+}
+
+.events-container {
+    display: grid !important;
+    grid-template-columns: repeat(3, 1fr) !important;
+    gap: 25px !important;
+    width: 84% !important;
+    margin: 0 auto 60px !important;
+}
+
+.event-card {
+    background: #fff !important;
+    border-radius: 12px !important;
+    overflow: hidden !important;
+    transition: 0.35s ease !important;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.08) !important;
+    max-width: none !important;
+    width: 100% !important;
+    opacity: 1 !important;
+    transform: none !important;
+    animation: none !important;
+}
+
+.event-card:hover {
+    transform: translateY(-8px) scale(1.02) !important;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.15) !important;
+}
+
+.image-box {
+    position: relative;
+    overflow: hidden;
+    border-radius: 0 !important;
+}
+
+.image-box img,
+.event-card img {
+    width: 100% !important;
+    height: 200px !important;
+    object-fit: cover !important;
+    transition: 0.4s !important;
+}
+
+.event-card:hover img {
+    transform: scale(1.08) !important;
+}
+
+.date-box {
+    position: absolute;
+    top: 14px;
+    left: 14px;
+    bottom: auto !important;
+    background: rgba(255,255,255,0.96) !important;
+    color: #1b2a4e !important;
+    padding: 8px 10px !important;
+    border-radius: 10px !important;
+    width: 58px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.12);
+}
+
+.event-card:hover .date-box {
+    background: rgba(255,255,255,0.96) !important;
+}
+
+.day {
+    font-size: 18px;
+    font-weight: 700;
+    line-height: 1.1;
+}
+
+.month {
+    font-size: 11px;
+    color: #1a8f4c;
+    font-weight: 700;
+    text-transform: uppercase;
+}
+
+.event-info {
+    padding: 15px !important;
+}
+
+.meta {
+    display: flex;
+    justify-content: space-between;
+    gap: 10px;
+    font-size: 13px;
+    color: #777 !important;
+    margin-bottom: 10px;
+    flex-wrap: wrap;
+}
+
+.event-info h3 {
+    font-size: 15px !important;
+    color: #1b2a4e !important;
+    line-height: 1.5;
+    margin: 0 0 8px 0 !important;
+    transition: color 0.3s ease, transform 0.3s ease;
+}
+
+.event-card:hover h3 {
+    color: var(--secondary) !important;
+    transform: translateY(-2px);
+}
+
+.event-info p {
+    margin: 0 !important;
+    font-size: 14px !important;
+    color: #555 !important;
+    line-height: 1.7;
+}
+
+.modal-content {
+    background: #fff;
+    width: 500px;
+    border-radius: 15px;
+    padding: 20px;
+    text-align: left;
+    animation: scaleUp 0.3s ease;
+}
+
+#modalImg {
+    width: 100%;
+    height: 240px;
+    object-fit: cover;
+    border-radius: 10px;
+    margin-bottom: 15px;
+}
+
+#modalTitle {
+    font-size: 24px;
+    margin-bottom: 10px;
+    color: #1b2a4e;
+}
+
+#modalDesc {
+    white-space: pre-line;
+    line-height: 1.8;
+    color: #444;
+}
+
+#eventModal .modal-content span {
+    position: absolute;
+    top: 15px;
+    right: 20px;
+    font-size: 28px;
+    font-weight: bold;
+    color: #fff;
+    background: #1c306e;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    cursor: pointer;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+    transition: 0.3s;
+}
+
+#eventModal .modal-content span:hover {
+    background: #00ac5c;
+    transform: rotate(90deg) scale(1.1);
+}
+
+@media (max-width: 992px) {
+    .events-container {
+        grid-template-columns: repeat(2, 1fr) !important;
+    }
+}
+
+@media (max-width: 600px) {
+    .events-container {
+        grid-template-columns: 1fr !important;
+        width: calc(100% - 32px) !important;
+    }
+}
+
+    </style>
+</head>
+
+<body>
+ 
+
+       <header>
+       <nav>
+            <a href="index.html" class="logo">
+                <img src="img/LoGo.png" alt="MUST Logo" class="Uni-logo">
+            </a>
+
+            <ul class="nav-links">
+
+                <li class="dropdown">
+                    <a href="#">The University <i class="fa-solid fa-angle-down"></i></a>
+                    <ul class="custom-dropdown-menu">
+                        <li><a href="#">About MUST <i class="fa-solid fa-angle-right"
+                                    style="font-size: 0.7rem;"></i></a></li>
+                        <li><a href="#">Sectors <i class="fa-solid fa-angle-right" style="font-size: 0.7rem;"></i></a>
+                        </li>
+                        <li><a href="#">Reports <i class="fa-solid fa-angle-right" style="font-size: 0.7rem;"></i></a>
+                        </li>
+                        <li><a href="#">Policies</a></li>
+                        <li><a href="#">University Council Minutes</a></li>
+                        <li><a href="#">Quality Assurance and Accreditation Sector</a></li>
+                        <li><a href="#">Accreditation & Partnerships</a></li>
+                        <li><a href="#">Contact Us</a></li>
+                        <li><a href="#">Resources <i class="fa-solid fa-angle-right" style="font-size: 0.7rem;"></i></a>
+                        </li>
+                    </ul>
+                </li>
+
+                <li class="dropdown">
+                    <a href="#">Academics <i class="fa-solid fa-angle-down"></i></a>
+                    <ul class="custom-dropdown-menu">
+                        <li><a href="#">Undergraduate Studies</a></li>
+                        <li><a href="#">Post-Graduate Program</a></li>
+                        <li><a href="#">Academic Calendar</a></li>
+                        <li><a href="#">International Students Affairs Sector</a></li>
+                    </ul>
+                </li>
+                <li class="dropdown"><a href="index.html">Admission</a></li>
+                <li class="dropdown">
+                    <a href="#">MUST BUZZ <i class="fa-solid fa-angle-down"></i></a>
+                    <ul class="custom-dropdown-menu">
+                        <li><a href="#events">MUST Events</a></li>
+                        <li><a href="#news">MUST News</a></li>
+                        <li><a href="#">MUST Blogs</a></li>
+                        <li><a href="#">Announcements</a></li>
+                    </ul>
+                </li>
+
+                <li class="dropdown">
+                    <a href="#">Centers <i class="fa-solid fa-angle-down"></i></a>
+                    <ul class="custom-dropdown-menu">
+                        <li><a href="#">Centers</a></li>
+                        <li><a href="#">Units</a></li>
+                        <li><a href="#">Research Center for Public Opinion</a></li>
+                    </ul>
+                </li>
+
+                <li class="dropdown">
+                    <a href="#">Life At MUST <i class="fa-solid fa-angle-down"></i></a>
+                    <ul class="custom-dropdown-menu">
+                        <li><a href="#">MUST Life</a></li>
+                        <li><a href="#">MUST Stars</a></li>
+                        <li><a href="#">MUST Clubs</a></li>
+                        <li><a href="#">Facilities</a></li>
+                    </ul>
+                </li>
+                <li class="dropdown"><a href="index.html">SGDs</a></li>
+            </ul>
+
+            <div class="nav-icons">
+              <a href="index.html" style="color: white; margin-left: 10px;">
+    <i class="fa-solid fa-bars" title="Menu"></i>
+</a>
+                <span class="separator">|</span>
+                <span style="font-family: Arial, sans-serif; font-weight: bold; font-size: 1.1rem;"
+                    title="English">EN</span>
+                <span class="separator">|</span>
+                <a href="./login.html" class="btn-login">Login</a>
+                <a href="./signup.html" class="btn-login">Signup</a>
+            </div>
+        </nav>
+    </header>
+    <div class="social-fixed">
+        <a href="#" class="active"><i class="fa-solid fa-magnifying-glass"></i></a>
+        <a href="https://www.linkedin.com/school/misr-university-for-science-and-technology/"><i
+                class="fa-brands fa-linkedin-in"></i></a>
+        <a href="https://www.facebook.com/mustuni"><i class="fa-brands fa-facebook-f"></i></a>
+        <a href="https://www.instagram.com/mustuni"><i class="fa-brands fa-instagram"></i></a>
+        <a href="https://x.com/must_university"><i class="fa-brands fa-x-twitter"></i></a>
+    </div>
+
+    <div class="content-container">
+
+     
+            <div class="carousel-slide active" style="background-image: url('img/slider1.jpeg');"></div>
+            <div class="carousel-slide" style="background-image: url('img/slider2.jpeg');"></div>
+            <div class="carousel-slide" style="background-image: url('img/slider3.jpeg');"></div>
+            <div class="carousel-slide" style="background-image: url('img/slider4.jpeg');"></div>
+            <div class="carousel-slide" style="background-image: url('img/slider5.jpeg');"></div>
+            <div class="carousel-slide" style="background-image: url('img/slider6.jpeg');"></div>
+            <div class="carousel-slide" style="background-image: url('img/slider7.jpeg');"></div>
+
+            <div class="carousel-controls">
+                <button class="control-btn" onclick="prevSlide()"><i class="fa-solid fa-chevron-left"></i></button>
+                <button class="control-btn" onclick="nextSlide()"><i class="fa-solid fa-chevron-right"></i></button>
+            </div>
+            <div class="slider-navbar">
+                <ul class="slider-menu">
+                    <li class="menu-item">
+                        <a href="./index.html" title="Home"> Home </a>
+                    </li>
+                    <li class="menu-item">
+                        <a href="./index.html#activity"> Activities</a>
+                        <div class="mega-menu">
+                            <div class="mega-column" id="activitiesMenuList">
+                              
+                                <a href="./index.html#activity">Cultural</a>
+                                <a href="./index.html#activity" >Sports</a>
+                                <a href="./index.html#activity" >Art</a>
+                               
+                            </div>
+                         
+                        </div>
+                    </li>
+                 <li class="menu-item" >
+                        <a href="./index.html#events">Events</a>
+                      
+                    </li>
+                       <li class="menu-item">
+                        <a href="./index.html#news">News</a>
+                      
+                    </li>
+                    
+                    <li class="menu-item">
+                        <a href="./index.html#competitions">competitions</a>
+                
+                          
+                        
+                        
+                    </li>
+                    <li class="menu-item">
+                        <a href="./index.html#clubs">Clubs</a>
+                        <div class="mega-menu">
+                            <div class="mega-column" id="clubsMenuList">
+                                <a href="./index.html#clubs">All Clubs</a>
+                            </div>
+                        </div>
+                    </li> 
+                    <li class="menu-item " style="width: 157px;"> 
+                        <a href="./index.html#contact">Contact Us</a>
+                     
+                    </li>
+                </ul>
+            </div>
+            <h2 class="slider-title">Student Activities Platform</h2>
+        
+
+
+
+    </div>
+
+
+  
+<div id="events" style="margin-bottom:70px;margin-top:7rem;">
+
+    <h2 class="mb-3">Events</h2>
+
+    
+
+<div id="eventsContainer" class="events-container"></div>
+
+<div id="eventModal" class="modal">
+  <div class="modal-content">
+    <span onclick="closeModal()">&times;</span>
+
+    <img id="modalImg" onerror="this.src='img/event2.png'">
+
+    <h2 id="modalTitle"></h2>
+    <p id="modalTime"></p>
+    <p id="modalLocation"></p>
+    <p id="modalDesc"></p>
+  </div>
+</div>
+
+
+</div>
+
+
+
+
+
+<footer>
+        <div class="footer-logo-center">
+            <img src="img/LoGo.png" alt="MUST Logo" class="footer-brand-logo">
+        </div>
+        <div class="footer-grid">
+            <div class="footer-col">
+                <h4>Links</h4>
+                <ul>
+                    <li><a href="#">Home</a></li>
+                    <li><a href="#">The University</a></li>
+                    <li><a href="#">Academics</a></li>
+                    <li><a href="#">Life At MUST</a></li>
+                    <li><a href="#">Research & Centres</a></li>
+                    <li><a href="#">Maps & Directions</a></li>
+                    <li><a href="#">FAQs</a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h4>About University</h4>
+                <ul>
+                    <li><a href="#">About MUST</a></li>
+                    <li><a href="#">History</a></li>
+                    <li><a href="#">Accreditation And Partnership</a></li>
+                    <li><a href="#">Why MUST</a></li>
+                    <li><a href="#">Values & Principles</a></li>
+                    <li><a href="#">Contact Us</a></li>
+                    <li><a href="#">Privacy Policy</a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h4>MUST BUZZ</h4>
+                <ul>
+                    <li><a href="#events">MUST Events</a></li>
+                    <li><a href="#news">MUST News</a></li>
+                    <li><a href="#">Blog</a></li>
+                    <li><a href="#">Announcement</a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h4>Contact Info</h4>
+                <p>16878</p>
+                <p>Info@Must.Edu.Eg</p>
+                <p>Al Motamayez District – 6th of October, Egypt</p>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            Copyright All Right Reserved @ MUST UNIVERSITY 2026
+        </div>
+    </footer>
+
+<script src="js/api.js"></script>
+<script src="js/allEvents-api.js"></script>
+</body>
+
+</html>

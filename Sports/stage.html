@@ -1,0 +1,988 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Explore sports activities at MUST! Book fields, join teams, and stay active with university sports programs.">
+    <title>University Sports Activities | MUST</title>
+
+   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="../css/bootstrap.min.css">
+   
+
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap');
+
+        :root {
+            /* MUST Official Colors */
+            --primary: rgb(28, 48, 110);
+            /* MUST Blue */
+            --secondary: rgb(0, 172, 92);
+            /* MUST Green */
+            --primary-light: rgba(28, 48, 110, 0.1);
+            --secondary-light: rgba(0, 172, 92, 0.1);
+            --secondary-hover: rgb(0, 145, 75);
+
+            --bg-light: #F8FAFC;
+            --white: #FFFFFF;
+            --text-dark: #1E293B;
+            --text-gray: #64748B;
+            --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+            --transition: all 0.3s ease;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Inter', sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-light);
+            color: var(--text-dark);
+            line-height: 1.6;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        /* ------------------ ANNOUNCEMENT TICKER ------------------ */
+        .announcement-bar {
+            background-color: var(--secondary);
+            color: var(--white);
+            padding: 0.4rem 0;
+            overflow: hidden;
+            position: relative;
+            display: flex;
+            align-items: center;
+            font-size: 0.9rem;
+            font-weight: 600;
+        }
+
+        .marquee {
+            white-space: nowrap;
+            animation: marquee 25s linear infinite;
+            padding-left: 100%;
+        }
+
+        @keyframes marquee {
+            0% {
+                transform: translateX(0);
+            }
+
+            100% {
+                transform: translateX(-100%);
+            }
+        }
+
+         /* ------------------ NAVBAR ------------------ */
+        header {
+            background-color: var(--primary);
+            color: var(--white);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: var(--shadow);
+        }
+
+        nav {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0.5rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+        }
+
+        .Uni-logo {
+            height: 100px;
+            width: auto;
+            object-fit: contain;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 1.8rem;
+            list-style: none;
+            align-items: center;
+            margin: 0;
+            padding: 0;
+            height: 100%;
+        }
+
+        /* --- DROPDOWN CSS INTEGRATED HERE --- */
+        .dropdown {
+            position: relative;
+            display: flex;
+            align-items: center;
+            height: 100px; /* Match navbar height to avoid hover glitches */
+        }
+
+        .dropdown > a {
+            text-decoration: none;
+            color: var(--white);
+            font-weight: 600;
+            font-size: 1rem;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .dropdown > a:hover, .dropdown > a.active {
+            color: var(--secondary);
+        }
+
+         .content-container {
+           width: 100%;
+    height: 100vh;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+       
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        /* ------------------ SLIDER NAVBAR ----------------- */
+        .slider-navbar {
+          position: absolute;
+    bottom: 30px; /* قربه أكتر لتحت لو حابب */
+    left: 50%;
+    transform: translateX(-50%);
+    
+    width: 100%;
+    display: flex;
+    justify-content: center;
+
+    z-index: 20;
+          
+        }
+
+        .slider-menu {
+            display: flex;
+            gap: 24px;
+            list-style: none;
+         
+            padding: 0.8rem 2rem;
+            border-radius: 50px;
+           z-index: 999;
+        }
+
+        .menu-item {
+            position: relative;
+        }
+
+        .menu-item>a {
+   
+    display: inline-block;
+    padding: 10px 20px;
+    border-radius: 25px;
+    background: rgba(255, 255, 255, 0.2); /* glass effect */
+    color: #fff;
+    text-decoration: none;
+    font-weight: 500;
+    backdrop-filter: blur(8px);
+    transition: all 0.3s ease;
+}
+        
+
+        .menu-item:hover>a {
+            color: var(--secondary);
+        }
+
+        /* Mega Menu Styling */
+        .mega-menu {
+            position: absolute;
+            top: 100%;
+            bottom: auto;
+            transform: translateX(-50%) translateY(15px);
+            background: var(--white);
+            border-radius: 12px;
+            z-index: 999;
+            padding: 1.5rem;
+            display: flex;
+            gap: 2.5rem;
+            box-shadow: var(--shadow-lg);
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+         
+            min-width: max-content;
+            border: 1px solid #E2E8F0;
+        }
+
+        .menu-item:hover .mega-menu {
+            opacity: 1;
+            visibility: visible;
+            transform: translateX(-50%) translateY(5px);
+            pointer-events: auto;
+        }
+
+        .mega-column h4 {
+            color: var(--primary);
+            margin-bottom: 1rem;
+            font-size: 1.1rem;
+            border-bottom: 2px solid var(--secondary-light);
+            padding-bottom: 0.5rem;
+            white-space: nowrap;
+        }
+
+        .mega-column a {
+            display: block;
+            color: var(--text-gray);
+            text-decoration: none;
+            margin-bottom: 0.8rem;
+            font-size: 0.95rem;
+            transition: var(--transition);
+            white-space: nowrap;
+        }
+
+        .mega-column a:hover {
+            color: var(--secondary);
+            padding-left: 5px;
+        }
+
+
+        .menu-item:hover .mega-menu,
+.menu-item:focus-within .mega-menu,
+.mega-menu:hover {
+    opacity: 1;
+    visibility: visible;
+    transform: translateX(-50%) translateY(0);
+}
+
+.menu-item {
+    position: relative;
+}
+
+.menu-item::after {
+    content: "";
+    position: absolute;
+    top: 100%;
+    left: 0;
+    width: 100%;
+    height: 15px; /* يغطي الفراغ */
+}
+
+        /* ------------------ TITLE ------------------ */
+        .slider-title {
+            position: absolute;
+            bottom: 140px; /* أعلى من المنيو بشوية صغيرة */
+           left: 50%;
+          transform: translateX(-50%);
+        color: var(--white);
+        text-align: center;
+        z-index: 10;
+        }
+
+     
+       
+           /* ================= CONTACT & BUTTONS ================= */
+        .phone {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            margin: 12px 0 20px;
+            font-weight: bold;
+            color: var(--text-dark);
+        }
+
+        .phone i {
+            color: var(--secondary);
+        }
+
+        .join-btn {
+            background: var(--secondary);
+            border: none;
+            padding: 0;
+            /* Remove padding to let anchor tag fill it */
+            border-radius: 8px;
+            cursor: pointer;
+            width: 100%;
+            transition: var(--transition);
+            overflow: hidden;
+        }
+
+        .join-btn a {
+            display: block;
+            width: 100%;
+            height: 100%;
+            padding: 12px;
+            color: var(--white);
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        .join-btn:hover {
+            background: var(--secondary-hover);
+        }
+        .carousel-slide {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            opacity: 0;
+            transition: opacity 0.5s ease-in-out;
+            background-size: 100%;
+            background-position: center;
+        }
+
+        .carousel-slide::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(to right, rgba(28, 48, 110, 0.9) 0%, rgba(28, 48, 110, 0.4) 100%);
+            z-index: 1;
+        }
+
+        .carousel-slide.active {
+            opacity: 1;
+            z-index: 2;
+        }
+
+        .carousel-controls {
+            position: absolute;
+            top: 50%;
+            left: 0;
+            right: 0;
+            display: flex;
+            justify-content: space-between;
+            padding: 0 2rem;
+            z-index: 20;
+            transform: translateY(-50%);
+        }
+
+        .control-btn {
+            background: rgba(255, 255, 255, 0.2);
+            border: 2px solid white;
+            color: white;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            transition: var(--transition);
+            backdrop-filter: blur(5px);
+        }
+
+        .control-btn:hover {
+            background: var(--secondary);
+            border-color: var(--secondary);
+        }
+
+        /* ------------------ SECTIONS ------------------ */
+        section {
+            max-width: 1200px;
+            margin: 5rem auto;
+            padding: 0 2rem;
+        }
+
+        .section-header {
+            margin-bottom: 2.5rem;
+            text-align: center;
+        }
+
+        .section-header h2 {
+            font-size: 2rem;
+            color: var(--primary);
+            margin-bottom: 0.5rem;
+        }
+
+        .section-header p {
+            color: var(--text-gray);
+        }
+
+
+        .custom-dropdown-menu {
+            position: absolute;
+            top: 80px; /* Drop down right below the nav text */
+            left: 0;
+            background-color: var(--primary);
+            min-width: 250px;
+            box-shadow: var(--shadow-lg);
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(10px);
+            transition: all 0.3s ease;
+            list-style: none;
+            padding: 0.5rem 0;
+            z-index: 1001;
+            border-radius: 0 0 8px 8px;
+            margin: 0;
+        }
+
+        .dropdown:hover .custom-dropdown-menu {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+
+        .custom-dropdown-menu li {
+            position: relative;
+        }
+
+        .custom-dropdown-menu a {
+            color: var(--white) !important;
+            text-decoration: none;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0.8rem 1.5rem;
+            font-size: 0.95rem;
+            font-weight: 600;
+            transition: background-color 0.2s ease;
+        }
+
+        .custom-dropdown-menu a:hover {
+            background-color: rgba(255,255,255,0.1);
+            color: var(--secondary) !important;
+        }
+
+        /* --- ICONS & LOGIN BUTTON --- */
+        .nav-icons {
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+            font-size: 1.2rem;
+        }
+
+        .nav-icons i,
+        .nav-icons span {
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .nav-icons i:hover,
+        .nav-icons span:hover {
+            color: var(--secondary);
+        }
+
+        .separator {
+            color: rgba(255, 255, 255, 0.4);
+            font-weight: 300;
+        }
+
+        .btn-login {
+            background-color: transparent;
+            color: var(--white);
+            border: 2px solid var(--secondary);
+            padding: 0.4rem 1.2rem;
+            border-radius: 6px;
+            font-weight: 600;
+            font-size: 0.9rem;
+            text-decoration: none;
+            transition: var(--transition);
+        }
+
+        .btn-login:hover {
+            background-color: var(--secondary);
+            color: var(--white);
+        }
+
+        .Uni-logo {
+    height: 100px;
+    width: auto;
+    object-fit: contain;
+     margin-right: 30px;
+}
+
+         .fa-bars {
+           margin-left:10px;
+
+        }
+
+        /* ------------------ BUTTONS ------------------ */
+        .btn {
+            background-color: var(--secondary);
+            color: var(--white);
+            padding: 0.8rem 1.8rem;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 600;
+            border: none;
+            cursor: pointer;
+            transition: var(--transition);
+            display: inline-block;
+        }
+
+        .btn:hover {
+            background-color: var(--secondary-hover);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0, 172, 92, 0.3);
+        }
+        /* ------------------ SOCIAL SIDEBAR ------------------ */
+        .social-fixed {
+            position: fixed;
+            right: 15px;
+            /* Moves the sidebar to the right edge */
+            top: 50%;
+            transform: translateY(-50%);
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            /* Perfect spacing between the circles */
+            z-index: 999;
+        }
+
+        .social-fixed a {
+            color: var(--primary);
+            /* Dark blue icons */
+            background: var(--white);
+            /* White circle background */
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            /* Makes them perfectly circular */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 1.3rem;
+            /* Slightly larger icons */
+            text-decoration: none;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+            /* Soft drop shadow */
+            transition: var(--transition);
+        }
+
+        .social-fixed a:hover {
+            transform: scale(1.1);
+            /* Slight pop effect on hover */
+            box-shadow: 0 6px 14px rgba(0, 0, 0, 0.2);
+        }
+
+        .container {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 25px;
+   margin-top: 40px;
+   margin-bottom: 40px;
+    
+}
+
+/* card */
+.card {
+    background: #fff;
+    border-radius: 20px;
+    overflow: hidden;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+    transition: 0.3s;
+}
+
+.card:hover {
+    transform: scale(1.03);
+}
+
+/* image */
+.card img {
+    width: 100%;
+    height: 220px;
+   background-size: 100% 100%;
+}
+
+/* content */
+.card-content {
+    padding: 20px;
+}
+
+.card h3 {
+    margin-bottom: 10px;
+    color: #222;
+    font-size: 22px;
+}
+
+.card p {
+    font-size: 15px;
+    color: #555;
+    margin-bottom: 10px;
+}
+
+/* extra info */
+.info {
+    font-size: 13px;
+    color: #888;
+    margin-bottom: 15px;
+}
+
+/* button */
+.btn {
+    display: block;
+    text-align: center;
+    padding: 12px;
+     background: #16a34a;
+    color: white;
+    border-radius: 10px;
+    text-decoration: none;
+    font-weight: bold;
+    transition: 0.3s;
+}
+
+.btn:hover {
+    background: #15803d;
+}
+
+        /* Green styling specifically for the search icon (active state) */
+        .social-fixed a.active {
+            background-color: var(--secondary);
+            /* Green background */
+            color: var(--white);
+            /* White icon */
+        }
+
+        /* Make sure mobile views hide the sidebar properly */
+        @media (max-width: 768px) {
+            .social-fixed {
+                display: none;
+            }
+        }
+     
+        /* ------------------ FOOTER ------------------ */
+        footer { background-color: var(--primary); color: var(--white); padding-top: 4rem; margin-top: auto; }
+        .footer-logo-center { text-align: center; margin-bottom: 4rem; }
+        .footer-brand-logo { height: 120px; width: auto; margin: 0 auto; display: block; }
+        .footer-grid { max-width: 1200px; margin: 0 auto; display: grid; grid-template-columns: repeat(4, 1fr); gap: 2rem; padding: 0 2rem 4rem 2rem; }
+        .footer-col h4 { color: var(--secondary); font-size: 1.1rem; margin-bottom: 1.5rem; }
+        .footer-col ul { list-style: none; }
+        .footer-col ul li { margin-bottom: 0.8rem; }
+        .footer-col ul li a { color: var(--white); text-decoration: none; font-size: 0.9rem; transition: var(--transition); }
+        .footer-col ul li a:hover { color: var(--secondary); }
+        .footer-col p { color: var(--white); font-size: 0.9rem; font-weight: 700; margin-bottom: 1rem; }
+        .footer-bottom { background-color: var(--white); color: var(--primary); text-align: center; padding: 1.2rem; font-size: 0.85rem; font-weight: 600; }
+
+        /* Responsive Layouts */
+        @media (max-width: 1024px) {
+            .nav-links, .btn-login { display: none !important; }
+            .mobile-menu-icon { display: block !important; margin-left: 10px; }
+            .footer-grid { grid-template-columns: repeat(2, 1fr); }
+        }
+        @media (max-width: 768px) {
+            .social-fixed { display: none; }
+            .sports-grid { grid-template-columns: 1fr; }
+            .footer-grid { grid-template-columns: 1fr; text-align: center; }
+        }
+    </style>
+</head>
+
+<body>
+
+    <header>
+        <nav>
+            <a href="index.html" class="logo">
+                <img src="img/LoGo.png" alt="MUST Logo" class="Uni-logo">
+            </a>
+
+            <ul class="nav-links">
+                
+                <li class="dropdown">
+                    <a href="#">The University <i class="fa-solid fa-angle-down"></i></a>
+                    <ul class="custom-dropdown-menu">
+                        <li><a href="#">About MUST <i class="fa-solid fa-angle-right" style="font-size: 0.7rem;"></i></a></li>
+                        <li><a href="#">Sectors <i class="fa-solid fa-angle-right" style="font-size: 0.7rem;"></i></a></li>
+                        <li><a href="#">Reports <i class="fa-solid fa-angle-right" style="font-size: 0.7rem;"></i></a></li>
+                        <li><a href="#">Policies</a></li>
+                        <li><a href="#">University Council Minutes</a></li>
+                        <li><a href="#">Quality Assurance and Accreditation Sector</a></li>
+                        <li><a href="#">Accreditation & Partnerships</a></li>
+                        <li><a href="#">Contact Us</a></li>
+                        <li><a href="#">Resources <i class="fa-solid fa-angle-right" style="font-size: 0.7rem;"></i></a></li>
+                    </ul>
+                </li>
+
+                <li class="dropdown">
+                    <a href="#">Academics <i class="fa-solid fa-angle-down"></i></a>
+                    <ul class="custom-dropdown-menu">
+                        <li><a href="#">Undergraduate Studies</a></li>
+                        <li><a href="#">Post-Graduate Program</a></li>
+                        <li><a href="#">Academic Calendar</a></li>
+                        <li><a href="#">International Students Affairs Sector</a></li>
+                    </ul>
+                </li>
+<li class="dropdown"><a href="index.html">Admission</a></li>
+                <li class="dropdown">
+                    <a href="#">MUST BUZZ <i class="fa-solid fa-angle-down"></i></a>
+                    <ul class="custom-dropdown-menu">
+                        <li><a href="#events">MUST Events</a></li>
+                        <li><a href="#news">MUST News</a></li>
+                        <li><a href="#">MUST Blogs</a></li>
+                        <li><a href="#">Announcements</a></li>
+                    </ul>
+                </li>
+
+                <li class="dropdown">
+                    <a href="#">Centers <i class="fa-solid fa-angle-down"></i></a>
+                    <ul class="custom-dropdown-menu">
+                        <li><a href="#">Centers</a></li>
+                        <li><a href="#">Units</a></li>
+                        <li><a href="#">Research Center for Public Opinion</a></li>
+                    </ul>
+                </li>
+
+                <li class="dropdown">
+                    <a href="#">Life At MUST <i class="fa-solid fa-angle-down"></i></a>
+                    <ul class="custom-dropdown-menu">
+                        <li><a href="#">MUST Life</a></li>
+                        <li><a href="#">MUST Stars</a></li>
+                        <li><a href="#">MUST Clubs</a></li>
+                        <li><a href="#">Facilities</a></li>
+                    </ul>
+                </li>
+                <li class="dropdown"><a href="index.html">SGDs</a></li>
+            </ul>
+
+            <div class="nav-icons">
+              <a href="index.html" style="color: white;">
+    <i class="fa-solid fa-bars" title="Menu"></i>
+</a>
+                <span class="separator">|</span>
+                <span style="font-family: Arial, sans-serif; font-weight: bold; font-size: 1.1rem;" title="English">EN</span>
+                <span class="separator">|</span>
+                <a href="../login.html" class="btn-login">Login</a>
+                <a href="../signup.html" class="btn-login">Signup</a>
+            </div>
+        </nav>
+    </header>
+
+    <div class="social-fixed">
+        <a href="#" class="active"><i class="fa-solid fa-magnifying-glass"></i></a>
+        <a href="https://www.linkedin.com/school/misr-university-for-science-and-technology/"><i
+                class="fa-brands fa-linkedin-in"></i></a>
+        <a href="https://www.facebook.com/mustuni"><i class="fa-brands fa-facebook-f"></i></a>
+        <a href="https://www.instagram.com/mustuni"><i class="fa-brands fa-instagram"></i></a>
+        <a href="https://x.com/must_university"><i class="fa-brands fa-x-twitter"></i></a>
+    </div>
+
+      <div class="content-container">
+
+     
+            <div class="carousel-slide active" style="background-image: url('../img/slider1.jpeg');"></div>
+            <div class="carousel-slide" style="background-image: url('../img/slider2.jpeg');"></div>
+            <div class="carousel-slide" style="background-image: url('../img/slider3.jpeg');"></div>
+            <div class="carousel-slide" style="background-image: url('../img/slider4.jpeg');"></div>
+            <div class="carousel-slide" style="background-image: url('../img/slider5.jpeg');"></div>
+            <div class="carousel-slide" style="background-image: url('../img/slider6.jpeg');"></div>
+            <div class="carousel-slide" style="background-image: url('../img/slider7.jpeg');"></div>
+
+            <div class="carousel-controls">
+                <button class="control-btn" onclick="prevSlide()"><i class="fa-solid fa-chevron-left"></i></button>
+                <button class="control-btn" onclick="nextSlide()"><i class="fa-solid fa-chevron-right"></i></button>
+            </div>
+            <div class="slider-navbar">
+                <ul class="slider-menu">
+                    <li class="menu-item">
+                        <a href="#" title="Home"> Home </a>
+                    </li>
+                    <li class="menu-item">
+                        <a href="#activity"> Activities</a>
+                        <div class="mega-menu">
+                            <div class="mega-column">
+                              
+                                <a href="Sports/Quran.html">Cultural</a>
+                                <a href="Sports/sports activities.html" >Sports</a>
+                                <a href="Sports/stage.html" >Art</a>
+                               
+                            </div>
+                         
+                        </div>
+                    </li>
+                 <li class="menu-item" >
+                        <a href="#competitions">Competitions</a>
+                      
+                    </li>
+                       <li class="menu-item">
+                        <a href="#clubs"> Clubs</a>
+                      
+                    </li>
+                    
+                    <li class="menu-item">
+                        <a href="#news"> News</a>
+                
+                          
+                        
+                        
+                    </li>
+                    <li class="menu-item">
+                        <a href="#event">Events</a>
+                  
+                    </li> 
+                    <li class="menu-item " style="width: 157px;"> 
+                        <a href="#contact">Contact Us</a>
+                     
+                    </li>
+                </ul>
+            </div>
+            <h2 class="slider-title">Student Activities Platform</h2>
+        
+
+
+
+    </div>
+<div class="container">
+
+    <!-- Theater Card -->
+    <div class="card">
+        <img src="https://images.unsplash.com/photo-1503095396549-807759245b35?auto=format&fit=crop&w=800&q=80" alt="Theater">
+        <div class="card-content">
+            <h3>Theater</h3>
+            <p>Develop your acting skills and express yourself on stage.</p>
+            <div class="info">🎭 Acting | 🎬 Performance</div>
+            <a href="../Sports/Register Team.html" class="btn">Register Now</a>
+        </div>
+    </div>
+
+    <!-- Music Card -->
+    <div class="card">
+        <img src="https://images.unsplash.com/photo-1511379938547-c1f69419868d?auto=format&fit=crop&w=800&q=80" alt="Music">
+        <div class="card-content">
+            <h3>Music</h3>
+            <p>Learn instruments and improve your musical creativity and rhythm.</p>
+            <div class="info">🎵 Instruments | 🎧 Creativity</div>
+           <a href="../Sports/Register Team.html" class="btn">Register Now</a>
+        </div>
+    </div>
+
+    <!-- Drawing Card -->
+<div class="card">
+    <img src="https://images.unsplash.com/photo-1526498460520-4c246339dccb?auto=format&fit=crop&w=800&q=80" alt="Drawing">
+    <div class="card-content">
+        <h3>Drawing</h3>
+        <p>Express your imagination and creativity through artistic drawing skills.</p>
+        <div class="info">🎨 Sketching | ✏️ Creativity</div>
+        <a href="../Sports/Register Team.html" class="btn">Register Now</a>
+    </div>
+</div>
+
+<!-- Photography Card -->
+<div class="card">
+    <img src="https://images.unsplash.com/photo-1452587925148-ce544e77e70d?auto=format&fit=crop&w=800&q=80" alt="Photography">
+    <div class="card-content">
+        <h3>Photography</h3>
+        <p>Capture moments and tell stories through powerful photography skills.</p>
+        <div class="info">📸 Shooting | 🌆 Visual Storytelling</div>
+        <a href="../Sports/Register Team.html" class="btn">Register Now</a>
+    </div>
+</div>
+
+</div>
+
+
+
+    <footer>
+        <div class="footer-logo-center">
+            <img src="img/LoGo.png" alt="MUST Logo" class="footer-brand-logo">
+        </div>
+        <div class="footer-grid">
+            <div class="footer-col">
+                <h4>Links</h4>
+                <ul>
+                    <li><a href="#">Home</a></li>
+                    <li><a href="#">The University</a></li>
+                    <li><a href="#">Academics</a></li>
+                    <li><a href="#">Life At MUST</a></li>
+                    <li><a href="#">Research & Centres</a></li>
+                    <li><a href="#">Maps & Directions</a></li>
+                    <li><a href="#">FAQs</a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h4>About University</h4>
+                <ul>
+                    <li><a href="#">About MUST</a></li>
+                    <li><a href="#">History</a></li>
+                    <li><a href="#">Accreditation And Partnership</a></li>
+                    <li><a href="#">Why MUST</a></li>
+                    <li><a href="#">Values & Principles</a></li>
+                    <li><a href="#">Contact Us</a></li>
+                    <li><a href="#">Privacy Policy</a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h4>MUST BUZZ</h4>
+                <ul>
+                    <li><a href="#events">MUST Events</a></li>
+                    <li><a href="#news">MUST News</a></li>
+                    <li><a href="#">Blog</a></li>
+                    <li><a href="#">Announcement</a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h4>Contact Info</h4>
+                <p>16878</p>
+                <p>Info@Must.Edu.Eg</p>
+                <p>Al Motamayez District – 6th of October, Egypt</p>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            Copyright All Right Reserved @ MUST UNIVERSITY 2026
+        </div>
+    </footer>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <script>
+
+       
+        let currentSlide = 0;
+        const slides = document.querySelectorAll('.carousel-slide');
+
+        function showSlide(index) {
+            slides.forEach(slide => slide.classList.remove('active'));
+            if (slides[index]) {
+                slides[index].classList.add('active');
+            }
+        }
+
+        function nextSlide() {
+            if (slides.length > 0) {
+                currentSlide = (currentSlide + 1) % slides.length;
+                showSlide(currentSlide);
+            }
+        }
+
+        function prevSlide() {
+            if (slides.length > 0) {
+                currentSlide = (currentSlide - 1 + slides.length) % slides.length;
+                showSlide(currentSlide);
+            }
+        }
+
+        let autoSlideInterval = setInterval(nextSlide, 8000);
+        function joinCompetition(name) {
+    alert('You joined ' + name);
+}
+  
+        const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+        const mobileNavMenu = document.getElementById('mobile-nav-menu');
+
+        mobileMenuBtn.addEventListener('click', function() {
+            // Toggle the menu visibility
+            mobileNavMenu.classList.toggle('active');
+            
+            // Swap the hamburger icon with the 'X' icon
+            if(mobileNavMenu.classList.contains('active')) {
+                mobileMenuBtn.classList.remove('fa-bars');
+                mobileMenuBtn.classList.add('fa-xmark');
+            } else {
+                mobileMenuBtn.classList.remove('fa-xmark');
+                mobileMenuBtn.classList.add('fa-bars');
+            }
+        });
+    </script>
+     <script src="../js/script.js"></script>
+</body>
+</html>

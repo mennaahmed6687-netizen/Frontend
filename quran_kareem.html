@@ -1,0 +1,1639 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MUST Student Activities Hub - Home</title>
+
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+  <link rel="stylesheet" href="css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/style.css">
+
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap');
+
+        :root {
+            /* MUST Official Colors */
+            --primary: rgb(28, 48, 110);
+            /* MUST Blue */
+            --secondary: rgb(0, 172, 92);
+            /* MUST Green */
+            --primary-light: rgba(28, 48, 110, 0.1);
+            --secondary-light: rgba(0, 172, 92, 0.1);
+            --secondary-hover: rgb(0, 145, 75);
+
+            --bg-light: #F8FAFC;
+            --white: #FFFFFF;
+            --text-dark: #1E293B;
+            --text-gray: #64748B;
+            --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+            --transition: all 0.3s ease;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Inter', sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-light);
+            color: var(--text-dark);
+            line-height: 1.6;
+        }
+
+
+        /* ------------------ ANNOUNCEMENT TICKER ------------------ */
+        .announcement-bar {
+            background-color: var(--secondary);
+            color: var(--white);
+            padding: 0.4rem 0;
+            overflow: hidden;
+            position: relative;
+            display: flex;
+            align-items: center;
+            font-size: 0.9rem;
+            font-weight: 600;
+        }
+
+     
+
+        @keyframes marquee {
+            0% {
+                transform: translateX(0);
+            }
+
+            100% {
+                transform: translateX(-100%);
+            }
+        }
+
+        /* ------------------ NAVBAR ------------------ */
+        header {
+            background-color: var(--primary);
+            color: var(--white);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: var(--shadow);
+        }
+
+        nav {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0.5rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+        }
+
+        .Uni-logo {
+            height: 100px;
+            width: auto;
+            object-fit: contain;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 1.8rem;
+            list-style: none;
+            align-items: center;
+            margin: 0;
+            padding: 0;
+            height: 100%;
+        }
+
+        /* --- DROPDOWN CSS INTEGRATED HERE --- */
+          .dropdown {
+            position: relative;
+            display: flex;
+            align-items: center;
+            height: 100px;
+            /* Match navbar height to avoid hover glitches */
+        }
+
+        .dropdown>a {
+            text-decoration: none;
+            color: var(--white);
+            font-weight: 600;
+            font-size: 1rem;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .dropdown>a:hover,
+        .dropdown>a.active {
+            color: var(--secondary);
+        }
+
+        .custom-dropdown-menu {
+            position: absolute;
+            top: 80px;
+            /* Drop down right below the nav text */
+            left: 0;
+            background-color: var(--primary);
+            min-width: 250px;
+            box-shadow: var(--shadow-lg);
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(10px);
+            transition: all 0.3s ease;
+            list-style: none;
+            padding: 0.5rem 0;
+            z-index: 1001;
+            border-radius: 0 0 8px 8px;
+            margin: 0;
+        }
+
+        .dropdown:hover .custom-dropdown-menu {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+
+        .custom-dropdown-menu li {
+            position: relative;
+        }
+
+        .custom-dropdown-menu a {
+            color: var(--white) !important;
+            text-decoration: none;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0.8rem 1.5rem;
+            font-size: 0.95rem;
+            font-weight: 600;
+            transition: background-color 0.2s ease;
+        }
+
+        .custom-dropdown-menu a:hover {
+            background-color: rgba(255, 255, 255, 0.1);
+            color: var(--secondary) !important;
+        }
+      
+        /* --- ICONS & LOGIN BUTTON --- */
+        .nav-icons {
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+            font-size: 1.2rem;
+        }
+
+        .nav-icons i,
+        .nav-icons span {
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .nav-icons i:hover,
+        .nav-icons span:hover {
+            color: var(--secondary);
+        }
+
+        .separator {
+            color: rgba(255, 255, 255, 0.4);
+            font-weight: 300;
+        }
+
+        .btn-login {
+            background-color: transparent;
+            color: var(--white);
+            border: 2px solid var(--secondary);
+            padding: 0.4rem 1.2rem;
+            border-radius: 6px;
+            font-weight: 600;
+            font-size: 0.9rem;
+            text-decoration: none;
+            transition: var(--transition);
+        }
+
+        .btn-login:hover {
+            background-color: var(--secondary);
+            color: var(--white);
+        }
+
+        /* ------------------ BUTTONS ------------------ */
+        .btn {
+            background-color: var(--secondary);
+            color: var(--white);
+            padding: 0.8rem 1.8rem;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 600;
+            border: none;
+            cursor: pointer;
+            transition: var(--transition);
+            display: inline-block;
+        }
+
+        .btn:hover {
+            background-color: var(--secondary-hover);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0, 172, 92, 0.3);
+        }
+
+        /* ------------------ SOCIAL SIDEBAR (RIGHT ALIGNED) ------------------ */
+        .social-fixed {
+            position: fixed;
+            right: 15px;
+            /* Moves the sidebar to the right edge */
+            top:75%;
+            transform: translateY(-50%);
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            /* Perfect spacing between the circles */
+            z-index: 999;
+        }
+
+        .social-fixed a {
+            color: var(--primary);
+            /* Dark blue icons */
+            background: var(--white);
+            /* White circle background */
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            /* Makes them perfectly circular */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 1.3rem;
+            /* Slightly larger icons */
+            text-decoration: none;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+            /* Soft drop shadow */
+            transition: var(--transition);
+        }
+
+        .social-fixed a:hover {
+            transform: scale(1.1);
+            /* Slight pop effect on hover */
+            box-shadow: 0 6px 14px rgba(0, 0, 0, 0.2);
+        }
+
+        /* Green styling specifically for the search icon (active state) */
+        .social-fixed a.active {
+            background-color: var(--secondary);
+            /* Green background */
+            color: var(--white);
+            /* White icon */
+        }
+
+        /* Make sure mobile views hide the sidebar properly */
+        @media (max-width: 768px) {
+            .social-fixed {
+                display: none;
+            }
+        }
+
+        /* ------------------ BUTTONS ------------------ */
+        .btn2 {
+            background-color: var(--secondary);
+            color: var(--white);
+            padding: 0.8rem 1.8rem;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 600;
+            border: none;
+            cursor: pointer;
+            transition: var(--transition);
+            display: inline-block;
+        }
+
+        .btn:hover {
+            background-color: var(--secondary-hover);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0, 172, 92, 0.3);
+        }
+
+        /* ------------------ CONTENT CONTAINER ------------------ */
+        .content-container {
+            max-width: 1200px;
+            margin: 2rem auto 4rem;
+            padding: 0 2rem;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        /* ------------------ SLIDER NAVBAR ----------------- */
+        .slider-navbar {
+            width: 100%;
+            display: flex;
+            justify-content: center;
+        
+            position: relative;
+            z-index: 20;
+            margin-top: 30%;
+        }
+
+        .slider-menu {
+            display: flex;
+            gap: 24px;
+            list-style: none;
+         
+            padding: 0.8rem 2rem;
+            border-radius: 50px;
+           z-index: 999;
+        }
+
+        .menu-item {
+            position: relative;
+        }
+
+        .menu-item>a {
+   
+    display: inline-block;
+    padding: 10px 20px;
+    border-radius: 25px;
+    background: rgba(255, 255, 255, 0.2); /* glass effect */
+    color: #fff;
+    text-decoration: none;
+    font-weight: 500;
+    backdrop-filter: blur(8px);
+    transition: all 0.3s ease;
+}
+        
+
+        .menu-item:hover>a {
+            color: var(--secondary);
+        }
+
+        /* Mega Menu Styling */
+        .mega-menu {
+            position: absolute;
+            top: 100%;
+            bottom: auto;
+            transform: translateX(-50%) translateY(15px);
+            background: var(--white);
+            border-radius: 12px;
+            z-index: 999;
+            padding: 1.5rem;
+            display: flex;
+            gap: 2.5rem;
+            box-shadow: var(--shadow-lg);
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+            pointer-events: none;
+            min-width: max-content;
+            border: 1px solid #E2E8F0;
+        }
+
+        .menu-item:hover .mega-menu {
+            opacity: 1;
+            visibility: visible;
+            transform: translateX(-50%) translateY(5px);
+            pointer-events: auto;
+        }
+
+        .mega-column h4 {
+            color: var(--primary);
+            margin-bottom: 1rem;
+            font-size: 1.1rem;
+            border-bottom: 2px solid var(--secondary-light);
+            padding-bottom: 0.5rem;
+            white-space: nowrap;
+        }
+
+        .mega-column a {
+            display: block;
+            color: var(--text-gray);
+            text-decoration: none;
+            margin-bottom: 0.8rem;
+            font-size: 0.95rem;
+            transition: var(--transition);
+            white-space: nowrap;
+        }
+
+        .mega-column a:hover {
+            color: var(--secondary);
+            padding-left: 5px;
+        }
+
+        /* ------------------ TITLE ------------------ */
+        .slider-title {
+            position: absolute;
+            top: 58%;
+            /* يضعه في النصف العلوي من السلايدر */
+            left: 50%;
+            transform: translateX(-50%);
+            color: var(--white);
+            font-family: 'Inter', sans-serif;
+            font-weight: 700;
+            font-size: clamp(2.5rem, 4vw, 3rem);
+          
+            text-align: center;
+            z-index: 10;
+            width: 100%;
+            pointer-events: none;
+        }
+
+        /* ------------------ THE CAROUSEL ------------------ */
+        /* .carousel-container {
+            position: relative;
+            display: flex;
+            width: 100%;
+            height: calc(100vh - 148px);
+            flex-direction: column;
+            justify-content: flex-end;
+            align-items: center;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: var(--shadow-lg);
+        } */
+
+           /* ================= CONTACT & BUTTONS ================= */
+        .phone {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            margin: 12px 0 20px;
+            font-weight: bold;
+            color: var(--text-dark);
+        }
+
+        .phone i {
+            color: var(--secondary);
+        }
+
+        .join-btn {
+            background: var(--secondary);
+            border: none;
+            padding: 0;
+            /* Remove padding to let anchor tag fill it */
+            border-radius: 8px;
+            cursor: pointer;
+            width: 100%;
+            transition: var(--transition);
+            overflow: hidden;
+        }
+
+        .join-btn a {
+            display: block;
+            width: 100%;
+            height: 100%;
+            padding: 12px;
+            color: var(--white);
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        .join-btn:hover {
+            background: var(--secondary-hover);
+        }
+        .carousel-slide {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            opacity: 0;
+            transition: opacity 0.5s ease-in-out;
+            background-size: 100%;
+            background-position: center;
+        }
+
+        .carousel-slide::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(to right, rgba(28, 48, 110, 0.9) 0%, rgba(28, 48, 110, 0.4) 100%);
+            z-index: 1;
+        }
+
+        .carousel-slide.active {
+            opacity: 1;
+            z-index: 2;
+        }
+
+        .carousel-controls {
+            position: absolute;
+            top: 50%;
+            left: 0;
+            right: 0;
+            display: flex;
+            justify-content: space-between;
+            padding: 0 2rem;
+            z-index: 20;
+            transform: translateY(-50%);
+        }
+
+        .control-btn {
+            background: rgba(255, 255, 255, 0.2);
+            border: 2px solid white;
+            color: white;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            transition: var(--transition);
+            backdrop-filter: blur(5px);
+        }
+
+        .control-btn:hover {
+            background: var(--secondary);
+            border-color: var(--secondary);
+        }
+
+        /* ------------------ SECTIONS ------------------ */
+        section {
+            max-width: 1200px;
+            margin: 5rem auto;
+            padding: 0 2rem;
+        }
+
+        .section-header {
+            margin-bottom: 2.5rem;
+            text-align: center;
+        }
+
+        .section-header h2 {
+            font-size: 2rem;
+            color: var(--primary);
+            margin-bottom: 0.5rem;
+        }
+
+        .section-header p {
+            color: var(--text-gray);
+        }
+
+        /* ------------------ AWARDS & CERTIFICATES ------------------ */
+        .awards-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 2.5rem;
+            margin-top: 2rem;
+        }
+
+        .award-card {
+            background: var(--white);
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: var(--shadow);
+            transition: var(--transition);
+            border: 1px solid #E2E8F0;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .award-card:hover {
+            transform: translateY(-10px);
+            box-shadow: var(--shadow-lg);
+            border-color: var(--secondary-light);
+        }
+
+        .award-img-wrapper {
+            position: relative;
+            height: 240px;
+            overflow: hidden;
+        }
+
+        .award-img-wrapper img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+
+        .award-card:hover .award-img-wrapper img {
+            transform: scale(1.05);
+        }
+
+        .award-badge {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            background: rgba(255, 255, 255, 0.95);
+            color: var(--secondary);
+            padding: 0.4rem 1rem;
+            border-radius: 30px;
+            font-size: 0.8rem;
+            font-weight: 700;
+            box-shadow: var(--shadow);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .award-content {
+            padding: 2rem 1.5rem;
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .award-content h3 {
+            color: var(--primary);
+            font-size: 1.4rem;
+            margin-bottom: 1rem;
+            font-weight: 700;
+        }
+
+        .award-content p {
+            color: var(--text-gray);
+            font-size: 0.95rem;
+            margin-bottom: 1.5rem;
+            line-height: 1.7;
+        }
+
+        .award-highlights {
+            list-style: none;
+            margin-bottom: 2rem;
+            padding-top: 1.5rem;
+            border-top: 1px solid #F1F5F9;
+        }
+
+        .award-highlights li {
+            font-size: 0.9rem;
+            color: var(--text-dark);
+            margin-bottom: 0.8rem;
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+        }
+
+        .award-highlights li i {
+            color: var(--secondary);
+            margin-top: 4px;
+            font-size: 0.9rem;
+        }
+
+        .award-footer {
+            margin-top: auto;
+        }
+
+        .btn-outline {
+            display: inline-block;
+            width: 100%;
+            text-align: center;
+            padding: 0.8rem 1.5rem;
+            border: 2px solid var(--primary-light);
+            color: var(--primary);
+            border-radius: 8px;
+            font-weight: 600;
+            text-decoration: none;
+            transition: var(--transition);
+        }
+
+        .award-card:hover .btn-outline {
+            background-color: var(--primary);
+            color: var(--white);
+            border-color: var(--primary);
+        }
+
+        /* ------------------ EVENTS GRID ------------------ */
+  
+
+            /* ------------------ NEWS GRID ------------------ */
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 2rem;
+        }
+
+        .card2 {
+            background: var(--white);
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: var(--shadow);
+            border: 1px solid #E2E8F0;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .card-date-box {
+            position: absolute;
+            top: 1rem;
+            left: 1rem;
+            background: var(--white);
+            padding: 0.5rem;
+            border-radius: 8px;
+            text-align: center;
+            min-width: 60px;
+            box-shadow: var(--shadow);
+        }
+
+        .card-date-box .day {
+            display: block;
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--primary);
+            line-height: 1;
+        }
+
+        .card-date-box .month {
+            display: block;
+            font-size: 0.8rem;
+            color: var(--secondary);
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+
+        .card-img {
+            height: 200px;
+            position: relative;
+            background-color: var(--primary-light);
+            background-size: cover;
+            background-position: center;
+        }
+
+        .card-content {
+            padding: 1.5rem;
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .tag {
+            background-color: var(--primary-light);
+            color: var(--primary);
+            padding: 0.3rem 0.8rem;
+            border-radius: 6px;
+            font-size: 0.8rem;
+            font-weight: 700;
+            display: inline-block;
+            margin-bottom: 1rem;
+            width: fit-content;
+        }
+
+        .card-title {
+            font-size: 1.25rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            color: var(--primary);
+        }
+
+        .card-info {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: var(--text-gray);
+            font-size: 0.9rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .card-info i {
+            color: var(--secondary);
+            width: 16px;
+            text-align: center;
+        }
+
+        .card-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-top: 1px solid #E2E8F0;
+            padding-top: 1.2rem;
+            margin-top: auto;
+        }
+.quran-card {
+    direction: rtl;
+}
+
+/* الصورة */
+.comp-img {
+    width: 100%;
+    height: 180px;
+   
+    border-radius: 15px;
+    margin-bottom: 1rem;
+    background-size: 100%;
+}
+
+/* الوصف */
+.comp-desc {
+    font-size: 0.95rem;
+    color: var(--text-gray);
+    margin-bottom: 1rem;
+    line-height: 1.6;
+}
+
+/* جدول */
+.table-container {
+    overflow-x: auto;
+    margin-bottom: 1.5rem;
+}
+
+.comp-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.85rem;
+}
+
+.comp-table th {
+    background: var(--primary);
+    color: white;
+    padding: 8px;
+}
+
+.comp-table td {
+    padding: 8px;
+    border: 1px solid #E2E8F0;
+    text-align: center;
+}
+
+/* hover rows */
+.comp-table tr:hover {
+    background: #f8fafc;
+}
+
+/* animation خفيفة */
+.quran-card:hover {
+    transform: translateY(-12px) scale(1.01);
+}
+.qr-code {
+    width: 80px;
+    margin: 10px auto;
+    display: block;
+}
+        /* ------------------ IFRAME ------------------ */
+        iframe {
+            width: 100%;
+            height: 1780px;
+            border: 1px solid #ccc;
+            margin-top: 30px;
+        }
+
+          /* ================= CLUBS GRID ================= */
+        .clubs-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 25px;
+        }
+
+        .club-card {
+            background: var(--white);
+            border-radius: 15px;
+            padding: 15px;
+            box-shadow: var(--shadow);
+            transition: var(--transition);
+            overflow: hidden;
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .club-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
+        }
+
+        .club-img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            border-radius: 12px;
+            margin-bottom: 15px;
+        }
+
+        .club-card h3 {
+            margin: 0 0 10px;
+            color: var(--primary);
+            font-size: 1.4rem;
+        }
+
+        .club-card p {
+            font-size: 14px;
+            color: var(--text-gray);
+            line-height: 1.6;
+            flex-grow: 1;
+            /* Pushes the button to the bottom */
+            margin-bottom: 15px;
+        }
+
+
+        /* ------------------ FOOTER ------------------ */
+        footer {
+            background-color: var(--primary);
+            color: var(--white);
+            padding-top: 4rem;
+
+        }
+
+        .footer-logo-center {
+            text-align: center;
+            margin-bottom: 4rem;
+        }
+
+        .footer-brand-logo {
+            height: 120px;
+            width: auto;
+            margin: 0 auto;
+            display: block;
+        }
+
+        .footer-grid {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 2rem;
+            padding: 0 2rem 4rem 2rem;
+        }
+
+        .footer-col h4 {
+            color: var(--secondary);
+            font-size: 1.1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .footer-col ul {
+            list-style: none;
+        }
+
+        .footer-col ul li {
+            margin-bottom: 0.8rem;
+        }
+
+        .footer-col ul li a {
+            color: var(--white);
+            text-decoration: none;
+            font-size: 0.9rem;
+            transition: var(--transition);
+        }
+
+        .footer-col ul li a:hover {
+            color: var(--secondary);
+        }
+
+        .footer-col p {
+            color: var(--white);
+            font-size: 0.9rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+        }
+
+        .footer-bottom {
+            background-color: var(--white);
+            color: var(--primary);
+            text-align: center;
+            padding: 1.2rem;
+            font-size: 0.85rem;
+            font-weight: 600;
+        }
+
+        /* ------------------ COMPETITIONS ------------------ */
+.competitions-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, 600px);
+    gap: 2rem;
+    margin-left: 25%;
+}
+
+.competition-card {
+    background: var(--white);
+    border-radius: 20px;
+    padding: 2rem;
+    box-shadow: var(--shadow);
+    transition: var(--transition);
+    position: relative;
+    border: 1px solid #E2E8F0;
+   
+}
+
+.competition-card:hover {
+    transform: translateY(-10px);
+    box-shadow: var(--shadow-lg);
+}
+
+.competition-card h3 {
+    color: var(--primary);
+    margin-bottom: 1rem;
+    font-size: 1.4rem;
+}
+
+.competition-card p {
+    color: var(--text-gray);
+    font-size: 0.95rem;
+    margin-bottom: 1.5rem;
+    line-height: 1.6;
+}
+
+.comp-date {
+    font-size: 0.9rem;
+    color: var(--secondary);
+    font-weight: 600;
+    margin-bottom: 1rem;
+}
+
+.comp-badge {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    background: var(--secondary);
+    color: white;
+    padding: 5px 12px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: bold;
+}
+
+.comp-badge.special {
+    background: var(--primary);
+}
+
+        /* ------------------ RESPONSIVE ------------------ */
+        @media (max-width: 1024px) {
+            .nav-links {
+                display: none;
+            }
+
+            .awards-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .footer-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 768px) {
+            .slider-navbar {
+                display: none;
+            }
+
+            /* Hide complex mega menu on mobile */
+            .awards-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .footer-grid {
+                grid-template-columns: 1fr;
+                text-align: center;
+            }
+
+            .must-events-container {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* الصورة */
+.comp-img {
+    width: 100%;
+    height: 180px;
+ background-size: 100%;
+    border-radius: 15px;
+    margin-bottom: 1rem;
+}
+
+/* الوصف */
+.comp-desc {
+    font-size: 0.95rem;
+    color: var(--text-gray);
+    margin-bottom: 1rem;
+    line-height: 1.6;
+}
+
+/* التفاصيل */
+.comp-details {
+    padding-left: 1rem;
+    margin-bottom: 1rem;
+    font-size: 0.9rem;
+    color: var(--text-gray);
+}
+
+.comp-details li {
+    margin-bottom: 6px;
+}
+
+/* بوكس مميز */
+.highlight-box {
+    background: linear-gradient(135deg, #EEF2FF, #E0E7FF);
+    color: var(--primary);
+    padding: 10px;
+    border-radius: 10px;
+    font-size: 0.9rem;
+    margin-bottom: 1rem;
+    text-align: center;
+    font-weight: 600;
+}
+
+/* hover */
+.competition-card:hover .highlight-box {
+    background: linear-gradient(135deg, var(--primary), var(--secondary));
+    color: white;
+    transition: 0.3s;
+}
+
+.contact-section {
+    height: 100vh;
+    background: url("./img/slider2.jpeg") center/cover no-repeat;
+    position: relative;
+}
+
+.layertwo{
+    position: absolute;
+    width: 100%;
+    height: 100%;
+       top: 0;
+    left: 0;
+    background: rgba(0,0,0,0.6);
+
+}
+
+.contact-container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 100%;
+    padding: 0 5%;
+    position: relative;
+}
+
+/* Left */
+.contact-left {
+    color: white;
+    max-width: 400px;
+}
+
+.contact-left h1 {
+    font-size: 3rem;
+    font-weight: bold;
+}
+
+.contact-left p {
+    margin-top: 10px;
+    font-size: 1.2rem;
+}
+
+/* Form Box */
+.contact-form-box {
+    background: #f9fafb;
+    padding: 2rem;
+    border-radius: 15px;
+    width: 400px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+    border-top: 5px solid #16a34a;
+}
+
+.contact-form-box h2 {
+    margin-bottom: 1.5rem;
+    color: #1e3a8a;
+}
+.logo {
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+     margin-right: 30px;
+}
+/* Inputs */
+.form-row {
+    display: flex;
+    gap: 10px;
+}
+
+.contact-form-box input,
+.contact-form-box textarea {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 10px;
+    border: none;
+    background: #e5e7eb;
+    border-radius: 5px;
+}
+
+.contact-form-box textarea {
+    height: 100px;
+    resize: none;
+}
+
+/* Checkbox */
+.checkbox {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    margin-bottom: 15px;
+}
+
+/* Button */
+.btn {
+    width: 100%;
+    background: #16a34a;
+    color: white;
+    padding: 12px;
+    border: none;
+    border-radius: 25px;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+.btn:hover {
+    background: #15803d;
+}
+
+/* Social Icons */
+.social-icons {
+    position: absolute;
+    right: 20px;
+    top: 40%;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.social-icons a {
+    width: 45px;
+    height: 45px;
+    background: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    color: #1e3a8a;
+    box-shadow: 0 5px 10px rgba(0,0,0,0.1);
+    text-decoration: none;
+}
+
+  h1 {
+            text-align: center;
+            margin-top: 40px;
+        }
+
+        .cards-container {
+            display: flex;
+            justify-content: center;
+            gap: 25px;
+            margin: 50px;
+        }
+
+        .card {
+            width: 280px;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            text-align: center;
+            padding: 15px;
+            transition: 0.3s;
+        }
+
+        .card:hover {
+            transform: translateY(-10px);
+        }
+
+        .card img {
+            width: 100%;
+            height: 180px;
+            object-fit: cover;
+            border-radius: 10px;
+        }
+
+        .card h3 {
+            margin: 15px 0 10px;
+        }
+
+        .card p {
+            font-size: 14px;
+            color: gray;
+        }
+
+        .card button {
+            margin-top: 10px;
+            padding: 10px 18px;
+            border: none;
+          background: #16a34a;
+            color: white;
+            border-radius: 8px;
+            cursor: pointer;
+        }
+
+        .card button:hover {
+          
+             background: #15803d;
+        }
+
+/* Responsive */
+@media (max-width: 768px) {
+    .contact-container {
+        flex-direction: column;
+        justify-content: center;
+        text-align: center;
+    }
+
+    .contact-form-box {
+        width: 100%;
+        margin-top: 20px;
+    }
+
+    .social-icons {
+        display: none;
+    }
+}
+
+    </style>
+</head>
+
+<body>
+ 
+
+       <header>
+       <nav>
+            <a href="index.html" class="logo">
+                <img src="img/LoGo.png" alt="MUST Logo" class="Uni-logo">
+            </a>
+
+            <ul class="nav-links">
+
+                <li class="dropdown">
+                    <a href="#">The University <i class="fa-solid fa-angle-down"></i></a>
+                    <ul class="custom-dropdown-menu">
+                        <li><a href="#">About MUST <i class="fa-solid fa-angle-right"
+                                    style="font-size: 0.7rem;"></i></a></li>
+                        <li><a href="#">Sectors <i class="fa-solid fa-angle-right" style="font-size: 0.7rem;"></i></a>
+                        </li>
+                        <li><a href="#">Reports <i class="fa-solid fa-angle-right" style="font-size: 0.7rem;"></i></a>
+                        </li>
+                        <li><a href="#">Policies</a></li>
+                        <li><a href="#">University Council Minutes</a></li>
+                        <li><a href="#">Quality Assurance and Accreditation Sector</a></li>
+                        <li><a href="#">Accreditation & Partnerships</a></li>
+                        <li><a href="#">Contact Us</a></li>
+                        <li><a href="#">Resources <i class="fa-solid fa-angle-right" style="font-size: 0.7rem;"></i></a>
+                        </li>
+                    </ul>
+                </li>
+
+                <li class="dropdown">
+                    <a href="#">Academics <i class="fa-solid fa-angle-down"></i></a>
+                    <ul class="custom-dropdown-menu">
+                        <li><a href="#">Undergraduate Studies</a></li>
+                        <li><a href="#">Post-Graduate Program</a></li>
+                        <li><a href="#">Academic Calendar</a></li>
+                        <li><a href="#">International Students Affairs Sector</a></li>
+                    </ul>
+                </li>
+                <li class="dropdown"><a href="index.html">Admission</a></li>
+                <li class="dropdown">
+                    <a href="#">MUST BUZZ <i class="fa-solid fa-angle-down"></i></a>
+                    <ul class="custom-dropdown-menu">
+                        <li><a href="#events">MUST Events</a></li>
+                        <li><a href="#news">MUST News</a></li>
+                        <li><a href="#">MUST Blogs</a></li>
+                        <li><a href="#">Announcements</a></li>
+                    </ul>
+                </li>
+
+                <li class="dropdown">
+                    <a href="#">Centers <i class="fa-solid fa-angle-down"></i></a>
+                    <ul class="custom-dropdown-menu">
+                        <li><a href="#">Centers</a></li>
+                        <li><a href="#">Units</a></li>
+                        <li><a href="#">Research Center for Public Opinion</a></li>
+                    </ul>
+                </li>
+
+                <li class="dropdown">
+                    <a href="#">Life At MUST <i class="fa-solid fa-angle-down"></i></a>
+                    <ul class="custom-dropdown-menu">
+                        <li><a href="#">MUST Life</a></li>
+                        <li><a href="#">MUST Stars</a></li>
+                        <li><a href="#">MUST Clubs</a></li>
+                        <li><a href="#">Facilities</a></li>
+                    </ul>
+                </li>
+                <li class="dropdown"><a href="index.html">SGDs</a></li>
+            </ul>
+
+            <div class="nav-icons">
+              <a href="index.html" style="color: white; margin-left: 10px;">
+    <i class="fa-solid fa-bars" title="Menu"></i>
+</a>
+                <span class="separator">|</span>
+                <span style="font-family: Arial, sans-serif; font-weight: bold; font-size: 1.1rem;"
+                    title="English">EN</span>
+                <span class="separator">|</span>
+                <a href="./login.html" class="btn-login">Login</a>
+            </div>
+        </nav>
+    </header>
+    <div class="social-fixed">
+        <a href="#" class="active"><i class="fa-solid fa-magnifying-glass"></i></a>
+        <a href="https://www.linkedin.com/school/misr-university-for-science-and-technology/"><i
+                class="fa-brands fa-linkedin-in"></i></a>
+        <a href="https://www.facebook.com/mustuni"><i class="fa-brands fa-facebook-f"></i></a>
+        <a href="https://www.instagram.com/mustuni"><i class="fa-brands fa-instagram"></i></a>
+        <a href="https://x.com/must_university"><i class="fa-brands fa-x-twitter"></i></a>
+    </div>
+
+
+
+    </div>
+
+
+
+
+
+  
+
+<section id="competitions">
+    <div class="section-header">
+        <h2>Competitions</h2>
+        <p>Participate in the latest university competitions</p>
+    </div>
+
+    <div class="competitions-grid">
+
+        
+        <div class="competition-card quran-card">
+
+            <span class="comp-badge special">Ramadan</span>
+
+            
+            <img src="مسابقه.jpg" class="comp-img">
+
+            <h3>Holy Quran Memorization Competition</h3>
+
+            <p class="comp-desc">
+                Misr University of Science and Technology announces its annual Holy Quran memorization competition
+                during the month of Ramadan for students, staff, and their children.
+            </p>
+
+            
+            <div class="table-container">
+                <table class="comp-table">
+                    <tr>
+                        <th>#</th>
+                        <th>Level</th>
+                        <th>Memorization Amount</th>
+                    </tr>
+                    <tr>
+                        <td>1</td>
+                        <td>Level One</td>
+                        <td>Complete Quran + Tafsir of Juz 20</td>
+                    </tr>
+                    <tr>
+                        <td>2</td>
+                        <td>Level Two</td>
+                        <td>Complete Quran</td>
+                    </tr>
+                    <tr>
+                        <td>3</td>
+                        <td>Level Three</td>
+                        <td>25 Juz</td>
+                    </tr>
+                    <tr>
+                        <td>4</td>
+                        <td>Level Four</td>
+                        <td>20 Juz</td>
+                    </tr>
+                    <tr>
+                        <td>5</td>
+                        <td>Level Five</td>
+                        <td>15 Juz</td>
+                    </tr>
+                    <tr>
+                        <td>6</td>
+                        <td>Level Six</td>
+                        <td>10 Juz</td>
+                    </tr>
+                    <tr>
+                        <td>7</td>
+                        <td>Level Seven</td>
+                        <td>5 Juz</td>
+                    </tr>
+                </table>
+            </div>
+
+            <div class="d-flex justify-content-between">
+                <div>
+                    <div class="comp-date">📅 Registration until: 27 January 2026</div>
+                    <div class="comp-date">🏁 Competition starts: 2 February 2026</div>
+
+                   
+                    <a href="./registerClub.html?type=competition&title=Holy%20Quran%20Memorization%20Competition" target="_blank" class="btn">
+                        Register Now
+                    </a>
+                </div>
+
+                <div>
+                    <img class="qr-code" src="qr.jpeg" alt="QR Code">
+                </div>
+            </div>
+
+        </div>
+
+        <!-- Card 2 -->
+     
+
+    </div>
+</section>
+   
+ 
+
+
+<footer>
+        <div class="footer-logo-center">
+            <img src="img/LoGo.png" alt="MUST Logo" class="footer-brand-logo">
+        </div>
+        <div class="footer-grid">
+            <div class="footer-col">
+                <h4>Links</h4>
+                <ul>
+                    <li><a href="#">Home</a></li>
+                    <li><a href="#">The University</a></li>
+                    <li><a href="#">Academics</a></li>
+                    <li><a href="#">Life At MUST</a></li>
+                    <li><a href="#">Research & Centres</a></li>
+                    <li><a href="#">Maps & Directions</a></li>
+                    <li><a href="#">FAQs</a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h4>About University</h4>
+                <ul>
+                    <li><a href="#">About MUST</a></li>
+                    <li><a href="#">History</a></li>
+                    <li><a href="#">Accreditation And Partnership</a></li>
+                    <li><a href="#">Why MUST</a></li>
+                    <li><a href="#">Values & Principles</a></li>
+                    <li><a href="#">Contact Us</a></li>
+                    <li><a href="#">Privacy Policy</a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h4>MUST BUZZ</h4>
+                <ul>
+                    <li><a href="#events">MUST Events</a></li>
+                    <li><a href="#news">MUST News</a></li>
+                    <li><a href="#">Blog</a></li>
+                    <li><a href="#">Announcement</a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h4>Contact Info</h4>
+                <p>16878</p>
+                <p>Info@Must.Edu.Eg</p>
+                <p>Al Motamayez District – 6th of October, Egypt</p>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            Copyright All Right Reserved @ MUST UNIVERSITY 2026
+        </div>
+    </footer>
+
+   
+    <script>
+        let currentSlide = 0;
+        const slides = document.querySelectorAll('.carousel-slide');
+
+        function showSlide(index) {
+            slides.forEach(slide => slide.classList.remove('active'));
+            if (slides[index]) {
+                slides[index].classList.add('active');
+            }
+        }
+
+        function nextSlide() {
+            if (slides.length > 0) {
+                currentSlide = (currentSlide + 1) % slides.length;
+                showSlide(currentSlide);
+            }
+        }
+
+        function prevSlide() {
+            if (slides.length > 0) {
+                currentSlide = (currentSlide - 1 + slides.length) % slides.length;
+                showSlide(currentSlide);
+            }
+        }
+
+        let autoSlideInterval = setInterval(nextSlide, 8000);
+        function joinCompetition(name) {
+    alert('You joined ' + name);
+}
+    </script>
+    <script>
+ function goToPage(page) {
+            window.location.href = page;
+        }
+</script>
+  
+  <script src="js/script.js"></script>
+</body>
+</html>
+
+

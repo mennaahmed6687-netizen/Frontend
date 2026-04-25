@@ -1,0 +1,372 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MUST Admin Dashboard</title>
+  <link rel="stylesheet" href="admin.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+</head>
+<body>
+
+<div id="dashView" class="app">
+
+  <!-- SIDEBAR -->
+  <aside class="sidebar">
+    <div class="sidebar-brand"><i class="fa-solid fa-graduation-cap"></i> <span>MUST <span>Admin</span></span></div>
+    <nav class="sidebar-nav">
+      <a href="../index.html" id="homeBtn" title="Go to Home"><i class="fa-solid fa-gear"></i><span>Home</span></a>
+      <a href="#" data-section="events"><i class="fa-solid fa-calendar-days"></i> <span>Events Management</span></a>
+      <a href="#" data-section="news"><i class="fa-solid fa-newspaper"></i> <span>News Management</span></a>
+      <a href="#" data-section="menu"><i class="fa-solid fa-bars"></i> <span>Menu Management</span></a>
+      <a href="#" data-section="contact"><i class="fa-solid fa-envelope"></i> <span>Contact Management</span></a>
+      <a href="#" data-section="slider"><i class="fa-solid fa-images"></i> <span>Slider Management</span></a>
+      <a href="#" data-section="activities"><i class="fa-solid fa-running"></i> <span>Activities</span></a>
+      <a href="#" data-section="activityregs"><i class="fa-solid fa-clipboard-list"></i> <span>Activity Registrations</span></a>
+      <a href="#" data-section="categories"><i class="fa-solid fa-tags"></i> <span>Activity Categories</span></a>
+      <a href="#" data-section="clubs"><i class="fa-solid fa-shield-halved"></i> <span>Clubs</span></a>
+      <a href="#" data-section="clubregs"><i class="fa-solid fa-users"></i> <span>Club Registrations</span></a>
+      <a href="#" data-section="competitions"><i class="fa-solid fa-trophy"></i> <span>Competitions</span></a>
+      <a href="#" data-section="competitionregs"><i class="fa-solid fa-address-book"></i> <span>Competition Registrations</span></a>
+      <a href="#" data-section="adminusers"><i class="fa-solid fa-users-gear"></i> <span>Admin Users</span></a>
+      <a href="#" data-section="settings"><i class="fa-solid fa-gear"></i> <span>Settings</span></a>
+    </nav>
+    <div class="sidebar-footer">
+      <a id="logoutBtn"><i class="fa-solid fa-right-from-bracket"></i> <span>Logout</span></a>
+    </div>
+  </aside>
+
+<!-- MAIN -->
+<div class="main">
+
+    <!-- TOPBAR -->
+    <div class="topbar-container">
+
+        <div class="search-bar">
+            <i class="fa-solid fa-search"></i>
+            <input type="text" placeholder="Search data...">
+        </div>
+
+        <div class="topbar-right">
+
+            <a href="../index.html" class="home-icon" title="Go to Website">
+                <i class="fa-solid fa-house"></i>
+            </a>
+
+            <div class="current-date" id="currentDate"></div>
+
+            <div class="admin-profile">
+                <span id="adminNameDisplay">Admin</span>
+                <i class="fa-solid fa-circle-user"></i>
+            </div>
+
+        </div>
+
+    </div>
+
+    <div class="content-wrapper">
+        <!-- ──── DASHBOARD HOME ──── -->
+        <div id="sec-dashboard" class="section active">
+          <div class="topbar"><h2>Dashboard Overview</h2></div>
+          <div class="stats-grid">
+            <div class="stat-card"><div class="icon"><i class="fa-solid fa-calendar-days"></i></div><div class="label">Events count</div><div class="value" id="statEvents">–</div></div>
+            <div class="stat-card"><div class="icon"><i class="fa-solid fa-newspaper"></i></div><div class="label">News count</div><div class="value" id="statNews">–</div></div>
+            <div class="stat-card"><div class="icon"><i class="fa-solid fa-envelope"></i></div><div class="label">Contacts count</div><div class="value" id="statContact">–</div></div>
+            <div class="stat-card"><div class="icon"><i class="fa-solid fa-images"></i></div><div class="label">Slider count</div><div class="value" id="statSlider">–</div></div>
+            <div class="stat-card"><div class="icon"><i class="fa-solid fa-running"></i></div><div class="label">Activities count</div><div class="value" id="statActivities">–</div></div>
+            <div class="stat-card"><div class="icon"><i class="fa-solid fa-shield-halved"></i></div><div class="label">Clubs count</div><div class="value" id="statClubs">–</div></div>
+            <div class="stat-card"><div class="icon"><i class="fa-solid fa-trophy"></i></div><div class="label">Competitions count</div><div class="value" id="statCompetitions">–</div></div>
+          </div>
+        </div>
+
+        <!-- ──── EVENTS ──── -->
+        <div id="sec-events" class="section">
+          <div class="topbar"><h2>Events Management</h2><button class="btn btn-primary" onclick="openEventModal()"><i class="fa-solid fa-plus"></i> Add Event</button></div>
+          <div class="card">
+            <table><thead><tr><th>#</th><th>Image</th><th>Title</th><th>Description</th><th>Location</th><th>Date</th><th>Actions</th></tr></thead>
+            <tbody id="eventsTable"></tbody></table>
+          </div>
+        </div>
+
+        <!-- ──── NEWS ──── -->
+        <div id="sec-news" class="section">
+          <div class="topbar"><h2>News Management</h2><button class="btn btn-primary" onclick="openNewsModal()"><i class="fa-solid fa-plus"></i> Add News</button></div>
+          <div class="card">
+            <table><thead><tr><th>#</th><th>Image</th><th>Title</th><th>Content</th><th>Date</th><th>Actions</th></tr></thead>
+            <tbody id="newsTable"></tbody></table>
+          </div>
+        </div>
+
+        <!-- ──── MENU ──── -->
+        <div id="sec-menu" class="section">
+          <div class="topbar"><h2>Menu Management</h2><button class="btn btn-primary" onclick="openMenuModal()"><i class="fa-solid fa-plus"></i> Add Item</button></div>
+          <div class="card">
+            <table><thead><tr><th>#</th><th>Name</th><th>URL</th><th>Order</th><th>Parent ID</th><th>Actions</th></tr></thead>
+            <tbody id="menuTable"></tbody></table>
+          </div>
+        </div>
+        
+        <!-- ──── CONTACTS ──── -->
+        <div id="sec-contact" class="section">
+          <div class="topbar"><h2>Contact Management</h2></div>
+          <div class="card">
+            <table><thead><tr><th>#</th><th>Name</th><th>Email</th><th>Message</th><th>Actions</th></tr></thead>
+            <tbody id="contactTable"></tbody></table>
+          </div>
+        </div>
+
+        <!-- ──── SLIDER ──── -->
+        <div id="sec-slider" class="section">
+          <div class="topbar"><h2>Slider Management</h2><button class="btn btn-primary" onclick="openSliderModal()"><i class="fa-solid fa-plus"></i> Add Slide</button></div>
+          <div class="card">
+            <table><thead><tr><th>#</th><th>Image</th><th>Title</th><th>Subtitle</th><th>Order</th><th>Active</th><th>Actions</th></tr></thead>
+            <tbody id="sliderTable"></tbody></table>
+          </div>
+        </div>
+        
+        <!-- ──── SETTINGS ──── -->
+        <div id="sec-settings" class="section">
+          <div class="topbar"><h2>Settings</h2><button class="btn btn-primary" onclick="saveSettings()"><i class="fa-solid fa-save"></i> Save Settings</button></div>
+          <div class="card settings-form">
+            <form id="settingsForm">
+                <div class="form-group">
+                    <label>University Email</label>
+                    <input type="email" id="setUnivEmail">
+                </div>
+                <div class="form-group">
+                    <label>Phone Number</label>
+                    <input type="text" id="setPhone">
+                </div>
+                <div class="form-group">
+                    <label>Facebook Link</label>
+                    <input type="url" id="setFb">
+                </div>
+                <div class="form-group">
+                    <label>Address</label>
+                    <input type="text" id="setAddress">
+                </div>
+                <div class="form-group">
+                    <label>Map Location URL</label>
+                    <input type="text" id="setMap">
+                </div>
+            </form>
+          </div>
+        </div>
+        <!-- ──── ACTIVITIES ──── -->
+        <div id="sec-activities" class="section">
+          <div class="topbar"><h2>Activities Management</h2><button class="btn btn-primary" onclick="openActivityModal()"><i class="fa-solid fa-plus"></i> Add Activity</button></div>
+          <div class="card">
+            <table><thead><tr><th>#</th><th>Image</th><th>Title</th><th>Description</th><th>Category</th><th>Actions</th></tr></thead>
+            <tbody id="activitiesTable"></tbody></table>
+          </div>
+        </div>
+
+        <div id="sec-activityregs" class="section">
+          <div class="topbar"><h2>Activity Registrations</h2></div>
+          <div class="card">
+            <table><thead><tr><th>User ID</th><th>First Name</th><th>Last Name</th><th>Email</th><th>Phone Number</th><th>Activity</th><th>Category</th><th>Registered At</th></tr></thead>
+            <tbody id="activityRegistrationsTable"></tbody></table>
+          </div>
+        </div>
+
+        <!-- ──── ACTIVITY CATEGORIES ──── -->
+        <div id="sec-categories" class="section">
+          <div class="topbar"><h2>Activity Categories</h2><button class="btn btn-primary" onclick="openCategoryModal()"><i class="fa-solid fa-plus"></i> Add Category</button></div>
+          <div class="card">
+            <table><thead><tr><th>#</th><th>Image</th><th>Title</th><th>Description</th><th>Icon</th><th>Actions</th></tr></thead>
+            <tbody id="categoriesTable"></tbody></table>
+          </div>
+        </div>
+
+        <!-- ──── CLUBS ──── -->
+        <div id="sec-clubs" class="section">
+          <div class="topbar"><h2>Clubs Management</h2><button class="btn btn-primary" onclick="openClubModal()"><i class="fa-solid fa-plus"></i> Add Club</button></div>
+          <div class="card">
+            <table><thead><tr><th>#</th><th>Image</th><th>Name</th><th>Description</th><th>Actions</th></tr></thead>
+            <tbody id="clubsTable"></tbody></table>
+          </div>
+        </div>
+
+        <!-- ──── COMPETITIONS ──── -->
+        <div id="sec-clubregs" class="section">
+          <div class="topbar"><h2>Club Registrations</h2></div>
+          <div class="card">
+            <table><thead><tr><th>User ID</th><th>First Name</th><th>Last Name</th><th>Email</th><th>Phone Number</th><th>Club</th><th>Joined At</th></tr></thead>
+            <tbody id="clubRegistrationsTable"></tbody></table>
+          </div>
+        </div>
+
+        <div id="sec-competitions" class="section">
+          <div class="topbar"><h2>Competitions Management</h2><button class="btn btn-primary" onclick="openCompetitionModal()"><i class="fa-solid fa-plus"></i> Add Competition</button></div>
+          <div class="card">
+            <table><thead><tr><th>#</th><th>Image</th><th>Title</th><th>Description</th><th>Start Date</th><th>End Date</th><th>Actions</th></tr></thead>
+            <tbody id="competitionsTable"></tbody></table>
+          </div>
+        </div>
+
+        <div id="sec-competitionregs" class="section">
+          <div class="topbar"><h2>Competition Registrations</h2></div>
+          <div class="card">
+            <table><thead><tr><th>User ID</th><th>First Name</th><th>Last Name</th><th>Email</th><th>Phone Number</th><th>Competition</th><th>Registered At</th></tr></thead>
+            <tbody id="competitionRegistrationsTable"></tbody></table>
+          </div>
+        </div>
+
+        <!-- ──── ADMIN USERS ──── -->
+        <div id="sec-adminusers" class="section">
+          <div class="topbar"><h2>Admin Users</h2></div>
+          <div class="card">
+            <table><thead><tr><th>#</th><th>First Name</th><th>Last Name</th><th>Email</th><th>Status</th><th>Actions</th></tr></thead>
+            <tbody id="adminUsersTable"></tbody></table>
+          </div>
+        </div>
+    </div>
+  </div>
+</div>
+
+<!-- ════════════ MODALS ════════════ -->
+
+<!-- EVENT MODAL -->
+<div class="modal-overlay" id="eventModalOverlay">
+  <div class="modal">
+    <div class="modal-header"><h3 id="eventModalTitle">Add Event</h3><button class="modal-close" onclick="closeModal('eventModalOverlay')">&times;</button></div>
+    <form id="eventForm">
+      <div class="modal-body">
+        <input type="hidden" id="eventId">
+        <label>Title</label><input type="text" id="eventTitleInput" required>
+        <label>Description</label><textarea id="eventDescInput"></textarea>
+        <label>Location</label><input type="text" id="eventLocationInput">
+        <label>Event Date</label><input type="datetime-local" id="eventDateInput" required>
+        <label>Image</label><input type="file" id="eventFileInput" accept="image/*">
+      </div>
+      <div class="modal-footer"><button type="button" class="btn btn-cancel" onclick="closeModal('eventModalOverlay')">Cancel</button><button type="submit" class="btn btn-primary">Save Changes</button></div>
+    </form>
+  </div>
+</div>
+
+<!-- NEWS MODAL -->
+<div class="modal-overlay" id="newsModalOverlay">
+  <div class="modal">
+    <div class="modal-header"><h3 id="newsModalTitle">Add News</h3><button class="modal-close" onclick="closeModal('newsModalOverlay')">&times;</button></div>
+    <form id="newsForm">
+      <div class="modal-body">
+        <input type="hidden" id="newsId">
+        <input type="hidden" id="newsExistingImg">
+        <label>Title</label><input type="text" id="newsTitleInput" required>
+        <label>Date</label><input type="datetime-local" id="newsDateInput" required>
+        <label>Content</label><textarea id="newsContentInput"></textarea>
+        <label>Image</label><input type="file" id="newsFileInput" accept="image/*">
+      </div>
+      <div class="modal-footer"><button type="button" class="btn btn-cancel" onclick="closeModal('newsModalOverlay')">Cancel</button><button type="submit" class="btn btn-primary">Save Changes</button></div>
+    </form>
+  </div>
+</div>
+
+<!-- MENU MODAL -->
+<div class="modal-overlay" id="menuModalOverlay">
+  <div class="modal">
+    <div class="modal-header"><h3 id="menuModalTitle">Add Menu Item</h3><button class="modal-close" onclick="closeModal('menuModalOverlay')">&times;</button></div>
+    <form id="menuForm">
+      <div class="modal-body">
+        <input type="hidden" id="menuId">
+        <label>Name</label><input type="text" id="menuNameInput" required>
+        <label>URL</label><input type="text" id="menuUrlInput">
+        <label>Order</label><input type="number" id="menuOrderInput" value="0">
+        <label>Parent ID (optional)</label><input type="number" id="menuParentInput">
+      </div>
+      <div class="modal-footer"><button type="button" class="btn btn-cancel" onclick="closeModal('menuModalOverlay')">Cancel</button><button type="submit" class="btn btn-primary">Save Changes</button></div>
+    </form>
+  </div>
+</div>
+
+<!-- SLIDER MODAL -->
+<div class="modal-overlay" id="sliderModalOverlay">
+  <div class="modal">
+    <div class="modal-header"><h3 id="sliderModalTitle">Add Slide</h3><button class="modal-close" onclick="closeModal('sliderModalOverlay')">&times;</button></div>
+    <form id="sliderForm">
+      <div class="modal-body">
+        <label>Title</label><input type="text" id="sliderTitleInput" required>
+        <label>Subtitle</label><input type="text" id="sliderSubInput">
+        <label>Order</label><input type="number" id="sliderOrderInput" value="0">
+        <label>Image</label><input type="file" id="sliderFileInput" accept="image/*" required>
+      </div>
+      <div class="modal-footer"><button type="button" class="btn btn-cancel" onclick="closeModal('sliderModalOverlay')">Cancel</button><button type="submit" class="btn btn-primary">Save Changes</button></div>
+    </form>
+  </div>
+</div>
+
+<!-- ACTIVITY MODAL -->
+<div class="modal-overlay" id="activityModalOverlay">
+  <div class="modal">
+    <div class="modal-header"><h3 id="activityModalTitle">Add Activity</h3><button class="modal-close" onclick="closeModal('activityModalOverlay')">&times;</button></div>
+    <form id="activityForm">
+      <div class="modal-body">
+        <input type="hidden" id="activityId">
+        <label>Title</label><input type="text" id="activityTitleInput" required>
+        <label>Description</label><textarea id="activityDescInput"></textarea>
+        <label>Category</label>
+        <select id="activityCategoryInput"><option value="">-- Select Category --</option></select>
+        <label>Image</label><input type="file" id="activityFileInput" accept="image/*">
+      </div>
+      <div class="modal-footer"><button type="button" class="btn btn-cancel" onclick="closeModal('activityModalOverlay')">Cancel</button><button type="submit" class="btn btn-primary">Save Changes</button></div>
+    </form>
+  </div>
+</div>
+
+<!-- CATEGORY MODAL -->
+<div class="modal-overlay" id="categoryModalOverlay">
+  <div class="modal">
+    <div class="modal-header"><h3 id="categoryModalTitle">Add Category</h3><button class="modal-close" onclick="closeModal('categoryModalOverlay')">&times;</button></div>
+    <form id="categoryForm">
+      <div class="modal-body">
+        <input type="hidden" id="categoryId">
+        <label>Title</label><input type="text" id="categoryNameInput" required>
+        <label>Description</label><textarea id="categoryDescInput"></textarea>
+        <label>Image</label><input type="file" id="categoryImageInput" accept="image/*">
+        <label>Icon (FontAwesome class e.g. fa-campground)</label><input type="text" id="categoryIconInput">
+      </div>
+      <div class="modal-footer"><button type="button" class="btn btn-cancel" onclick="closeModal('categoryModalOverlay')">Cancel</button><button type="submit" class="btn btn-primary">Save Changes</button></div>
+    </form>
+  </div>
+</div>
+
+<!-- CLUB MODAL -->
+<div class="modal-overlay" id="clubModalOverlay">
+  <div class="modal">
+    <div class="modal-header"><h3 id="clubModalTitle">Add Club</h3><button class="modal-close" onclick="closeModal('clubModalOverlay')">&times;</button></div>
+    <form id="clubForm">
+      <div class="modal-body">
+        <input type="hidden" id="clubId">
+        <label>Name</label><input type="text" id="clubNameInput" required>
+        <label>Description</label><textarea id="clubDescInput"></textarea>
+        <label>Image</label><input type="file" id="clubFileInput" accept="image/*">
+      </div>
+      <div class="modal-footer"><button type="button" class="btn btn-cancel" onclick="closeModal('clubModalOverlay')">Cancel</button><button type="submit" class="btn btn-primary">Save Changes</button></div>
+    </form>
+  </div>
+</div>
+
+<!-- COMPETITION MODAL -->
+<div class="modal-overlay" id="competitionModalOverlay">
+  <div class="modal">
+    <div class="modal-header"><h3 id="competitionModalTitle">Add Competition</h3><button class="modal-close" onclick="closeModal('competitionModalOverlay')">&times;</button></div>
+    <form id="competitionForm">
+      <div class="modal-body">
+        <input type="hidden" id="competitionId">
+        <label>Title</label><input type="text" id="competitionTitleInput" required>
+        <label>Description</label><textarea id="competitionDescInput"></textarea>
+        <label>Start Date</label><input type="datetime-local" id="competitionStartInput">
+        <label>End Date</label><input type="datetime-local" id="competitionEndInput">
+        <label>Image</label><input type="file" id="competitionFileInput" accept="image/*">
+      </div>
+      <div class="modal-footer"><button type="button" class="btn btn-cancel" onclick="closeModal('competitionModalOverlay')">Cancel</button><button type="submit" class="btn btn-primary">Save Changes</button></div>
+    </form>
+  </div>
+</div>
+
+<!-- TOAST CONTAINER -->
+<div class="toast-container" id="toasts"></div>
+
+<script src="admin.js"></script>
+</body>
+</html>

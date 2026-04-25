@@ -1,0 +1,695 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description"
+        content="Explore sports activities at MUST! Book fields, join teams, and stay active with university sports programs.">
+    <title>MUST Student Activities Hub - Sports</title>
+
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/style.css">
+
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap');
+
+        :root {
+            /* MUST Official Colors */
+            --primary: rgb(28, 48, 110);
+            /* MUST Blue */
+            --secondary: rgb(0, 172, 92);
+            /* MUST Green */
+            --primary-light: rgba(28, 48, 110, 0.1);
+            --secondary-light: rgba(0, 172, 92, 0.1);
+            --secondary-hover: rgb(0, 145, 75);
+
+            --bg-light: #F8FAFC;
+            --white: #FFFFFF;
+            --text-dark: #1E293B;
+            --text-gray: #64748B;
+            --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+            --transition: all 0.3s ease;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Inter', sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-light);
+            color: var(--text-dark);
+            line-height: 1.6;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        /* ------------------ ANNOUNCEMENT TICKER ------------------ */
+        .announcement-bar {
+            background-color: var(--secondary);
+            color: var(--white);
+            padding: 0.4rem 0;
+            overflow: hidden;
+            position: relative;
+            display: flex;
+            align-items: center;
+            font-size: 0.9rem;
+            font-weight: 600;
+        }
+
+        .marquee {
+            white-space: nowrap;
+            animation: marquee 25s linear infinite;
+            padding-left: 100%;
+        }
+
+        @keyframes marquee {
+            0% {
+                transform: translateX(0);
+            }
+
+            100% {
+                transform: translateX(-100%);
+            }
+        }
+
+         /* ------------------ NAVBAR ------------------ */
+        header {
+            background-color: var(--primary);
+            color: var(--white);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: var(--shadow);
+        }
+
+        nav {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0.5rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+        }
+
+        .Uni-logo {
+            height: 100px;
+            width: auto;
+            object-fit: contain;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 1.8rem;
+            list-style: none;
+            align-items: center;
+            margin: 0;
+            padding: 0;
+            height: 100%;
+        }
+
+        /* --- DROPDOWN CSS INTEGRATED HERE --- */
+        .dropdown {
+            position: relative;
+            display: flex;
+            align-items: center;
+            height: 100px; /* Match navbar height to avoid hover glitches */
+        }
+
+        .dropdown > a {
+            text-decoration: none;
+            color: var(--white);
+            font-weight: 600;
+            font-size: 1rem;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .dropdown > a:hover, .dropdown > a.active {
+            color: var(--secondary);
+        }
+
+        .dropdown-menu {
+            position: absolute;
+            top: 80px; /* Drop down right below the nav text */
+            left: 0;
+            background-color: var(--primary);
+            min-width: 250px;
+            box-shadow: var(--shadow-lg);
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(10px);
+            transition: all 0.3s ease;
+            list-style: none;
+            padding: 0.5rem 0;
+            z-index: 1001;
+            border-radius: 0 0 8px 8px;
+            margin: 0;
+        }
+
+        .dropdown:hover .dropdown-menu {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+
+        .dropdown-menu li {
+            position: relative;
+        }
+
+        .dropdown-menu a {
+            color: var(--white) !important;
+            text-decoration: none;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0.8rem 1.5rem;
+            font-size: 0.95rem;
+            font-weight: 600;
+            transition: background-color 0.2s ease;
+        }
+
+        .dropdown-menu a:hover {
+            background-color: rgba(255,255,255,0.1);
+            color: var(--secondary) !important;
+        }
+
+        /* --- ICONS & LOGIN BUTTON --- */
+        .nav-icons {
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+            font-size: 1.2rem;
+        }
+
+        .nav-icons i,
+        .nav-icons span {
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .nav-icons i:hover,
+        .nav-icons span:hover {
+            color: var(--secondary);
+        }
+
+        .separator {
+            color: rgba(255, 255, 255, 0.4);
+            font-weight: 300;
+        }
+
+        .btn-login {
+            background-color: transparent;
+            color: var(--white);
+            border: 2px solid var(--secondary);
+            padding: 0.4rem 1.2rem;
+            border-radius: 6px;
+            font-weight: 600;
+            font-size: 0.9rem;
+            text-decoration: none;
+            transition: var(--transition);
+        }
+
+        .btn-login:hover {
+            background-color: var(--secondary);
+            color: var(--white);
+        }
+
+        /* ------------------ BUTTONS ------------------ */
+        .btn {
+            background-color: var(--secondary);
+            color: var(--white);
+            padding: 0.8rem 1.8rem;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 600;
+            border: none;
+            cursor: pointer;
+            transition: var(--transition);
+            display: inline-block;
+        }
+
+        .btn:hover {
+            background-color: var(--secondary-hover);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0, 172, 92, 0.3);
+        }
+        /* ------------------ SOCIAL SIDEBAR ------------------ */
+        .social-fixed {
+            position: fixed;
+            right: 15px;
+            /* Moves the sidebar to the right edge */
+            top: 50%;
+            transform: translateY(-50%);
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            /* Perfect spacing between the circles */
+            z-index: 999;
+        }
+
+        .social-fixed a {
+            color: var(--primary);
+            /* Dark blue icons */
+            background: var(--white);
+            /* White circle background */
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            /* Makes them perfectly circular */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 1.3rem;
+            /* Slightly larger icons */
+            text-decoration: none;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+            /* Soft drop shadow */
+            transition: var(--transition);
+        }
+
+        .social-fixed a:hover {
+            transform: scale(1.1);
+            /* Slight pop effect on hover */
+            box-shadow: 0 6px 14px rgba(0, 0, 0, 0.2);
+        }
+
+        /* Green styling specifically for the search icon (active state) */
+        .social-fixed a.active {
+            background-color: var(--secondary);
+            /* Green background */
+            color: var(--white);
+            /* White icon */
+        }
+
+        /* Make sure mobile views hide the sidebar properly */
+        @media (max-width: 768px) {
+            .social-fixed {
+                display: none;
+            }
+        }
+
+        /* ------------------ SPORTS GRID SECTION ------------------ */
+        .sports-section {
+            flex-grow: 1;
+            max-width: 1200px;
+            margin: 4rem auto;
+            padding: 0 2rem;
+            width: 100%;
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .section-header h2 {
+            font-size: 2.5rem;
+            color: var(--primary);
+            margin-bottom: 0.5rem;
+            font-weight: 700;
+        }
+
+        .section-header p {
+            color: var(--text-gray);
+            font-size: 1.1rem;
+        }
+
+        .sports-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
+        }
+
+        .sport-card {
+            background: var(--white);
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: var(--shadow);
+            border: 1px solid #E2E8F0;
+            display: flex;
+            flex-direction: column;
+            transition: var(--transition);
+        }
+
+        .sport-card:hover {
+            transform: translateY(-8px);
+            box-shadow: var(--shadow-lg);
+            border-color: var(--secondary-light);
+        }
+
+        .sport-img {
+            height: 220px;
+            width: 100%;
+            object-fit: cover;
+        }
+
+        .sport-content {
+            padding: 1.5rem;
+            display: flex;
+            flex-direction: column;
+            flex-grow: 1;
+        }
+
+        .sport-content h3 {
+            color: var(--primary);
+            font-size: 1.4rem;
+            margin-bottom: 0.8rem;
+            font-weight: 700;
+        }
+
+        .sport-content p {
+            color: var(--text-gray);
+            font-size: 0.95rem;
+            margin-bottom: 1.5rem;
+            flex-grow: 1;
+            /* Pushes the button to the bottom */
+        }
+
+        .btn-register {
+            background-color: var(--secondary);
+            color: var(--white);
+            padding: 0.8rem 1.5rem;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 600;
+            text-align: center;
+            transition: var(--transition);
+            display: block;
+            width: 100%;
+        }
+
+        .btn-register:hover {
+            background-color: var(--secondary-hover);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0, 172, 92, 0.3);
+            color: var(--white);
+        }
+
+        /* ------------------ FOOTER ------------------ */
+        footer {
+            background-color: var(--primary);
+            color: var(--white);
+            padding-top: 4rem;
+            margin-top: auto;
+        }
+
+        .footer-logo-center {
+            text-align: center;
+            margin-bottom: 4rem;
+        }
+
+        .footer-brand-logo {
+            height: 120px;
+            width: auto;
+            margin: 0 auto;
+            display: block;
+        }
+
+        .footer-grid {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 2rem;
+            padding: 0 2rem 4rem 2rem;
+        }
+
+        .footer-col h4 {
+            color: var(--secondary);
+            font-size: 1.1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .footer-col ul {
+            list-style: none;
+        }
+
+        .footer-col ul li {
+            margin-bottom: 0.8rem;
+        }
+
+        .footer-col ul li a {
+            color: var(--white);
+            text-decoration: none;
+            font-size: 0.9rem;
+            transition: var(--transition);
+        }
+
+        .footer-col ul li a:hover {
+            color: var(--secondary);
+        }
+
+        .footer-col p {
+            color: var(--white);
+            font-size: 0.9rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+        }
+
+        .footer-bottom {
+            background-color: var(--white);
+            color: var(--primary);
+            text-align: center;
+            padding: 1.2rem;
+            font-size: 0.85rem;
+            font-weight: 600;
+        }
+
+        /* ------------------ RESPONSIVE ------------------ */
+        @media (max-width: 1024px) {
+            .nav-links {
+                display: none;
+            }
+
+            .footer-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 768px) {
+            .social-fixed {
+                display: none;
+            }
+
+            .footer-grid {
+                grid-template-columns: 1fr;
+                text-align: center;
+            }
+
+            .sports-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+ 
+
+   <header>
+        <nav>
+            <a href="index.html" class="logo">
+                <img src="img/LoGo.png" alt="MUST Logo" class="Uni-logo">
+            </a>
+
+            <ul class="nav-links">
+                
+                <li class="dropdown">
+                    <a href="#">The University <i class="fa-solid fa-angle-down"></i></a>
+                    <ul class="dropdown-menu">
+                        <li><a href="#">About MUST <i class="fa-solid fa-angle-right" style="font-size: 0.7rem;"></i></a></li>
+                        <li><a href="#">Sectors <i class="fa-solid fa-angle-right" style="font-size: 0.7rem;"></i></a></li>
+                        <li><a href="#">Reports <i class="fa-solid fa-angle-right" style="font-size: 0.7rem;"></i></a></li>
+                        <li><a href="#">Policies</a></li>
+                        <li><a href="#">University Council Minutes</a></li>
+                        <li><a href="#">Quality Assurance and Accreditation Sector</a></li>
+                        <li><a href="#">Accreditation & Partnerships</a></li>
+                        <li><a href="#">Contact Us</a></li>
+                        <li><a href="#">Resources <i class="fa-solid fa-angle-right" style="font-size: 0.7rem;"></i></a></li>
+                    </ul>
+                </li>
+
+                <li class="dropdown">
+                    <a href="#">Academics <i class="fa-solid fa-angle-down"></i></a>
+                    <ul class="dropdown-menu">
+                        <li><a href="#">Undergraduate Studies</a></li>
+                        <li><a href="#">Post-Graduate Program</a></li>
+                        <li><a href="#">Academic Calendar</a></li>
+                        <li><a href="#">International Students Affairs Sector</a></li>
+                    </ul>
+                </li>
+<li class="dropdown"><a href="index.html">Admission</a></li>
+                <li class="dropdown">
+                    <a href="#">MUST BUZZ <i class="fa-solid fa-angle-down"></i></a>
+                    <ul class="dropdown-menu">
+                        <li><a href="#events">MUST Events</a></li>
+                        <li><a href="#news">MUST News</a></li>
+                        <li><a href="#">MUST Blogs</a></li>
+                        <li><a href="#">Announcements</a></li>
+                    </ul>
+                </li>
+
+                <li class="dropdown">
+                    <a href="#">Centers <i class="fa-solid fa-angle-down"></i></a>
+                    <ul class="dropdown-menu">
+                        <li><a href="#">Centers</a></li>
+                        <li><a href="#">Units</a></li>
+                        <li><a href="#">Research Center for Public Opinion</a></li>
+                    </ul>
+                </li>
+
+                <li class="dropdown">
+                    <a href="#">Life At MUST <i class="fa-solid fa-angle-down"></i></a>
+                    <ul class="dropdown-menu">
+                        <li><a href="#">MUST Life</a></li>
+                        <li><a href="#">MUST Stars</a></li>
+                        <li><a href="#">MUST Clubs</a></li>
+                        <li><a href="#">Facilities</a></li>
+                    </ul>
+                </li>
+                <li class="dropdown"><a href="index.html">SGDs</a></li>
+            </ul>
+
+            <div class="nav-icons">
+              <a href="index.html" style="color: white;">
+    <i class="fa-solid fa-bars" title="Menu"></i>
+</a>
+                <span class="separator">|</span>
+                <span style="font-family: Arial, sans-serif; font-weight: bold; font-size: 1.1rem;" title="English">EN</span>
+                <span class="separator">|</span>
+                <a href="#login" class="btn-login">Login</a>
+            </div>
+        </nav>
+    </header>
+
+    <div class="social-fixed">
+        <a href="#" class="active"><i class="fa-solid fa-magnifying-glass"></i></a>
+        <a href="https://www.linkedin.com/school/misr-university-for-science-and-technology/"><i
+                class="fa-brands fa-linkedin-in"></i></a>
+        <a href="https://www.facebook.com/mustuni"><i class="fa-brands fa-facebook-f"></i></a>
+        <a href="https://www.instagram.com/mustuni"><i class="fa-brands fa-instagram"></i></a>
+        <a href="https://x.com/must_university"><i class="fa-brands fa-x-twitter"></i></a>
+    </div>
+
+    <section class="sports-section">
+        <div class="section-header">
+            <h2>Sports Activities</h2>
+            <p>Explore our sports facilities and register to join a team or book a session today.</p>
+        </div>
+
+        <div class="sports-grid">
+
+            <div class="sport-card">
+                <img src="img/football.PNG" alt="Football" class="sport-img">
+                <div class="sport-content">
+                    <h3>Football</h3>
+                    <p>Join our football sessions and improve your skills while making new friends on the university's
+                        main pitch!</p>
+                    <a href="Register Team.html" class="btn-register">Register Now</a>
+                </div>
+            </div>
+
+            <div class="sport-card">
+                <img src="img/tennis.PNG" alt="Tennis" class="sport-img">
+                <div class="sport-content">
+                    <h3>Tennis</h3>
+                    <p>Enjoy tennis at the university courts. Whether you are a beginner or a pro, book your session
+                        today!</p>
+                    <a href="Register Team.html" class="btn-register">Register Now</a>
+                </div>
+            </div>
+
+            <div class="sport-card">
+                <img src="img/padel.PNG" alt="Padel Tennis" class="sport-img">
+                <div class="sport-content">
+                    <h3>Padel Tennis</h3>
+                    <p>Try out padel tennis – a fun, fast-growing sport that is perfect for all students looking to stay
+                        active.</p>
+                    <a href="Register Team.html" class="btn-register">Register Now</a>
+                </div>
+            </div>
+
+            <div class="sport-card">
+                <img src="img/futsall.PNG" alt="Futsal" class="sport-img">
+                <div class="sport-content">
+                    <h3>Futsal</h3>
+                    <p>Join our fast-paced futsal sessions and develop your close-control skills in this exciting indoor
+                        sport.</p>
+                    <a href="Register Team.html" class="btn-register">Register Now</a>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <footer>
+        <div class="footer-logo-center">
+            <img src="img/LoGo.png" alt="MUST Logo" class="footer-brand-logo">
+        </div>
+        <div class="footer-grid">
+            <div class="footer-col">
+                <h4>Links</h4>
+                <ul>
+                    <li><a href="#">Home</a></li>
+                    <li><a href="#">The University</a></li>
+                    <li><a href="#">Academics</a></li>
+                    <li><a href="#">Life At MUST</a></li>
+                    <li><a href="#">Research & Centres</a></li>
+                    <li><a href="#">Maps & Directions</a></li>
+                    <li><a href="#">FAQs</a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h4>About University</h4>
+                <ul>
+                    <li><a href="#">About MUST</a></li>
+                    <li><a href="#">History</a></li>
+                    <li><a href="#">Accreditation And Partnership</a></li>
+                    <li><a href="#">Why MUST</a></li>
+                    <li><a href="#">Values & Principles</a></li>
+                    <li><a href="#">Contact Us</a></li>
+                    <li><a href="#">Privacy Policy</a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h4>MUST BUZZ</h4>
+                <ul>
+                    <li><a href="#events">MUST Events</a></li>
+                    <li><a href="#news">MUST News</a></li>
+                    <li><a href="#">Blog</a></li>
+                    <li><a href="#">Announcement</a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h4>Contact Info</h4>
+                <p>16878</p>
+                <p>Info@Must.Edu.Eg</p>
+                <p>Al Motamayez District – 6th of October, Egypt</p>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            Copyright All Right Reserved @ MUST UNIVERSITY 2026
+        </div>
+    </footer>
+
+    <script src="js/script.js"></script>
+</body>
+
+</html>

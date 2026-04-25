@@ -1,0 +1,319 @@
+/* إعدادات عامة للصفحة */
+
+body{
+    font-family: Arial, Helvetica, sans-serif;
+    margin:0;
+    padding:0;
+   
+}
+
+
+/* شريط العنوان */
+
+header{
+    background-color: rgb(28,48,110);
+    color:white;
+    padding:20px;
+    text-align:center;
+}
+
+
+/* العناوين */
+
+h1,h2{
+    color: white;
+    padding: 20px 0;
+    margin-left: 2%;
+}
+
+
+/* الحاوية الرئيسية */
+
+.container{
+    width:80%;
+    margin:auto;
+    padding:20px;
+}
+
+
+/* الأزرار */
+
+.button{
+margin-top:30px;
+display:flex;
+
+gap:10px;
+width:180px;
+
+
+}
+
+.button a{
+background:#0aa35b;
+color:white;
+text-decoration:none;
+padding:12px;
+border-radius:8px;
+text-align:center;
+font-weight:bold;
+transition:0.3s;
+margin-top: 30px;
+display: inline-block;
+
+
+white-space: nowrap;
+}
+
+.button a:hover{
+   background-color: rgb(28,48,110);
+    color:white;
+    padding:10px;
+}
+
+
+/* الروابط */
+
+a{
+    text-decoration:none;
+    color:white;
+    background-color: rgb(0,172,92);
+    padding:10px 15px;
+    border-radius:5px;
+  
+  
+    
+}
+
+a:hover{
+    background-color: rgb(28,48,110);
+}
+
+
+/* الجداول */
+
+table{
+    width:100%;
+    border-collapse: collapse;
+    margin-top:20px;
+}
+
+th{
+    background-color: rgb(28,48,110);
+    color:white;
+    padding:10px;
+}
+
+td{
+    padding:10px;
+    text-align:center;
+    border-bottom:1px solid #ddd;
+}
+
+
+/* الفورم */
+
+form{
+    background:white;
+    padding:20px;
+    border-radius:8px;
+    width:400px;
+}
+
+input,select{
+    width:100%;
+    padding:8px;
+    margin-top:5px;
+    margin-bottom:15px;
+    border:1px solid #ccc;
+    border-radius:5px;
+    
+}
+.news-container{
+  display:flex;
+  gap:80px;
+}
+
+.card{
+  width:300px;
+  border:1px solid #ddd;
+  border-radius:10px;
+  overflow:hidden;
+  text-align:center;
+  box-shadow: 0 0 10px rgba(0,0,0,0.1);
+}
+
+
+.card h3{
+  padding:10px;
+  font-size:18px;
+  
+}
+
+.card a{
+  display:block;
+  padding:10px;
+  color:#ddd;
+  text-decoration:none;
+  
+}
+/* Reset */
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+
+
+
+
+/* Cards Container */
+.cards-container{
+    display:flex;
+    gap:30px;
+    flex-wrap:wrap;
+}
+
+/* Card */
+.card{
+    width:300px;
+    background:#fff;
+    border-radius:10px;
+    box-shadow:0 3px 10px rgba(0,0,0,0.1);
+    overflow:hidden;
+    text-align:center;
+    transition:0.3s;
+
+}
+
+.card:hover{
+    transform:translateY(-5px);
+}
+
+/* Card Image */
+.card img{
+    width:70%;
+    height: 300px;;
+    object-fit:cover;
+}
+
+/* Card Title */
+.card h3{
+    margin:15px 0;
+    color:#fff;
+}
+
+/* Button */
+.btn{
+    background:#0aa35b;
+    color:white;
+    border:none;
+    padding:10px 20px;
+    border-radius:6px;
+    cursor:pointer;
+    margin-bottom:15px;
+    transition:0.3s;
+}
+
+.btn:hover{
+    background:#087f45;
+}
+
+/* Side Buttons */
+.side-buttons{
+    position:fixed;
+    left:20px;
+    bottom:20px;
+    display:flex;
+    flex-direction:column;
+    gap:10px;
+}
+
+.side-buttons button{
+    background:#0aa35b;
+    color:white;
+    border:none;
+    padding:12px 18px;
+    border-radius:6px;
+    cursor:pointer;
+    font-size:14px;
+}
+
+.side-buttons button:hover{
+    background:#087f45;
+}
+
+/* Responsive */
+@media (max-width:768px){
+
+    .cards-container{
+        flex-direction:column;
+        align-items:center;
+    }
+
+    .card{
+        width: 90%;
+    }
+
+}
+   
+ nav {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0.5rem 2rem; /* Reduced padding slightly to accommodate logo */
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: #fff 0px 1px 5px;
+            background-color: rgb(28,48,110);
+        }
+        
+        .logo {
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+        }
+        
+        /* New Logo CSS for Header */
+        .Uni-logo {
+            height: 100px; /* Adjust height here for Navbar */
+            width: auto;
+            object-fit: contain;
+        }
+    /* New Logo CSS for Header */
+        
+
+        .nav-links { 
+            display: flex; 
+            gap: 1.8rem; 
+            list-style: none; 
+            align-items: center;
+        }
+        .nav-links a {
+            text-decoration: none;
+            color: var(--white);
+            font-weight: 600;
+            font-size: 1rem;
+            transition: var(--transition);
+            
+        }
+        .nav-links a:hover { color: var(--secondary); }
+
+        .nav-icons {
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+            font-size: 1.2rem;
+        }
+        .nav-icons i, .nav-icons span {
+            cursor: pointer;
+            transition: var(--transition);
+        }
+        .nav-icons i:hover, .nav-icons span:hover {
+            color: var(--secondary);
+        }
+        .separator {
+            color: rgba(255, 255, 255, 0.4);
+            font-weight: 300;
+        }

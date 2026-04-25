@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Verify OTP</title>
+
+  <style>
+    body{
+      margin:0;
+      font-family: Arial, sans-serif;
+      background: linear-gradient(135deg,#1c306e,#00ac5c);
+      height:100vh;
+      display:flex;
+      justify-content:center;
+      align-items:center;
+    }
+
+    .container{
+      width: 400px;
+      background:#fff;
+      padding:30px;
+      border-radius:15px;
+      box-shadow:0 10px 30px rgba(0,0,0,0.2);
+    }
+
+    h2{
+      text-align:center;
+      margin-bottom:12px;
+      color:#1c306e;
+    }
+
+    p{
+      text-align:center;
+      margin-bottom:20px;
+      color:#555;
+      font-size:14px;
+      line-height:1.5;
+    }
+
+    .input-box{
+      margin-bottom:15px;
+    }
+
+    input{
+      width:100%;
+      padding:12px;
+      border:1px solid #ddd;
+      border-radius:10px;
+      box-sizing:border-box;
+      outline:none;
+      transition:0.3s;
+    }
+
+    input:focus{
+      border-color:#00ac5c;
+      box-shadow:0 0 5px rgba(0,172,92,0.3);
+    }
+
+    button{
+      width:100%;
+      padding:12px;
+      border:none;
+      border-radius:10px;
+      background:#00ac5c;
+      color:#fff;
+      font-size:16px;
+      cursor:pointer;
+      transition:0.3s;
+    }
+
+    button:hover{
+      background:#008f4c;
+    }
+
+    .footer{
+      text-align:center;
+      margin-top:15px;
+      font-size:14px;
+    }
+
+    .footer a{
+      color:#1c306e;
+      text-decoration:none;
+      font-weight:bold;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <h2>Verify OTP</h2>
+    <p id="otpHint">Enter the verification code sent to your university email.</p>
+
+    <form id="otpForm">
+      <div class="input-box">
+        <input type="text" id="otpCode" placeholder="Enter OTP Code" required />
+      </div>
+
+      <button type="submit">Verify</button>
+    </form>
+
+    <div class="footer">
+      Back to <a href="signup.html">Sign Up</a>
+    </div>
+  </div>
+
+  <script>
+    const BASE_URL =
+      window.location.hostname === 'localhost' ||
+      window.location.hostname === '127.0.0.1'
+        ? 'http://localhost:5184'
+        : 'https://must.runasp.net';
+    const pendingEmail = localStorage.getItem('must_pending_email');
+
+    if (!pendingEmail) {
+      alert('Please create an account first.');
+      window.location.href = 'signup.html';
+    } else {
+      document.getElementById('otpHint').textContent = `Enter the verification code sent to ${pendingEmail}.`;
+    }
+
+    document.getElementById('otpForm').addEventListener('submit', async function (e) {
+      e.preventDefault();
+
+      const otpCode = document.getElementById('otpCode').value.trim();
+      if (!otpCode) {
+        alert('Please enter the OTP code');
+        return;
+      }
+
+      try {
+        const res = await fetch(BASE_URL + '/api/Auth/verify-otp', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ email: pendingEmail, otpCode })
+        });
+
+        const text = await res.text();
+        let data = null;
+        try { data = text ? JSON.parse(text) : null; } catch(_) { data = text; }
+
+        if (!res.ok) {
+          const msg = (data && (data.message || data.title || JSON.stringify(data))) || res.statusText;
+          throw new Error(msg);
+        }
+
+        if (data && (data.isSuccess === false || data.IsSuccess === false)) {
+          throw new Error(data.message || data.Message || 'OTP verification failed');
+        }
+
+        localStorage.removeItem('must_pending_email');
+        alert('Email verified successfully. You can now login.');
+        window.location.href = 'login.html';
+      } catch (err) {
+        console.error('OTP verification error:', err);
+        alert('OTP verification failed: ' + err.message);
+      }
+    });
+  </script>
+
+</body>
+</html>
