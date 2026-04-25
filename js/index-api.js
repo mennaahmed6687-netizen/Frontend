@@ -13,12 +13,20 @@
  *     <script src="js/index-api.js"></script>
  *   (Keep the existing <script src="js/script.js"></script> as well)
  */
+function esc(str) {
+    return String(str || '')
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#39;");
+}
 
 (function () {
     'use strict';
 
     const API_BASE_URL =
-       "http://mystudentactivity.runasp.net";
+       "https://mystudentactivity.runasp.net";
     const EVENT_PLACEHOLDER =
         'data:image/svg+xml;utf8,' +
         encodeURIComponent(
