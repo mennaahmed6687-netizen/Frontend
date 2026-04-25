@@ -1,85 +1,34 @@
 (function () {
-    'use strict';
+    const params = new URLSearchParams(window.location.search);
+    const id = params.get("id");
 
-    const container = document.querySelector('.news-container');
-    if (!container || !window.MustAPI) return;
+    if (!id) return;
 
-    const BASE_URL =
-       "http://mystudentactivity.runasp.net";
+    const BASE_URL = "https://mystudentactivity.runasp.net";
 
     function fixImage(img) {
-        if (!img) return 'img/news5.jpg';
+        if (!img) return "img/news5.jpg";
 
-        img = img.trim();
+        if (img.startsWith("http")) return img;
+        if (img.startsWith("/")) return BASE_URL + img;
 
-        if (img.startsWith('http')) return img;
-        if (img.startsWith('/')) return BASE_URL + img;
-
-        return BASE_URL + '/uploads/news/' + img;
+        return BASE_URL + "/uploads/news/" + img;
     }
 
-    function escapeHtml(str) {
-        if (!str) return '';
-        return String(str)
-            .replace(/&/g, '&amp;')
-            .replace(/</g, '&lt;')
-            .replace(/>/g, '&gt;')
-            .replace(/"/g, '&quot;');
-    }
+    fetch(`${BASE_URL}/api/News/${id}`)
+        .then(res => res.json())
+        .then(data => {
 
-    function initAllNews() {
-        window.MustAPI.getNews()
-            .then(function (data) {
-                if (!Array.isArray(data) || data.length === 0) {
-                    container.innerHTML = '<p style="text-align:center">No News Available</p>';
-                    return;
-                }
+            let img = fixImage(data.imageUrl || data.image);
 
-                container.innerHTML = '';
+            // 🔥 مهم جدًا لكسر الكاش
+            img += "?v=" + (data.id || Date.now());
 
-                const fragment = document.createDocumentFragment();
+            document.getElementById("newsImg").src = img;
+            document.getElementById("newsTitle").innerText = data.title;
+            document.getElementById("newsDesc").innerText = data.description || data.content;
 
-                data.forEach(function (item, index) {
-                    let img = fixImage(item.imageUrl || item.image);
-                    img += '?v=' + (item.id || index);
+        })
+        .catch(err => console.error(err));
 
-                    const date = item.createdAt
-                        ? new Date(item.createdAt).toLocaleDateString()
-                        : '';
-
-                    const card = document.createElement('div');
-                    card.className = 'card';
-                    card.style.cursor = 'pointer';
-
-                    card.innerHTML = `
-                        <img src="${img}"
-                             alt="${escapeHtml(item.title)}"
-                             onerror="this.src='img/news5.jpg'">
-
-                        <div class="card-content">
-                            <div class="meta">
-                                <span><i class="fa-regular fa-user"></i> MUST Admin</span>
-                                ${date ? `<span><i class="fa-regular fa-calendar"></i> ${date}</span>` : ''}
-                            </div>
-
-                            <h3>${escapeHtml(item.title)}</h3>
-                        </div>
-                    `;
-
-                    card.addEventListener('click', function () {
-                        window.location.href = `news-details.html?id=${item.id}`;
-                    });
-
-                    fragment.appendChild(card);
-                });
-
-                container.appendChild(fragment);
-            })
-            .catch(function (err) {
-                console.error('News API error:', err);
-                container.innerHTML = '<p style="text-align:center">Failed to load news.</p>';
-            });
-    }
-
-    initAllNews();
 })();
