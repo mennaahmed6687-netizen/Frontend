@@ -1,8 +1,8 @@
 (function () {
-    const params = new URLSearchParams(window.location.search);
-    const id = params.get("id");
+    'use strict';
 
-    if (!id) return;
+    const container = document.getElementById("newsContainer");
+    if (!container) return;
 
     const BASE_URL = "https://mystudentactivity.runasp.net";
 
@@ -15,20 +15,74 @@
         return BASE_URL + "/uploads/news/" + img;
     }
 
-    fetch(`${BASE_URL}/api/News/${id}`)
-        .then(res => res.json())
-        .then(data => {
+    // ================= LOAD NEWS =================
+    function loadNews() {
 
-            let img = fixImage(data.imageUrl || data.image);
+        fetch(`${BASE_URL}/api/News`)
+            .then(res => res.json())
+            .then(data => {
 
-            // 🔥 مهم جدًا لكسر الكاش
-            img += "?v=" + (data.id || Date.now());
+                if (!Array.isArray(data) || data.length === 0) {
+                    container.innerHTML = '<p style="text-align:center">No News</p>';
+                    return;
+                }
 
-            document.getElementById("newsImg").src = img;
-            document.getElementById("newsTitle").innerText = data.title;
-            document.getElementById("newsDesc").innerText = data.description || data.content;
+                container.innerHTML = "";
 
-        })
-        .catch(err => console.error(err));
+                data.forEach(item => {
+
+                    let img = fixImage(item.imageUrl || item.image);
+                    img += "?v=" + (item.id || Date.now());
+
+                    const card = document.createElement("div");
+                    card.className = "card";
+                    card.style.cursor = "pointer";
+
+                    card.innerHTML = `
+                        <img src="${img}" onerror="this.src='img/news5.jpg'">
+                        <h3>${item.title || ''}</h3>
+                    `;
+
+                    // 🔥 هنا أهم جزء
+                    card.addEventListener("click", () => openNewsModal(item.id));
+
+                    container.appendChild(card);
+                });
+
+            })
+            .catch(err => console.error(err));
+    }
+
+    // ================= OPEN MODAL =================
+    function openNewsModal(id) {
+
+        fetch(`${BASE_URL}/api/News/${id}`)
+            .then(res => res.json())
+            .then(data => {
+
+                let img = fixImage(data.imageUrl || data.image);
+
+                // 🔥 كسر الكاش
+                img += "?v=" + Date.now();
+
+                document.getElementById("newsModalImg").src = img;
+                document.getElementById("newsModalTitle").innerText = data.title || "";
+                document.getElementById("newsModalDesc").innerText =
+                    data.description || data.content || "";
+
+                const modal = document.getElementById("newsModal");
+                if (modal) modal.style.display = "flex";
+
+            })
+            .catch(err => console.error(err));
+    }
+
+    // ================= CLOSE =================
+    window.closeNewsModal = function () {
+        const modal = document.getElementById("newsModal");
+        if (modal) modal.style.display = "none";
+    };
+
+    loadNews();
 
 })();
