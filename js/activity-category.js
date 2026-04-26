@@ -1,7 +1,9 @@
 document.addEventListener('DOMContentLoaded', async function () {
+
     const params = new URLSearchParams(window.location.search);
     const categoryId = params.get('categoryId');
     const categoryName = params.get('name') || 'Activities';
+
     const titleEl = document.getElementById('categoryTitle');
     const subtitleEl = document.getElementById('categorySubtitle');
     const container = document.getElementById('categoryActivities');
@@ -17,26 +19,56 @@ document.addEventListener('DOMContentLoaded', async function () {
     try {
         const activities = await window.MustAPI.getActivitiesByCategory(categoryId);
 
-        if (!Array.isArray(activities) || !activities.length) {
+        if (!Array.isArray(activities) || activities.length === 0) {
             container.innerHTML = renderCategoryFallback(categoryName);
             return;
         }
 
         container.innerHTML = activities.map(renderActivityCard).join('');
+
     } catch (error) {
-        console.error('Failed to load category activities:', error);
+        console.error('Failed to load activitycategory:', error);
         container.innerHTML = renderCategoryFallback(categoryName);
     }
 });
 
-const CATEGORY_API_BASE_URL =
-  "https://mystudentactivity.runasp.net";
 
-function renderActivityCard(activity) {
-    let imgUrl = activity.imageUrl || activity.image || 'img/OIP.webp';
-    if (imgUrl && imgUrl.startsWith('/')) {
-        imgUrl = CATEGORY_API_BASE_URL + imgUrl;
+// ================= BASE URL =================
+const BASE_URL = "https://mystudentactivity.runasp.net";
+
+
+// ================= FIX IMAGE (activitycategory) =================
+function fixActivityCategoryImage(img) {
+
+    if (!img) return "img/OIP.webp";
+
+    img = img.trim();
+
+    if (img.startsWith("http")) return img;
+
+    // 🔥 مهم: activitycategory folder
+    if (img.startsWith("/")) {
+        return BASE_URL + img + "?v=" + Date.now();
     }
+
+    return BASE_URL + "/uploads/activitycategory/" + img + "?v=" + Date.now();
+}
+
+
+// ================= ESCAPE HTML =================
+function escapeHtml(value) {
+    return String(value || '')
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;');
+}
+
+
+// ================= RENDER CARD =================
+function renderActivityCard(activity) {
+
+    const imgUrl = fixActivityCategoryImage(activity.imageUrl || activity.image);
 
     const desc = (activity.description || '').length > 140
         ? activity.description.slice(0, 140) + '...'
@@ -44,63 +76,94 @@ function renderActivityCard(activity) {
 
     return `
         <article class="activity-card">
-            <img src="${escapeHtml(imgUrl)}" alt="${escapeHtml(activity.title || '')}" onerror="this.src='img/OIP.webp'">
+
+            <img src="${imgUrl}" 
+                 alt="${escapeHtml(activity.title || '')}" 
+                 onerror="this.src='img/OIP.webp'">
+
             <div class="activity-body">
+
                 <h3>${escapeHtml(activity.title || '')}</h3>
+
                 <p>${escapeHtml(desc)}</p>
+
                 <div class="activity-actions">
-                    <a class="btn btn-secondary" href="activity-details.html?id=${activity.id}">Explore</a>
-                    <a class="btn btn-primary" href="registerClub.html?type=activity&id=${activity.id}&title=${encodeURIComponent(activity.title || '')}">Register</a>
+
+                    <a class="btn btn-secondary"
+                       href="activity-details.html?id=${activity.id}">
+                       Explore
+                    </a>
+
+                    <a class="btn btn-primary"
+                       href="registerClub.html?type=activity&id=${activity.id}&title=${encodeURIComponent(activity.title || '')}">
+                       Register
+                    </a>
+
                 </div>
+
             </div>
-        </article>`;
+
+        </article>
+    `;
 }
 
+
+// ================= FALLBACK =================
 function renderCategoryFallback(categoryName) {
-    const normalizedName = String(categoryName || '').trim().toLowerCase();
-    if (normalizedName === 'sports' || normalizedName === 'sport') {
+
+    const name = String(categoryName || '').trim().toLowerCase();
+
+    if (name === 'sports') {
+
         return [
             {
-                id: '',
                 title: 'Football',
-                description: 'Join football training and team sessions on campus and build your skills with other students.',
+                description: 'Join football training sessions.',
                 image: 'Sports/img/football.PNG'
             },
             {
-                id: '',
                 title: 'Tennis',
-                description: 'Enjoy tennis practice at the university courts whether you are a beginner or already experienced.',
+                description: 'Practice tennis with students.',
                 image: 'Sports/img/tennis.PNG'
             },
             {
-                id: '',
                 title: 'Basketball',
-                description: 'Play basketball with energetic student teams and improve speed, teamwork, and court awareness.',
+                description: 'Play basketball matches.',
                 image: 'Sports/img/padel.PNG'
             }
-        ].map(function (activity) {
+        ].map(function (a) {
+
             return `
                 <article class="activity-card">
-                    <img src="${escapeHtml(activity.image)}" alt="${escapeHtml(activity.title)}" onerror="this.src='img/OIP.webp'">
+
+                    <img src="${escapeHtml(a.image)}" 
+                         alt="${escapeHtml(a.title)}" 
+                         onerror="this.src='img/OIP.webp'">
+
                     <div class="activity-body">
-                        <h3>${escapeHtml(activity.title)}</h3>
-                        <p>${escapeHtml(activity.description)}</p>
+
+                        <h3>${escapeHtml(a.title)}</h3>
+
+                        <p>${escapeHtml(a.description)}</p>
+
                         <div class="activity-actions">
-                            <a class="btn btn-secondary" href="Sports/sports activities.html">Explore</a>
-                            <a class="btn btn-primary" href="registerClub.html?type=activity&title=${encodeURIComponent(activity.title)}">Register</a>
+
+                            <a class="btn btn-secondary" href="Sports/sports activities.html">
+                                Explore
+                            </a>
+
+                            <a class="btn btn-primary" href="#">
+                                Register
+                            </a>
+
                         </div>
+
                     </div>
-                </article>`;
+
+                </article>
+            `;
         }).join('');
     }
 
-    return '<div class="empty-state">No activities were added to this category yet.</div>';
-}
-
-function escapeHtml(value) {
-    return String(value || '')
-        .replace(/&/g, '&amp;')
-        .replace(/</g, '&lt;')
-        .replace(/>/g, '&gt;')
-        .replace(/"/g, '&quot;');
+    return '<div class="empty-state">No activities found in this category.</div>';
 }
