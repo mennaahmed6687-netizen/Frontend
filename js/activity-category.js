@@ -23,16 +23,16 @@ document.addEventListener("DOMContentLoaded", async function () {
         const categories = await window.MustAPI.getActivityCategories();
         const activities = await window.MustAPI.getActivities();
 
-        if (!categories.length || !activities.length) {
-            container.innerHTML = `<div class="empty-state">No data found</div>`;
-            return;
-        }
-
         container.innerHTML = "";
 
         categories.forEach(category => {
 
-            // 👇 عنوان الـ Category
+            // 🔥 نستخدم الاسم بدل الـ ID
+            const filtered = activities.filter(activity =>
+                activity.category === category.name
+            );
+
+            // عنوان الكاتيجوري
             const title = document.createElement("h2");
             title.style.gridColumn = "1 / -1";
             title.style.margin = "30px 0 10px";
@@ -41,13 +41,8 @@ document.addEventListener("DOMContentLoaded", async function () {
 
             container.appendChild(title);
 
-            // 👇 فلترة الـ activities حسب categoryId (ID matching)
-            const filteredActivities = activities.filter(activity =>
-                Number(activity.categoryId) === Number(category.id)
-            );
-
             // لو مفيش Activities
-            if (filteredActivities.length === 0) {
+            if (filtered.length === 0) {
                 const empty = document.createElement("p");
                 empty.style.gridColumn = "1 / -1";
                 empty.style.color = "#888";
@@ -56,8 +51,8 @@ document.addEventListener("DOMContentLoaded", async function () {
                 return;
             }
 
-            // 👇 عرض Activities
-            filteredActivities.forEach(activity => {
+            // عرض Activities
+            filtered.forEach(activity => {
 
                 const imgUrl = fixImage(activity.imageUrl || activity.image);
 
@@ -65,7 +60,7 @@ document.addEventListener("DOMContentLoaded", async function () {
                 card.className = "activity-card";
 
                 card.innerHTML = `
-                    <img src="${imgUrl}" 
+                    <img src="${imgUrl}"
                          alt="${escapeHtml(activity.title)}"
                          onerror="this.src='img/OIP.webp'">
 
