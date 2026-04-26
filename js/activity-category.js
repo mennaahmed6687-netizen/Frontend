@@ -7,10 +7,8 @@ document.addEventListener("DOMContentLoaded", async function () {
 
     function fixImage(img) {
         if (!img) return "img/OIP.webp";
-
         if (img.startsWith("http")) return img;
         if (img.startsWith("/")) return BASE_URL + img;
-
         return BASE_URL + "/uploads/activities/" + img;
     }
 
@@ -22,12 +20,10 @@ document.addEventListener("DOMContentLoaded", async function () {
     }
 
     try {
-        const [categories, activities] = await Promise.all([
-            window.MustAPI.getActivityCategories(),
-            window.MustAPI.getActivities()
-        ]);
+        const categories = await window.MustAPI.getActivityCategories();
+        const activities = await window.MustAPI.getActivities();
 
-        if (!Array.isArray(categories) || !Array.isArray(activities)) {
+        if (!categories.length || !activities.length) {
             container.innerHTML = `<div class="empty-state">No data found</div>`;
             return;
         }
@@ -36,27 +32,32 @@ document.addEventListener("DOMContentLoaded", async function () {
 
         categories.forEach(category => {
 
-            // activities داخل نفس الكاتيجوري
-            const filtered = activities.filter(
-                a => a.categoryId === category.id
+            // 👇 عنوان الـ Category
+            const title = document.createElement("h2");
+            title.style.gridColumn = "1 / -1";
+            title.style.margin = "30px 0 10px";
+            title.style.color = "rgb(28,48,110)";
+            title.textContent = category.name;
+
+            container.appendChild(title);
+
+            // 👇 فلترة الـ activities حسب categoryId (ID matching)
+            const filteredActivities = activities.filter(activity =>
+                Number(activity.categoryId) === Number(category.id)
             );
 
-            // لو مفيش activities
-            if (filtered.length === 0) return;
+            // لو مفيش Activities
+            if (filteredActivities.length === 0) {
+                const empty = document.createElement("p");
+                empty.style.gridColumn = "1 / -1";
+                empty.style.color = "#888";
+                empty.textContent = "No activities in this category";
+                container.appendChild(empty);
+                return;
+            }
 
-            // عنوان الكاتيجوري
-            const section = document.createElement("div");
-            section.style.gridColumn = "1 / -1";
-            section.style.margin = "20px 0 10px";
-            section.innerHTML = `
-                <h2 style="color: rgb(28,48,110);">
-                    ${escapeHtml(category.name)}
-                </h2>
-            `;
-            container.appendChild(section);
-
-            // كروت الـ activities
-            filtered.forEach(activity => {
+            // 👇 عرض Activities
+            filteredActivities.forEach(activity => {
 
                 const imgUrl = fixImage(activity.imageUrl || activity.image);
 
