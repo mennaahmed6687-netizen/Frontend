@@ -366,54 +366,119 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 
 // ── ACTIVITIES (index.html homepage section) ──────────────────
+// ═══════════════════════════════
+// CONFIG
+
+
+// ═══════════════════════════════
+// IMAGE HELPER (ActivityCategory + Activities)
+// ═══════════════════════════════
+function getImage(img) {
+    if (!img) return "img/OIP.webp";
+
+    if (img.startsWith("http")) return img;
+
+    if (img.startsWith("/")) return BASE_URL + img;
+
+    return BASE_URL + "/uploads/activitycategory/" + img;
+}
+
+// ═══════════════════════════════
+// LOAD ACTIVITIES (HOME PAGE)
+// ═══════════════════════════════
 async function loadActivities() {
-    const container = document.getElementById('activitiesContainer');
-    if (!container) return; // Not on index.html, skip
+    const container = document.getElementById("activitiesContainer");
+    if (!container) return;
 
     try {
-        const response = await fetch(`${BASE_URL}/api/Activities`);
-        if (!response.ok) throw new Error('HTTP ' + response.status);
-        const data = await response.json();
-        console.log('[Activities] API response:', data);
+        const res = await fetch(`${BASE_URL}/api/Activities`);
+        const data = await res.json();
 
-        if (!Array.isArray(data) || data.length === 0) {
-            console.warn('[Activities] Empty or invalid response from API');
-            return;
-        }
+        if (!Array.isArray(data) || data.length === 0) return;
 
-        container.innerHTML = '';
+        container.innerHTML = "";
 
-        data.forEach(function(activity) {
-            // Fix image URL — prepend base if relative
-            let imgUrl = activity.imageUrl || activity.image || '';
-            if (imgUrl && imgUrl.startsWith('/')) {
-                imgUrl = BASE_URL + imgUrl;
-            }
-            if (!imgUrl) imgUrl = 'img/OIP.webp';
+        data.forEach(activity => {
 
-            const desc = (activity.description || '').length > 120
-                ? activity.description.slice(0, 120) + '\u2026'
-                : (activity.description || '');
+            const imgUrl = getImage(activity.imageUrl || activity.image);
+
+            const desc = activity.description
+                ? (activity.description.length > 120
+                    ? activity.description.slice(0, 120) + "..."
+                    : activity.description)
+                : "";
 
             container.innerHTML += `
-                <div class="card" style="cursor:pointer;" onclick="window.location.href='activity-details.html?id=${activity.id}'">
-                    <img src="${imgUrl}" alt="${activity.title || ''}" onerror="this.src='img/OIP.webp'">
+                <div class="card"
+                     onclick="goToDetails(${activity.id})"
+                     style="cursor:pointer">
+
+                    <img src="${imgUrl}"
+                         alt="${activity.title || ''}"
+                         onerror="this.src='img/OIP.webp'">
+
                     <h3>${activity.title || ''}</h3>
+
                     <p>${desc}</p>
-                    <button onclick="event.stopPropagation(); window.location.href='activity-details.html?id=${activity.id}'">Explore</button>
+
+                    <button onclick="event.stopPropagation(); goToDetails(${activity.id})">
+                        Explore
+                    </button>
+
                 </div>
             `;
         });
 
-        console.log('[Activities] Rendered', data.length, 'cards into #activitiesContainer');
     } catch (err) {
-        console.error('[Activities] Fetch error:', err);
+        console.error("Activities load error:", err);
     }
 }
 
-// Call immediately (DOM is already ready when this script loads)
-// and then poll every 5 seconds for real-time sync with Admin Dashboard
-loadActivities();
+// ═══════════════════════════════
+// NAVIGATION TO DETAILS
+// ═══════════════════════════════
+function goToDetails(id) {
+    window.location.href = `activity-details.html?id=${id}`;
+}
+
+// ═══════════════════════════════
+// LOAD ACTIVITY DETAILS PAGE
+// ═══════════════════════════════
+async function loadActivityDetails() {
+    const params = new URLSearchParams(window.location.search);
+    const id = params.get("id");
+
+    if (!id) return;
+
+    try {
+        const res = await fetch(`${BASE_URL}/api/Activities/${id}`);
+        const data = await res.json();
+
+        document.getElementById("title").innerText = data.title || "";
+        document.getElementById("description").innerText = data.description || "";
+
+        const img = getImage(data.imageUrl || data.image);
+
+        const imgEl = document.getElementById("image");
+        if (imgEl) imgEl.src = img;
+
+    } catch (err) {
+        console.error("Details error:", err);
+    }
+}
+
+// ═══════════════════════════════
+// INIT
+// ═══════════════════════════════
+document.addEventListener("DOMContentLoaded", function () {
+
+    // Home page
+    loadActivities();
+
+    // Details page
+    loadActivityDetails();
+
+});
 
 // ── ACTIVITIES (sports activities.html section) ────────────────
 (function initActivities() {
