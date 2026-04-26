@@ -1,102 +1,88 @@
-async function loadActivitiesGroupedByCategory() {
-    const tableBody = document.getElementById("activitiesTable");
-    if (!tableBody || !window.MustAPI) return;
+document.addEventListener("DOMContentLoaded", async function () {
+
+    const container = document.querySelector(".activities-grid");
+    if (!container || !window.MustAPI) return;
+
+    const BASE_URL = "https://mystudentactivity.runasp.net";
+
+    function fixImage(img) {
+        if (!img) return "img/OIP.webp";
+
+        if (img.startsWith("http")) return img;
+        if (img.startsWith("/")) return BASE_URL + img;
+
+        return BASE_URL + "/uploads/activity-categories/" + img;
+    }
+
+    function escapeHtml(value) {
+        return String(value || "")
+            .replace(/&/g, "&amp;")
+            .replace(/</g, "&lt;")
+            .replace(/>/g, "&gt;")
+            .replace(/"/g, "&quot;");
+    }
 
     try {
-        const activities = await window.MustAPI.getActivities();
         const categories = await window.MustAPI.getActivityCategories();
 
-        console.log("Activities:", activities);
-        console.log("Categories:", categories);
-
-        if (!Array.isArray(activities) || !Array.isArray(categories)) {
-            tableBody.innerHTML = "<tr><td colspan='6'>No data found</td></tr>";
+        if (!Array.isArray(categories) || categories.length === 0) {
+            container.innerHTML = `
+                <div class="empty-state">
+                    No Activity Categories Found
+                </div>
+            `;
             return;
         }
 
-        let html = "";
+        container.innerHTML = "";
 
         categories.forEach(category => {
 
-            const categoryName = category.name || category.title || "Category";
+            const imgUrl = fixImage(category.imageUrl || category.image);
 
-            html += `
-                <tr style="background:#f3f4f6;">
-                    <td colspan="6">
-                        <strong>📌 ${escapeHtml(categoryName)}</strong>
-                    </td>
-                </tr>
+            const desc = category.description
+                ? category.description.length > 120
+                    ? category.description.slice(0, 120) + "..."
+                    : category.description
+                : "Explore activities in this category.";
+
+            const categoryUrl =
+                `activity-category.html?categoryId=${category.id}&name=${encodeURIComponent(category.name || "")}`;
+
+            const card = document.createElement("div");
+            card.className = "activity-card";
+
+            card.innerHTML = `
+                <img src="${imgUrl}" 
+                     alt="${escapeHtml(category.name)}"
+                     onerror="this.src='img/OIP.webp'">
+
+                <div class="activity-body">
+                    <h3>${escapeHtml(category.name)}</h3>
+                    <p>${escapeHtml(desc)}</p>
+
+                    <div class="activity-actions">
+                        <a class="btn btn-secondary" href="${categoryUrl}">
+                            Explore
+                        </a>
+
+                        <a class="btn btn-primary" href="${categoryUrl}">
+                            View
+                        </a>
+                    </div>
+                </div>
             `;
 
-            const filtered = activities.filter(a =>
-                String(a.categoryId) === String(category.id)
-            );
-
-            console.log("Category:", categoryName, "Activities:", filtered.length);
-
-            if (!filtered.length) {
-                html += `
-                    <tr>
-                        <td colspan="6" style="text-align:center;color:#888;">
-                            No activities in this category
-                        </td>
-                    </tr>
-                `;
-                return;
-            }
-
-            filtered.forEach(activity => {
-
-                let imgUrl = activity.imageUrl || activity.image || "";
-                if (imgUrl && imgUrl.startsWith("/")) {
-                    imgUrl = "https://mystudentactivity.runasp.net" + imgUrl;
-                }
-                if (!imgUrl) imgUrl = "img/OIP.webp";
-
-                html += `
-                    <tr>
-                        <td>${activity.id}</td>
-
-                        <td>
-                            <img src="${imgUrl}"
-                                 onerror="this.outerHTML='—'">
-                        </td>
-
-                        <td><strong>${escapeHtml(activity.title || "")}</strong></td>
-
-                        <td>${escapeHtml((activity.description || "").substring(0, 80))}</td>
-
-                        <td>${escapeHtml(categoryName)}</td>
-
-                        <td>
-                            <div class="actions">
-                                <button class="btn btn-sm btn-edit" onclick="editActivity(${activity.id})">
-                                    <i class="fa-solid fa-pen"></i>
-                                </button>
-
-                                <button class="btn btn-sm btn-delete" onclick="deleteActivity(${activity.id})">
-                                    <i class="fa-solid fa-trash"></i>
-                                </button>
-                            </div>
-                        </td>
-                    </tr>
-                `;
-            });
+            container.appendChild(card);
         });
 
-        tableBody.innerHTML = html;
-
     } catch (err) {
-        console.error("Grouped Activities error:", err);
-        tableBody.innerHTML = "<tr><td colspan='6'>Error loading data</td></tr>";
+        console.error("Error loading categories:", err);
+
+        container.innerHTML = `
+            <div class="empty-state">
+                Failed to load categories
+            </div>
+        `;
     }
-}
-
-function escapeHtml(value) {
-    return String(value || "")
-        .replace(/&/g, "&amp;")
-        .replace(/</g, "&lt;")
-        .replace(/>/g, "&gt;");
-}
-
-loadActivitiesGroupedByCategory();
+});
