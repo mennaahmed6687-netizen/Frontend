@@ -394,12 +394,16 @@ function getCategoryImage(img) {
 // ═══════════════════════════════
 // LOAD ALL CATEGORIES
 // ═══════════════════════════════
+
+
 async function loadActivityCategories() {
-    const container = document.getElementById("activityCategoriesContainer");
+    const container = document.getElementById("activitiesContainer");
     if (!container) return;
 
     try {
-        const res = await fetch(`${BASE_URL}/api/ActivityCategory`);
+        const res = await fetch(`${BASE_URL}/api/ActivityCategories`);
+        if (!res.ok) throw new Error("Failed to load categories");
+
         const data = await res.json();
 
         if (!Array.isArray(data) || data.length === 0) {
@@ -407,43 +411,43 @@ async function loadActivityCategories() {
             return;
         }
 
-        container.innerHTML = "";
+        container.innerHTML = data.map(category => {
 
-        data.forEach(cat => {
+            // ✔️ الصورة زي اللي عندك في الجدول
+            let imgUrl = category.imageUrl || category.image || "";
 
-            const imgUrl = getCategoryImage(cat.imageUrl || cat.image);
+            if (imgUrl && imgUrl.startsWith("/")) {
+                imgUrl = BASE_URL + imgUrl;
+            }
 
-            container.innerHTML += `
-                <div class="card">
+            if (!imgUrl) {
+                imgUrl = "img/OIP.webp";
+            }
 
-                    <img src="${imgUrl}?v=${cat.id}"
-                         alt="${cat.name || ''}"
+            return `
+                <div class="card category-card" 
+                     onclick="window.location.href='category-details.html?categoryId=${category.id}&name=${encodeURIComponent(category.title)}'">
+
+                    <img src="${imgUrl}" 
+                         alt="${category.title}" 
                          onerror="this.src='img/OIP.webp'">
 
-                    <h3>${cat.name || ''}</h3>
+                    <h3>${category.title || ""}</h3>
 
-                    <p>${cat.description || ''}</p>
-
-                    <div class="actions">
-
-                        <button onclick="openEditCategory(${cat.id})">
-                            Edit
-                        </button>
-
-                        <button onclick="deleteCategory(${cat.id})">
-                            Delete
-                        </button>
-
-                    </div>
+                    <p>${category.description || ""}</p>
 
                 </div>
             `;
-        });
+        }).join("");
 
     } catch (err) {
-        console.error("Load categories error:", err);
+        console.error("Categories error:", err);
+        container.innerHTML = "<p>Failed to load categories</p>";
     }
 }
+
+// تشغيل مباشر
+loadActivityCategories();
 
 // ═══════════════════════════════
 // DELETE CATEGORY
