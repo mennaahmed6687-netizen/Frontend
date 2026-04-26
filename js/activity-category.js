@@ -6,6 +6,9 @@ async function loadActivitiesGroupedByCategory() {
         const activities = await window.MustAPI.getActivities();
         const categories = await window.MustAPI.getActivityCategories();
 
+        console.log("Activities:", activities);
+        console.log("Categories:", categories);
+
         if (!Array.isArray(activities) || !Array.isArray(categories)) {
             tableBody.innerHTML = "<tr><td colspan='6'>No data found</td></tr>";
             return;
@@ -15,18 +18,23 @@ async function loadActivitiesGroupedByCategory() {
 
         categories.forEach(category => {
 
-            // Header row لكل Category
+            const categoryName = category.name || category.title || "Category";
+
             html += `
                 <tr style="background:#f3f4f6;">
                     <td colspan="6">
-                        <strong>📌 ${escapeHtml(category.name || "")}</strong>
+                        <strong>📌 ${escapeHtml(categoryName)}</strong>
                     </td>
                 </tr>
             `;
 
-            const filtered = activities.filter(a => a.categoryId === category.id);
+            const filtered = activities.filter(a =>
+                String(a.categoryId) === String(category.id)
+            );
 
-            if (filtered.length === 0) {
+            console.log("Category:", categoryName, "Activities:", filtered.length);
+
+            if (!filtered.length) {
                 html += `
                     <tr>
                         <td colspan="6" style="text-align:center;color:#888;">
@@ -43,7 +51,6 @@ async function loadActivitiesGroupedByCategory() {
                 if (imgUrl && imgUrl.startsWith("/")) {
                     imgUrl = "https://mystudentactivity.runasp.net" + imgUrl;
                 }
-
                 if (!imgUrl) imgUrl = "img/OIP.webp";
 
                 html += `
@@ -59,7 +66,7 @@ async function loadActivitiesGroupedByCategory() {
 
                         <td>${escapeHtml((activity.description || "").substring(0, 80))}</td>
 
-                        <td>${escapeHtml(category.name || "")}</td>
+                        <td>${escapeHtml(categoryName)}</td>
 
                         <td>
                             <div class="actions">
@@ -85,7 +92,6 @@ async function loadActivitiesGroupedByCategory() {
     }
 }
 
-// helper
 function escapeHtml(value) {
     return String(value || "")
         .replace(/&/g, "&amp;")
@@ -93,5 +99,4 @@ function escapeHtml(value) {
         .replace(/>/g, "&gt;");
 }
 
-// تشغيل
 loadActivitiesGroupedByCategory();
