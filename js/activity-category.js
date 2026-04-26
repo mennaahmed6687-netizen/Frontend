@@ -11,26 +11,24 @@ document.addEventListener("DOMContentLoaded", async function () {
         if (img.startsWith("http")) return img;
         if (img.startsWith("/")) return BASE_URL + img;
 
-        return BASE_URL + "/uploads/activity-categories/" + img;
+        return BASE_URL + "/uploads/activities/" + img;
     }
 
     function escapeHtml(value) {
         return String(value || "")
             .replace(/&/g, "&amp;")
             .replace(/</g, "&lt;")
-            .replace(/>/g, "&gt;")
-            .replace(/"/g, "&quot;");
+            .replace(/>/g, "&gt;");
     }
 
     try {
-        const categories = await window.MustAPI.getActivityCategories();
+        const [categories, activities] = await Promise.all([
+            window.MustAPI.getActivityCategories(),
+            window.MustAPI.getActivities()
+        ]);
 
-        if (!Array.isArray(categories) || categories.length === 0) {
-            container.innerHTML = `
-                <div class="empty-state">
-                    No Activity Categories Found
-                </div>
-            `;
+        if (!Array.isArray(categories) || !Array.isArray(activities)) {
+            container.innerHTML = `<div class="empty-state">No data found</div>`;
             return;
         }
 
@@ -38,51 +36,59 @@ document.addEventListener("DOMContentLoaded", async function () {
 
         categories.forEach(category => {
 
-            const imgUrl = fixImage(category.imageUrl || category.image);
+            // activities داخل نفس الكاتيجوري
+            const filtered = activities.filter(
+                a => a.categoryId === category.id
+            );
 
-            const desc = category.description
-                ? category.description.length > 120
-                    ? category.description.slice(0, 120) + "..."
-                    : category.description
-                : "Explore activities in this category.";
+            // لو مفيش activities
+            if (filtered.length === 0) return;
 
-            const categoryUrl =
-                `activity-category.html?categoryId=${category.id}&name=${encodeURIComponent(category.name || "")}`;
-
-            const card = document.createElement("div");
-            card.className = "activity-card";
-
-            card.innerHTML = `
-                <img src="${imgUrl}" 
-                     alt="${escapeHtml(category.name)}"
-                     onerror="this.src='img/OIP.webp'">
-
-                <div class="activity-body">
-                    <h3>${escapeHtml(category.name)}</h3>
-                    <p>${escapeHtml(desc)}</p>
-
-                    <div class="activity-actions">
-                        <a class="btn btn-secondary" href="${categoryUrl}">
-                            Explore
-                        </a>
-
-                        <a class="btn btn-primary" href="${categoryUrl}">
-                            View
-                        </a>
-                    </div>
-                </div>
+            // عنوان الكاتيجوري
+            const section = document.createElement("div");
+            section.style.gridColumn = "1 / -1";
+            section.style.margin = "20px 0 10px";
+            section.innerHTML = `
+                <h2 style="color: rgb(28,48,110);">
+                    ${escapeHtml(category.name)}
+                </h2>
             `;
+            container.appendChild(section);
 
-            container.appendChild(card);
+            // كروت الـ activities
+            filtered.forEach(activity => {
+
+                const imgUrl = fixImage(activity.imageUrl || activity.image);
+
+                const card = document.createElement("div");
+                card.className = "activity-card";
+
+                card.innerHTML = `
+                    <img src="${imgUrl}" 
+                         alt="${escapeHtml(activity.title)}"
+                         onerror="this.src='img/OIP.webp'">
+
+                    <div class="activity-body">
+                        <h3>${escapeHtml(activity.title)}</h3>
+                        <p>${escapeHtml(activity.description || "")}</p>
+
+                        <div class="activity-actions">
+                            <a class="btn btn-secondary" href="activity-details.html?id=${activity.id}">
+                                Explore
+                            </a>
+                            <a class="btn btn-primary" href="register.html?id=${activity.id}">
+                                Register
+                            </a>
+                        </div>
+                    </div>
+                `;
+
+                container.appendChild(card);
+            });
         });
 
     } catch (err) {
-        console.error("Error loading categories:", err);
-
-        container.innerHTML = `
-            <div class="empty-state">
-                Failed to load categories
-            </div>
-        `;
+        console.error(err);
+        container.innerHTML = `<div class="empty-state">Error loading data</div>`;
     }
 });
