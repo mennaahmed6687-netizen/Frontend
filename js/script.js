@@ -370,115 +370,166 @@ document.addEventListener("DOMContentLoaded", () => {
 // CONFIG
 
 
+
+
+  // ═══════════════════════════════
+// CONFIG
 // ═══════════════════════════════
-// IMAGE HELPER (ActivityCategory + Activities)
+
+
 // ═══════════════════════════════
-function getImage(img) {
+// IMAGE HELPER (IMPORTANT FIX)
+// ═══════════════════════════════
+function getCategoryImage(img) {
     if (!img) return "img/OIP.webp";
 
     if (img.startsWith("http")) return img;
 
     if (img.startsWith("/")) return BASE_URL + img;
 
-    return BASE_URL + "/uploads/activitycategory/" + img;
+    // 🔥 IMPORTANT: correct folder name
+    return BASE_URL + "/uploads/activity-categories/" + img;
 }
 
 // ═══════════════════════════════
-// LOAD ACTIVITIES (HOME PAGE)
+// LOAD ALL CATEGORIES
 // ═══════════════════════════════
-async function loadActivities() {
-    const container = document.getElementById("activitiesContainer");
+async function loadActivityCategories() {
+    const container = document.getElementById("activityCategoriesContainer");
     if (!container) return;
 
     try {
-        const res = await fetch(`${BASE_URL}/api/Activities`);
+        const res = await fetch(`${BASE_URL}/api/ActivityCategory`);
         const data = await res.json();
 
-        if (!Array.isArray(data) || data.length === 0) return;
+        if (!Array.isArray(data) || data.length === 0) {
+            container.innerHTML = "<p>No categories found</p>";
+            return;
+        }
 
         container.innerHTML = "";
 
-        data.forEach(activity => {
+        data.forEach(cat => {
 
-            const imgUrl = getImage(activity.imageUrl || activity.image);
-
-            const desc = activity.description
-                ? (activity.description.length > 120
-                    ? activity.description.slice(0, 120) + "..."
-                    : activity.description)
-                : "";
+            const imgUrl = getCategoryImage(cat.imageUrl || cat.image);
 
             container.innerHTML += `
-                <div class="card"
-                     onclick="goToDetails(${activity.id})"
-                     style="cursor:pointer">
+                <div class="card">
 
-                    <img src="${imgUrl}"
-                         alt="${activity.title || ''}"
+                    <img src="${imgUrl}?v=${cat.id}"
+                         alt="${cat.name || ''}"
                          onerror="this.src='img/OIP.webp'">
 
-                    <h3>${activity.title || ''}</h3>
+                    <h3>${cat.name || ''}</h3>
 
-                    <p>${desc}</p>
+                    <p>${cat.description || ''}</p>
 
-                    <button onclick="event.stopPropagation(); goToDetails(${activity.id})">
-                        Explore
-                    </button>
+                    <div class="actions">
+
+                        <button onclick="openEditCategory(${cat.id})">
+                            Edit
+                        </button>
+
+                        <button onclick="deleteCategory(${cat.id})">
+                            Delete
+                        </button>
+
+                    </div>
 
                 </div>
             `;
         });
 
     } catch (err) {
-        console.error("Activities load error:", err);
+        console.error("Load categories error:", err);
     }
 }
 
 // ═══════════════════════════════
-// NAVIGATION TO DETAILS
+// DELETE CATEGORY
 // ═══════════════════════════════
-function goToDetails(id) {
-    window.location.href = `activity-details.html?id=${id}`;
+async function deleteCategory(id) {
+    if (!confirm("Are you sure you want to delete this category?")) return;
+
+    try {
+        const res = await fetch(`${BASE_URL}/api/ActivityCategory/${id}`, {
+            method: "DELETE"
+        });
+
+        if (!res.ok) throw new Error("Delete failed");
+
+        alert("Deleted successfully");
+
+        loadActivityCategories(); // 🔥 refresh UI
+
+    } catch (err) {
+        console.error(err);
+    }
 }
 
 // ═══════════════════════════════
-// LOAD ACTIVITY DETAILS PAGE
+// OPEN EDIT FORM
 // ═══════════════════════════════
-async function loadActivityDetails() {
-    const params = new URLSearchParams(window.location.search);
-    const id = params.get("id");
-
-    if (!id) return;
-
+async function openEditCategory(id) {
     try {
-        const res = await fetch(`${BASE_URL}/api/Activities/${id}`);
+        const res = await fetch(`${BASE_URL}/api/ActivityCategory/${id}`);
         const data = await res.json();
 
-        document.getElementById("title").innerText = data.title || "";
-        document.getElementById("description").innerText = data.description || "";
+        document.getElementById("categoryId").value = data.id;
+        document.getElementById("categoryName").value = data.name;
+        document.getElementById("categoryDescription").value = data.description;
 
-        const img = getImage(data.imageUrl || data.image);
-
-        const imgEl = document.getElementById("image");
-        if (imgEl) imgEl.src = img;
+        document.getElementById("categoryModal").classList.add("show");
 
     } catch (err) {
-        console.error("Details error:", err);
+        console.error(err);
+    }
+}
+
+// ═══════════════════════════════
+// SAVE CATEGORY (ADD / UPDATE)
+// ═══════════════════════════════
+async function saveCategory(e) {
+    e.preventDefault();
+
+    const id = document.getElementById("categoryId").value;
+
+    const formData = new FormData();
+    formData.append("Name", document.getElementById("categoryName").value);
+    formData.append("Description", document.getElementById("categoryDescription").value);
+
+    const file = document.getElementById("categoryImage").files[0];
+    if (file) formData.append("Image", file);
+
+    try {
+        const url = id
+            ? `${BASE_URL}/api/ActivityCategory/${id}`
+            : `${BASE_URL}/api/ActivityCategory`;
+
+        const method = id ? "PUT" : "POST";
+
+        const res = await fetch(url, {
+            method: method,
+            body: formData
+        });
+
+        if (!res.ok) throw new Error("Save failed");
+
+        alert(id ? "Updated successfully" : "Created successfully");
+
+        document.getElementById("categoryModal").classList.remove("show");
+
+        loadActivityCategories(); // 🔥 refresh UI
+
+    } catch (err) {
+        console.error(err);
     }
 }
 
 // ═══════════════════════════════
 // INIT
 // ═══════════════════════════════
-document.addEventListener("DOMContentLoaded", function () {
-
-    // Home page
-    loadActivities();
-
-    // Details page
-    loadActivityDetails();
-
-});
+document.addEventListener("DOMContentLoaded", loadActivityCategories);
 
 // ── ACTIVITIES (sports activities.html section) ────────────────
 (function initActivities() {
