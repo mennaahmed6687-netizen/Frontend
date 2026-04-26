@@ -1,88 +1,94 @@
 (function () {
-    'use strict';
-
-    const container = document.getElementById("newsContainer");
-    if (!container) return;
+    const container = document.getElementById('newsContainer');
+    if (!container || !window.MustAPI) return;
 
     const BASE_URL = "https://mystudentactivity.runasp.net";
 
+    let newsCache = [];
+
     function fixImage(img) {
-        if (!img) return "img/news5.jpg";
+        if (!img) return 'img/news5.jpg';
 
-        if (img.startsWith("http")) return img;
-        if (img.startsWith("/")) return BASE_URL + img;
+        if (img.startsWith('http')) return img;
+        if (img.startsWith('/')) return BASE_URL + img;
 
-        return BASE_URL + "/uploads/news/" + img;
+        return BASE_URL + '/uploads/news/' + img;
     }
 
-    // ================= LOAD NEWS =================
-    function loadNews() {
+    function openModal(item) {
+        const modal = document.getElementById('newsModal');
+        const img = document.getElementById('newsModalImg');
+        const title = document.getElementById('newsModalTitle');
+        const desc = document.getElementById('newsModalDesc');
+        const date = document.getElementById('newsModalDate');
 
-        fetch(`${BASE_URL}/api/News`)
+        // 🔥 fetch أحدث نسخة من السيرفر
+        fetch(`${BASE_URL}/api/News/${item.id}`)
             .then(res => res.json())
             .then(data => {
 
-                if (!Array.isArray(data) || data.length === 0) {
-                    container.innerHTML = '<p style="text-align:center">No News</p>';
-                    return;
-                }
+                let image = fixImage(data.imageUrl || data.image);
+                image += "?v=" + Date.now(); // منع الكاش
 
-                container.innerHTML = "";
+                img.src = image;
+                title.innerText = data.title || '';
+                desc.innerText = data.description || data.content || '';
+                date.innerText = data.createdAt
+                    ? new Date(data.createdAt).toLocaleDateString()
+                    : '';
+
+                modal.style.display = "flex";
+            })
+            .catch(err => console.error(err));
+    }
+
+    function closeModal() {
+        document.getElementById('newsModal').style.display = "none";
+    }
+
+    window.closeNewsModal = closeModal;
+
+    function loadNews() {
+        window.MustAPI.getNews()
+            .then(data => {
+                if (!Array.isArray(data)) return;
+
+                newsCache = data;
+                container.innerHTML = '';
+
+                const fragment = document.createDocumentFragment();
 
                 data.forEach(item => {
 
                     let img = fixImage(item.imageUrl || item.image);
-                    img += "?v=" + (item.id || Date.now());
+                    img += "?v=" + item.id;
 
-                    const card = document.createElement("div");
-                    card.className = "card";
-                    card.style.cursor = "pointer";
+                    const card = document.createElement('div');
+                    card.className = 'card';
+                    card.style.cursor = 'pointer';
 
                     card.innerHTML = `
                         <img src="${img}" onerror="this.src='img/news5.jpg'">
-                        <h3>${item.title || ''}</h3>
+                        <div class="card-content">
+                            <h3>${item.title || ''}</h3>
+                        </div>
                     `;
 
-                    // 🔥 هنا أهم جزء
-                    card.addEventListener("click", () => openNewsModal(item.id));
+                    // 🔥 مهم: فتح المودال مش تحويل صفحة
+                    card.addEventListener('click', function () {
+                        openModal(item);
+                    });
 
-                    container.appendChild(card);
+                    fragment.appendChild(card);
                 });
 
+                container.appendChild(fragment);
             })
-            .catch(err => console.error(err));
+            .catch(err => {
+                console.error(err);
+                container.innerHTML = "<p>Failed to load news</p>";
+            });
     }
-
-    // ================= OPEN MODAL =================
-    function openNewsModal(id) {
-
-        fetch(`${BASE_URL}/api/News/${id}`)
-            .then(res => res.json())
-            .then(data => {
-
-                let img = fixImage(data.imageUrl || data.image);
-
-                // 🔥 كسر الكاش
-                img += "?v=" + Date.now();
-
-                document.getElementById("newsModalImg").src = img;
-                document.getElementById("newsModalTitle").innerText = data.title || "";
-                document.getElementById("newsModalDesc").innerText =
-                    data.description || data.content || "";
-
-                const modal = document.getElementById("newsModal");
-                if (modal) modal.style.display = "flex";
-
-            })
-            .catch(err => console.error(err));
-    }
-
-    // ================= CLOSE =================
-    window.closeNewsModal = function () {
-        const modal = document.getElementById("newsModal");
-        if (modal) modal.style.display = "none";
-    };
 
     loadNews();
-
 })();
